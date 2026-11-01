@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#091428" />
+  <title>LoL Cep Rehberi v6.3 (26.21 Yaması | 26.9 Kalıntıları Temizlenmiş + Zorunlu Flex + Tam 6 Eşya)</title>
+  <style>
+    :root {
+      --bg-dark: #091428;
+      --bg-panel: #111E36;
+      --gold: #C8AA6E;
+      --gold-bright: #F0E6D2;
+      --blue-hex: #0AC8B9;
+      --rune-blue: #3498DB;
+      --rune-bright: #85C1E9;
+      --purple-item: #9B59B6;
+      --purple-bright: #D2B4DE;
+      --red-nuke: #FF4E50;
+      --vamp-red: #E74C3C;
+      --vamp-bright: #F5B7B1;
+      --green-good: #2ECC71;
+      --orange-warn: #F39C12;
+      --win-gold: #F1C40F;
+      --vision-pink: #E91E63;
+      --vision-bright: #F8BBD0;
+      --shield-cyan: #00BCD4;
+      --shield-bright: #B2EBF2;
+      --wall-teal: #1ABC9C;
+      --wall-bright: #A3E4D7;
+      --pen-orange: #E67E22;
+      --pen-bright: #FAD7A0;
+      --bounty-gold: #D4AC0D;
+      --bounty-bright: #FCF3CF;
+      --flex-violet: #A569BD;
+      --flex-bright: #E8DAEF;
+      --text-main: #E6E6E6;
+      --text-muted: #A09B8C;
+      --border-gold: rgba(200, 170, 110, 0.35);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #091428;
+      color: var(--text-main);
+      min-height: 100vh;
+      padding-bottom: 36px;
+    }
+    .state-ctrl, .ct-ctrl { display: none; }
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(9, 20, 40, 0.98);
+      border-bottom: 1px solid var(--border-gold);
+      padding: 8px 10px 6px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.75);
+    }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .app-title { font-size: 1rem; font-weight: 800; color: var(--gold-bright); display: flex; align-items: center; gap: 7px; }
+    .version-badge {
+      background: linear-gradient(135deg, #1ABC9C, #0E6655);
+      color: #fff; font-size: 0.68rem; font-weight: 900;
+      padding: 2px 7px; border-radius: 5px; letter-spacing: 0.3px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+    }
+    .filter-row { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
+    .filter-row::-webkit-scrollbar { display: none; }
+    .chip {
+      display: inline-block; background: #152238; color: var(--text-muted);
+      border: 1px solid rgba(200, 170, 110, 0.24);
+      padding: 5px 9px; border-radius: 6px; font-size: 0.73rem; font-weight: 700;
+      white-space: nowrap; cursor: pointer; user-select: none;
+    }
+    #f-all:checked ~ header label[for="f-all"],
+    #f-top:checked ~ header label[for="f-top"],
+    #f-jg:checked ~ header label[for="f-jg"],
+    #f-mid:checked ~ header label[for="f-mid"],
+    #f-bot:checked ~ header label[for="f-bot"],
+    #f-sup:checked ~ header label[for="f-sup"],
+    #f-blind:checked ~ header label[for="f-blind"],
+    #f-flex:checked ~ header label[for="f-flex"],
+    #f-counter:checked ~ header label[for="f-counter"],
+    #f-c1:checked ~ header label[for="f-c1"],
+    #f-c2:checked ~ header label[for="f-c2"],
+    #f-c3:checked ~ header label[for="f-c3"],
+    #f-c4:checked ~ header label[for="f-c4"],
+    #f-c5:checked ~ header label[for="f-c5"],
+    #f-c6:checked ~ header label[for="f-c6"],
+    #f-c7:checked ~ header label[for="f-c7"],
+    #f-c8:checked ~ header label[for="f-c8"],
+    #f-c9:checked ~ header label[for="f-c9"],
+    #f-c10:checked ~ header label[for="f-c10"],
+    #f-c11:checked ~ header label[for="f-c11"],
+    #f-c12:checked ~ header label[for="f-c12"],
+    #f-c13:checked ~ header label[for="f-c13"] {
+      background: linear-gradient(135deg, #C8AA6E, #937341);
+      color: #091428; border-color: var(--gold-bright);
+    }
+    #v-compact:checked ~ header label[for="v-compact"],
+    #v-all:checked ~ header label[for="v-all"],
+    #v-select:checked ~ header label[for="v-select"],
+    #v-runes:checked ~ header label[for="v-runes"],
+    #v-items:checked ~ header label[for="v-items"],
+    #v-vamp:checked ~ header label[for="v-vamp"],
+    #v-combos:checked ~ header label[for="v-combos"],
+    #v-early:checked ~ header label[for="v-early"],
+    #v-win:checked ~ header label[for="v-win"],
+    #v-dict:checked ~ header label[for="v-dict"] {
+      background: linear-gradient(135deg, #0AC8B9, #057A70);
+      color: #041014; border-color: #72F7ED;
+    }
+    #s-all:checked ~ header label[for="s-all"],
+    #s-std:checked ~ header label[for="s-std"],
+    #s-nuke:checked ~ header label[for="s-nuke"],
+    #s-tank:checked ~ header label[for="s-tank"],
+    #s-crisis:checked ~ header label[for="s-crisis"],
+    #s-flex:checked ~ header label[for="s-flex"] {
+      background: linear-gradient(135deg, #FF4E50, #B82628);
+      color: #fff; border-color: #FF9495;
+    }
+    #f-top:checked ~ main .champ-card:not(.role-top) { display: none; }
+    #f-jg:checked ~ main .champ-card:not(.role-jg) { display: none; }
+    #f-mid:checked ~ main .champ-card:not(.role-mid) { display: none; }
+    #f-bot:checked ~ main .champ-card:not(.role-bot) { display: none; }
+    #f-sup:checked ~ main .champ-card:not(.role-sup) { display: none; }
+    #f-blind:checked ~ main .champ-card:not(.p-blind) { display: none; }
+    #f-flex:checked ~ main .champ-card:not(.p-flex) { display: none; }
+    #f-counter:checked ~ main .champ-card:not(.p-counter) { display: none; }
+    #f-c1:checked ~ main .champ-card:not(.c-1) { display: none; }
+    #f-c2:checked ~ main .champ-card:not(.c-2) { display: none; }
+    #f-c3:checked ~ main .champ-card:not(.c-3) { display: none; }
+    #f-c4:checked ~ main .champ-card:not(.c-4) { display: none; }
+    #f-c5:checked ~ main .champ-card:not(.c-5) { display: none; }
+    #f-c6:checked ~ main .champ-card:not(.c-6) { display: none; }
+    #f-c7:checked ~ main .champ-card:not(.c-7) { display: none; }
+    #f-c8:checked ~ main .champ-card:not(.c-8) { display: none; }
+    #f-c9:checked ~ main .champ-card:not(.c-9) { display: none; }
+    #f-c10:checked ~ main .champ-card:not(.c-10) { display: none; }
+    #f-c11:checked ~ main .champ-card:not(.c-11) { display: none; }
+    #f-c12:checked ~ main .champ-card:not(.c-12) { display: none; }
+    #f-c13:checked ~ main .champ-card:not(.c-13) { display: none; }
+
+    .card-mini-tabs {
+      display: flex; gap: 4px; background: #0B1528; padding: 6px 10px;
+      border-bottom: 1px solid rgba(200, 170, 110, 0.18);
+      overflow-x: auto; scrollbar-width: none;
+    }
+    .card-mini-tabs::-webkit-scrollbar { display: none; }
+    .m-tab {
+      background: #16243E; color: var(--text-muted);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 4px 8px; border-radius: 5px; font-size: 0.72rem; font-weight: 700;
+      white-space: nowrap; cursor: pointer; user-select: none;
+    }
+    .ct-sel:checked ~ .card-mini-tabs .m-sel,
+    .ct-run:checked ~ .card-mini-tabs .m-run,
+    .ct-itm:checked ~ .card-mini-tabs .m-itm,
+    .ct-vmp:checked ~ .card-mini-tabs .m-vmp,
+    .ct-cmb:checked ~ .card-mini-tabs .m-cmb,
+    .ct-ear:checked ~ .card-mini-tabs .m-ear,
+    .ct-win:checked ~ .card-mini-tabs .m-win,
+    .ct-all:checked ~ .card-mini-tabs .m-all {
+      background: linear-gradient(135deg, #C8AA6E, #8C6D3B);
+      color: #091428; border-color: var(--gold-bright);
+    }
+    #v-compact:checked ~ main .champ-card .ct-sel:checked ~ .card-body .section-block:not(.sec-select) { display: none; }
+    #v-compact:checked ~ main .champ-card .ct-run:checked ~ .card-body .section-block:not(.sec-runes) { display: none; }
+    #v-compact:checked ~ main .champ-card .ct-itm:checked ~ .card-body .section-block:not(.sec-items) { display: none; }
+    #v-compact:checked ~ main .champ-card .ct-vmp:checked ~ .card-body .section-block:not(.sec-vamp) { display: none; }
+    #v-compact:checked ~ main .champ-card .ct-cmb:checked ~ .card-body .section-block:not(.sec-combos) { display: none; }
+    #v-compact:checked ~ main .champ-card .ct-ear:checked ~ .card-body .section-block:not(.sec-early) { display: none; }
+    #v-compact:checked ~ main .champ-card .ct-win:checked ~ .card-body .section-block:not(.sec-win) { display: none; }
+    #v-compact:checked ~ main .dict-card { display: none; }
+
+    #v-all:checked ~ main .card-mini-tabs,
+    #v-select:checked ~ main .card-mini-tabs,
+    #v-runes:checked ~ main .card-mini-tabs,
+    #v-items:checked ~ main .card-mini-tabs,
+    #v-vamp:checked ~ main .card-mini-tabs,
+    #v-combos:checked ~ main .card-mini-tabs,
+    #v-early:checked ~ main .card-mini-tabs,
+    #v-win:checked ~ main .card-mini-tabs { display: none; }
+
+    #v-select:checked ~ main .sec-runes, #v-select:checked ~ main .sec-items, #v-select:checked ~ main .sec-vamp, #v-select:checked ~ main .sec-combos, #v-select:checked ~ main .sec-early, #v-select:checked ~ main .sec-win, #v-select:checked ~ main .dict-card { display: none; }
+    #v-runes:checked ~ main .master-ban-banner, #v-runes:checked ~ main .sec-select, #v-runes:checked ~ main .sec-items, #v-runes:checked ~ main .sec-vamp, #v-runes:checked ~ main .sec-combos, #v-runes:checked ~ main .sec-early, #v-runes:checked ~ main .sec-win, #v-runes:checked ~ main .dict-card { display: none; }
+    #v-items:checked ~ main .master-ban-banner, #v-items:checked ~ main .sec-select, #v-items:checked ~ main .sec-runes, #v-items:checked ~ main .sec-vamp, #v-items:checked ~ main .sec-combos, #v-items:checked ~ main .sec-early, #v-items:checked ~ main .sec-win, #v-items:checked ~ main .dict-card { display: none; }
+    #v-vamp:checked ~ main .master-ban-banner, #v-vamp:checked ~ main .sec-select, #v-vamp:checked ~ main .sec-runes, #v-vamp:checked ~ main .sec-items, #v-vamp:checked ~ main .sec-combos, #v-vamp:checked ~ main .sec-early, #v-vamp:checked ~ main .sec-win, #v-vamp:checked ~ main .dict-card { display: none; }
+    #v-combos:checked ~ main .master-ban-banner, #v-combos:checked ~ main .sec-select, #v-combos:checked ~ main .sec-runes, #v-combos:checked ~ main .sec-items, #v-combos:checked ~ main .sec-vamp, #v-combos:checked ~ main .sec-early, #v-combos:checked ~ main .sec-win, #v-combos:checked ~ main .dict-card { display: none; }
+    #v-early:checked ~ main .master-ban-banner, #v-early:checked ~ main .sec-select, #v-early:checked ~ main .sec-runes, #v-early:checked ~ main .sec-items, #v-early:checked ~ main .sec-vamp, #v-early:checked ~ main .sec-combos, #v-early:checked ~ main .sec-win, #v-early:checked ~ main .dict-card { display: none; }
+    #v-win:checked ~ main .master-ban-banner, #v-win:checked ~ main .sec-select, #v-win:checked ~ main .sec-runes, #v-win:checked ~ main .sec-items, #v-win:checked ~ main .sec-vamp, #v-win:checked ~ main .sec-combos, #v-win:checked ~ main .sec-early, #v-win:checked ~ main .dict-card { display: none; }
+    #v-dict:checked ~ main .master-ban-banner, #v-dict:checked ~ main .champ-card { display: none; }
+
+    /* Senaryo Seçicilere Göre Eşya ve Rün Gizleme/Gösterme Motoru */
+    #s-std:checked ~ main .b-nuke, #s-std:checked ~ main .b-tank, #s-std:checked ~ main .b-crisis, #s-std:checked ~ main .b-flex, #s-std:checked ~ main .r-only-nuke, #s-std:checked ~ main .r-only-tank, #s-std:checked ~ main .r-only-crisis, #s-std:checked ~ main .r-only-flex { display: none; }
+    #s-nuke:checked ~ main .b-std, #s-nuke:checked ~ main .b-tank, #s-nuke:checked ~ main .b-crisis, #s-nuke:checked ~ main .b-flex, #s-nuke:checked ~ main .r-only-std, #s-nuke:checked ~ main .r-only-tank, #s-nuke:checked ~ main .r-std-tank, #s-nuke:checked ~ main .r-only-crisis, #s-nuke:checked ~ main .r-only-flex { display: none; }
+    #s-tank:checked ~ main .b-std, #s-tank:checked ~ main .b-nuke, #s-tank:checked ~ main .b-crisis, #s-tank:checked ~ main .b-flex, #s-tank:checked ~ main .r-only-std, #s-tank:checked ~ main .r-only-nuke, #s-tank:checked ~ main .r-std-nuke, #s-tank:checked ~ main .r-only-crisis, #s-tank:checked ~ main .r-only-flex { display: none; }
+    #s-crisis:checked ~ main .b-std, #s-crisis:checked ~ main .b-nuke, #s-crisis:checked ~ main .b-tank, #s-crisis:checked ~ main .b-flex, #s-crisis:checked ~ main .r-only-nuke, #s-crisis:checked ~ main .r-only-tank, #s-crisis:checked ~ main .r-only-flex, #s-crisis:checked ~ main .c-1 .r-std-tank, #s-crisis:checked ~ main .c-3 .r-std-nuke, #s-crisis:checked ~ main .c-7 .r-std-nuke { display: none; }
+    #s-flex:checked ~ main .b-std, #s-flex:checked ~ main .b-nuke, #s-flex:checked ~ main .b-tank, #s-flex:checked ~ main .b-crisis, #s-flex:checked ~ main .r-common, #s-flex:checked ~ main .r-only-std, #s-flex:checked ~ main .r-only-nuke, #s-flex:checked ~ main .r-only-tank, #s-flex:checked ~ main .r-only-crisis, #s-flex:checked ~ main .r-std-tank, #s-flex:checked ~ main .r-std-nuke, #s-flex:checked ~ main .r-shards { display: none; }
+
+    main { max-width: 900px; margin: 10px auto; padding: 0 9px; display: flex; flex-direction: column; gap: 11px; }
+    details.master-ban-banner {
+      background: linear-gradient(135deg, rgba(255, 78, 80, 0.14) 0%, rgba(17, 30, 54, 0.95) 100%);
+      border: 1px solid rgba(255, 78, 80, 0.45); border-radius: 9px; padding: 8px 11px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+    }
+    details.master-ban-banner summary {
+      font-size: 0.77rem; font-weight: 900; color: #FF7678; text-transform: uppercase;
+      letter-spacing: 0.4px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;
+    }
+    details.master-ban-banner summary::-webkit-details-marker { display: none; }
+    .master-ban-grid {
+      margin-top: 8px; padding-top: 7px; border-top: 1px solid rgba(255, 78, 80, 0.25);
+      display: grid; grid-template-columns: 1fr; gap: 5px; font-size: 0.79rem; line-height: 1.36;
+    }
+    .ban-role-item strong { color: var(--gold-bright); }
+    .champ-card, .dict-card {
+      background: var(--bg-panel); border: 1px solid var(--border-gold); border-radius: 11px;
+      overflow: hidden; box-shadow: 0 5px 14px rgba(0, 0, 0, 0.48);
+    }
+    .card-header {
+      background: linear-gradient(90deg, #162847 0%, #0E1B31 100%);
+      padding: 9px 12px; display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid rgba(200, 170, 110, 0.2); flex-wrap: wrap; gap: 6px;
+    }
+    .champ-title-group { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+    .role-badge {
+      background: rgba(10, 200, 185, 0.15); color: var(--blue-hex); border: 1px solid rgba(10, 200, 185, 0.4);
+      font-size: 0.68rem; font-weight: 800; padding: 2px 6px; border-radius: 5px; text-transform: uppercase;
+    }
+    .champ-name { font-size: 1.04rem; font-weight: 800; color: var(--gold-bright); }
+    .quick-meta { display: flex; gap: 4px; flex-wrap: wrap; }
+    .meta-pill { font-size: 0.69rem; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+    .pick-blind { background: rgba(46, 204, 113, 0.16); color: #58D68D; border: 1px solid rgba(46, 204, 113, 0.45); }
+    .pick-flex { background: rgba(243, 156, 18, 0.16); color: #F5B041; border: 1px solid rgba(243, 156, 18, 0.45); }
+    .pick-counter { background: rgba(255, 78, 80, 0.18); color: #FF7678; border: 1px solid rgba(255, 78, 80, 0.5); }
+    .ban-pill { background: rgba(255, 78, 80, 0.12); color: #FF9495; border: 1px solid rgba(255, 78, 80, 0.3); }
+    .skill-pill { background: rgba(200, 170, 110, 0.15); color: var(--gold-bright); border: 1px solid var(--border-gold); }
+    .card-body { padding: 9px 11px; display: flex; flex-direction: column; gap: 8px; }
+    .section-block { background: rgba(9, 20, 40, 0.65); border: 1px solid rgba(255, 255, 255, 0.07); border-radius: 7px; padding: 8px 10px; }
+    .section-title { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 5px; }
+    .title-gold { color: var(--gold); }
+    .title-rune { color: var(--rune-bright); }
+    .title-purple { color: var(--purple-bright); }
+    .title-vamp { color: var(--vamp-bright); }
+    .title-cyan { color: var(--blue-hex); }
+    .title-orange { color: var(--orange-warn); }
+    .title-win { color: var(--win-gold); }
+    .title-vision { color: var(--vision-bright); }
+    .title-shield { color: var(--shield-bright); }
+    .title-wall { color: var(--wall-bright); }
+    .title-pen { color: var(--pen-bright); }
+    .title-bounty { color: var(--bounty-bright); }
+    .info-grid { display: flex; flex-direction: column; gap: 6px; font-size: 0.81rem; line-height: 1.42; }
+    .info-row strong { color: var(--gold-bright); }
+
+    .rune-scen-group {
+      background: rgba(52, 152, 219, 0.07); border: 1px solid rgba(52, 152, 219, 0.28);
+      border-radius: 6px; padding: 6px 8px; display: flex; flex-direction: column; gap: 4px;
+    }
+    .rune-scen-row {
+      font-size: 0.79rem; line-height: 1.38; padding: 3px 6px; border-radius: 4px;
+      background: rgba(9, 20, 40, 0.55); border-left: 3px solid var(--rune-blue);
+    }
+    .rune-scen-row.r-common { border-left-color: var(--green-good); background: rgba(46, 204, 113, 0.08); }
+    .rune-scen-row.r-only-nuke { border-left-color: var(--red-nuke); }
+    .rune-scen-row.r-only-tank { border-left-color: var(--blue-hex); }
+    .rune-scen-row.r-only-crisis { border-left-color: var(--orange-warn); background: rgba(243, 156, 18, 0.1); }
+    .rune-scen-row.r-only-flex { border-left-color: var(--flex-violet); background: rgba(165, 105, 189, 0.14); }
+    .rune-scen-row.r-shards { border-left-color: var(--gold); background: rgba(200, 170, 110, 0.1); }
+    .common-badge {
+      display: inline-block; background: rgba(46, 204, 113, 0.22); color: #58D68D;
+      border: 1px solid rgba(46, 204, 113, 0.45); font-size: 0.67rem; font-weight: 800;
+      padding: 0 5px; border-radius: 3px; margin-right: 4px;
+    }
+    .scen-badge {
+      display: inline-block; background: rgba(52, 152, 219, 0.22); color: #AED6F1;
+      font-size: 0.67rem; font-weight: 800; padding: 0 5px; border-radius: 3px; margin-right: 4px;
+    }
+    .flex-badge {
+      display: inline-block; background: rgba(165, 105, 189, 0.28); color: #E8DAEF;
+      border: 1px solid rgba(165, 105, 189, 0.55); font-size: 0.67rem; font-weight: 800;
+      padding: 0 5px; border-radius: 3px; margin-right: 4px;
+    }
+    .shard-badge {
+      display: inline-block; background: rgba(200, 170, 110, 0.25); color: var(--gold-bright);
+      border: 1px solid rgba(200, 170, 110, 0.5); font-size: 0.67rem; font-weight: 800;
+      padding: 0 5px; border-radius: 3px; margin-right: 4px;
+    }
+    .build-row { background: rgba(15, 28, 52, 0.75); border-left: 3px solid var(--gold); padding: 6px 8px; border-radius: 4px; }
+    .build-row.b-nuke { border-left-color: var(--red-nuke); }
+    .build-row.b-tank { border-left-color: var(--blue-hex); }
+    .build-row.b-crisis { border-left-color: var(--orange-warn); }
+    .build-row.b-flex { border-left-color: var(--flex-violet); background: rgba(165, 105, 189, 0.13); }
+    .build-row.b-vamp { border-left-color: var(--vamp-red); background: rgba(231, 76, 60, 0.12); }
+    .slot-num {
+      display: inline-block; background: rgba(200, 170, 110, 0.22); color: var(--gold-bright);
+      font-size: 0.68rem; font-weight: 800; padding: 0 5px; border-radius: 3px; margin: 0 2px;
+    }
+    .draft-rule-box { background: rgba(255, 255, 255, 0.04); border-left: 3px solid var(--gold); padding: 5px 8px; border-radius: 4px; font-size: 0.8rem; }
+    .rune-why-list, .item-why-list, .vamp-why-list { display: flex; flex-direction: column; gap: 5px; }
+    .rune-why-box { background: rgba(52, 152, 219, 0.09); border-left: 3px solid var(--rune-blue); padding: 5px 8px; border-radius: 4px; font-size: 0.8rem; line-height: 1.38; }
+    .rune-why-box.r-common { background: rgba(46, 204, 113, 0.09); border-left-color: var(--green-good); }
+    .rune-why-box.r-only-crisis { background: rgba(243, 156, 18, 0.1); border-left-color: var(--orange-warn); }
+    .rune-why-box.r-only-flex { background: rgba(165, 105, 189, 0.12); border-left-color: var(--flex-violet); }
+    .rune-why-box.r-shards { background: rgba(200, 170, 110, 0.1); border-left-color: var(--gold); }
+    .rune-why-box strong { color: #AED6F1; }
+    .rune-why-box.r-common strong { color: #82E0AA; }
+    .rune-why-box.r-only-crisis strong { color: #F5B041; }
+    .rune-why-box.r-only-flex strong { color: var(--flex-bright); }
+    .rune-why-box.r-shards strong { color: var(--gold-bright); }
+    .rune-tag { display: inline-block; background: rgba(52, 152, 219, 0.22); color: #D6EAF8; font-size: 0.68rem; font-weight: 700; padding: 1px 5px; border-radius: 4px; margin-left: 3px; }
+    .item-why-box { background: rgba(155, 89, 182, 0.08); border-left: 3px solid var(--purple-item); padding: 5px 8px; border-radius: 4px; font-size: 0.8rem; line-height: 1.38; }
+    .item-why-box strong { color: #E8DAEF; }
+    .item-tag { display: inline-block; background: rgba(200, 170, 110, 0.18); color: var(--gold-bright); font-size: 0.68rem; font-weight: 700; padding: 1px 5px; border-radius: 4px; margin-left: 3px; }
+
+    .shield-box {
+      background: rgba(0, 188, 212, 0.1);
+      border-left: 3px solid var(--shield-cyan);
+      padding: 5px 8px; border-radius: 4px; font-size: 0.8rem; line-height: 1.38;
+    }
+    .shield-box strong { color: var(--shield-bright); }
+    .shield-tag {
+      display: inline-block; background: rgba(0, 188, 212, 0.25); color: #E0F7FA;
+      font-size: 0.68rem; font-weight: 800; padding: 1px 5px; border-radius: 4px; margin-left: 3px;
+    }
+
+    .wall-box {
+      background: rgba(26, 188, 156, 0.1);
+      border-left: 3px solid var(--wall-teal);
+      padding: 5px 8px; border-radius: 4px; font-size: 0.8rem; line-height: 1.38;
+    }
+    .wall-box strong { color: var(--wall-bright); }
+    .wall-tag {
+      display: inline-block; background: rgba(26, 188, 156, 0.25); color: #E8F8F5;
+      font-size: 0.68rem; font-weight: 800; padding: 1px 5px; border-radius: 4px; margin-left: 3px;
+    }
+
+    .pen-box {
+      background: rgba(230, 126, 34, 0.1);
+      border-left: 3px solid var(--pen-orange);
+      padding: 5px 8px; border-radius: 4px; font-size: 0.8rem; line-height: 1.38;
+    }
+    .pen-box strong { color: var(--pen-bright); }
+    .pen-tag {
+      display: inline-block; background: rgba(230, 126, 34, 0.25); color: #FEF5E7;
+      font-size: 0.68rem; font-weight: 800; padding: 1px 5px; border-radius: 4px; margin-left: 3px;
+    }
+
+    .bounty-box {
+      background: rgba(212, 172, 13, 0.12);
+      border-left: 3px solid var(--bounty-gold);
+      padding: 5px 8px; border-radius: 4px; font-size: 0.8rem; line-height: 1.38;
+    }
+    .bounty-box strong { color: var(--bounty-bright); }
+    .bounty-tag {
+      display: inline-block; background: rgba(212, 172, 13, 0.28); color: #FEF9E7;
+      font-size: 0.68rem; font-weight: 800; padding: 1px 5px; border-radius: 4px; margin-left: 3px;
+    }
+
+    .vamp-box { background: rgba(231, 76, 60, 0.09); border-left: 3px solid var(--vamp-red); padding: 6px 8px; border-radius: 4px; font-size: 0.8rem; line-height: 1.4; }
+    .vamp-box strong { color: #FADBD8; }
+    .vamp-tag { display: inline-block; background: rgba(231, 76, 60, 0.24); color: #FDEDEC; font-size: 0.68rem; font-weight: 700; padding: 1px 5px; border-radius: 4px; margin-left: 3px; }
+    .combo-box { background: #0C172B; border-left: 3px solid var(--blue-hex); padding: 5px 8px; border-radius: 4px; font-family: monospace; font-size: 0.8rem; color: #72F7ED; margin-top: 2px; font-weight: 700; }
+    .early-grid { display: grid; grid-template-columns: 1fr; gap: 6px; }
+    .do-box { background: rgba(46, 204, 113, 0.08); border-left: 3px solid var(--green-good); padding: 6px 8px; border-radius: 4px; font-size: 0.8rem; }
+    .dont-box { background: rgba(255, 78, 80, 0.08); border-left: 3px solid var(--red-nuke); padding: 6px 8px; border-radius: 4px; font-size: 0.8rem; }
+    .spike-box { background: rgba(243, 156, 18, 0.1); border-left: 3px solid var(--orange-warn); padding: 5px 8px; border-radius: 4px; font-size: 0.8rem; }
+    .gold-box { background: rgba(241, 196, 15, 0.11); border-left: 3px solid var(--win-gold); padding: 5px 8px; border-radius: 4px; font-size: 0.8rem; line-height: 1.38; }
+    .gold-box strong { color: #F9E79F; }
+    .gold-tag { display: inline-block; background: rgba(241, 196, 15, 0.24); color: #FEF9E7; font-size: 0.68rem; font-weight: 800; padding: 1px 5px; border-radius: 4px; margin: 0 2px; }
+    .wave-box { background: rgba(10, 200, 185, 0.09); border-left: 3px solid var(--blue-hex); padding: 5px 8px; border-radius: 4px; font-size: 0.8rem; line-height: 1.38; }
+    .wave-box strong { color: #72F7ED; }
+    .vision-box {
+      background: rgba(233, 30, 99, 0.1); border-left: 3px solid var(--vision-pink);
+      padding: 5px 8px; border-radius: 4px; font-size: 0.8rem; line-height: 1.38;
+    }
+    .vision-box strong { color: var(--vision-bright); }
+    .vision-tag {
+      display: inline-block; background: rgba(233, 30, 99, 0.25); color: #FCE4EC;
+      font-size: 0.68rem; font-weight: 800; padding: 1px 5px; border-radius: 4px; margin: 0 2px;
+    }
+    .win-box {
+      background: linear-gradient(90deg, rgba(241, 196, 15, 0.12) 0%, rgba(17, 30, 54, 0.6) 100%);
+      border-left: 3px solid var(--win-gold); padding: 7px 9px; border-radius: 4px; font-size: 0.81rem; line-height: 1.4;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .win-role-tag {
+      display: inline-block; background: rgba(241, 196, 15, 0.2); color: #F9E79F;
+      border: 1px solid rgba(241, 196, 15, 0.45); font-size: 0.7rem; font-weight: 800;
+      padding: 2px 6px; border-radius: 4px; width: fit-content;
+    }
+    @media (min-width: 640px) {
+      .early-grid { grid-template-columns: 1fr 1fr; }
+      .master-ban-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SAF CSS GENEL KONTROL MOTORU -->
+  <input type="radio" name="filter" id="f-all" class="state-ctrl" checked />
+  <input type="radio" name="filter" id="f-top" class="state-ctrl" />
+  <input type="radio" name="filter" id="f-jg" class="state-ctrl" />
+  <input type="radio" name="filter" id="f-mid" class="state-ctrl" />
+  <input type="radio" name="filter" id="f-bot" class="state-ctrl" />
+  <input type="radio" name="filter" id="f-sup" class="state-ctrl" />
+  <input type="radio" name="filter" id="f-blind" class="state-ctrl" />
+  <input type="radio" name="filter" id="f-flex" class="state-ctrl" />
+  <input type="radio" name="filter" id="f-counter" class="state-ctrl" />
+  <input type="radio" name="filter" id="f-c1" class="state-ctrl" />
+  <input type="radio" name="filter" id="f-c2" class="state-ctrl" />
+  <input type="radio" name="filter" id="f-c3" class="state-ctrl" />
+  <input type="radio" name="filter" id="f-c4" class="state-ctrl" />
+  <input type="radio" name="filter" id="f-c5" class="state-ctrl" />
+  <input type="radio" name="filter" id="f-c6" class="state-ctrl" />
+  <input type="radio" name="filter" id="f-c7" class="state-ctrl" />
+  <input type="radio" name="filter" id="f-c8" class="state-ctrl" />
+  <input type="radio" name="filter" id="f-c9" class="state-ctrl" />
+  <input type="radio" name="filter" id="f-c10" class="state-ctrl" />
+  <input type="radio" name="filter" id="f-c11" class="state-ctrl" />
+  <input type="radio" name="filter" id="f-c12" class="state-ctrl" />
+  <input type="radio" name="filter" id="f-c13" class="state-ctrl" />
+
+  <!-- Görünüm Modu Seçiciler -->
+  <input type="radio" name="view" id="v-compact" class="state-ctrl" checked />
+  <input type="radio" name="view" id="v-all" class="state-ctrl" />
+  <input type="radio" name="view" id="v-select" class="state-ctrl" />
+  <input type="radio" name="view" id="v-runes" class="state-ctrl" />
+  <input type="radio" name="view" id="v-items" class="state-ctrl" />
+  <input type="radio" name="view" id="v-vamp" class="state-ctrl" />
+  <input type="radio" name="view" id="v-combos" class="state-ctrl" />
+  <input type="radio" name="view" id="v-early" class="state-ctrl" />
+  <input type="radio" name="view" id="v-win" class="state-ctrl" />
+  <input type="radio" name="view" id="v-dict" class="state-ctrl" />
+
+  <!-- Senaryo Seçiciler -->
+  <input type="radio" name="scen" id="s-all" class="state-ctrl" checked />
+  <input type="radio" name="scen" id="s-std" class="state-ctrl" />
+  <input type="radio" name="scen" id="s-nuke" class="state-ctrl" />
+  <input type="radio" name="scen" id="s-tank" class="state-ctrl" />
+  <input type="radio" name="scen" id="s-crisis" class="state-ctrl" />
+  <input type="radio" name="scen" id="s-flex" class="state-ctrl" />
+
+  <header>
+    <div class="top-bar">
+      <div class="app-title">
+        <span>⚔️ LoL Cep Rehberi</span>
+        <span class="version-badge">v6.3 GÜNCEL (26.21 YAMASI)</span>
+      </div>
+    </div>
+
+    <div class="filter-row">
+      <label for="f-all" class="chip">Tümü (13)</label>
+      <label for="f-top" class="chip">Üst</label>
+      <label for="f-jg" class="chip">Orman</label>
+      <label for="f-mid" class="chip">Orta</label>
+      <label for="f-bot" class="chip">Alt</label>
+      <label for="f-sup" class="chip">Destek</label>
+      <label for="f-blind" class="chip">🟢 İlk Sıra (6)</label>
+      <label for="f-flex" class="chip">🟡 Orta Sıra (3)</label>
+      <label for="f-counter" class="chip">🔴 Son Sıra (4)</label>
+    </div>
+
+    <div class="filter-row">
+      <label for="f-c1" class="chip">Mundo</label>
+      <label for="f-c2" class="chip">Morde</label>
+      <label for="f-c3" class="chip">Nasus</label>
+      <label for="f-c4" class="chip">Vi</label>
+      <label for="f-c5" class="chip">Viego</label>
+      <label for="f-c6" class="chip">Briar</label>
+      <label for="f-c7" class="chip">Diana</label>
+      <label for="f-c8" class="chip">Sylas</label>
+      <label for="f-c9" class="chip">Talon</label>
+      <label for="f-c10" class="chip">Jhin</label>
+      <label for="f-c11" class="chip">Samira</label>
+      <label for="f-c12" class="chip">Nilah</label>
+      <label for="f-c13" class="chip">Morgana</label>
+    </div>
+
+    <div class="filter-row">
+      <label for="v-compact" class="chip">📱 Kompakt Sekmeli</label>
+      <label for="v-select" class="chip">🛡️ Seçim &amp; 6 Eşya</label>
+      <label for="v-runes" class="chip">🔮 Rün, Büyü &amp; Küçük Parçalar</label>
+      <label for="v-vamp" class="chip">🩸 Anti-Vampir (Vlad/WW/Aatrox)</label>
+      <label for="v-dict" class="chip">📖 Genel Sözlük</label>
+      <label for="v-all" class="chip">📋 Tümünü Aç</label>
+      <label for="v-items" class="chip">🎒 Eşyalar, Kalkan &amp; Delme</label>
+      <label for="v-combos" class="chip">⚡ Kombolar &amp; Duvar/Sıçra</label>
+      <label for="v-early" class="chip">⏱️ 15 Dk, Dalga, Altın &amp; Görüş</label>
+      <label for="v-win" class="chip">🏆 Win &amp; Kelle Ödülü</label>
+    </div>
+
+    <div class="filter-row">
+      <label for="s-all" class="chip">Tüm Senaryolar (Rün + 6 Eşya)</label>
+      <label for="s-std" class="chip">⚖️ Standart</label>
+      <label for="s-nuke" class="chip">💥 Nükleer</label>
+      <label for="s-tank" class="chip">🔨 Tank Eritme</label>
+      <label for="s-crisis" class="chip">🚨 Kriz Planı</label>
+      <label for="s-flex" class="chip">🔄 Flex Şeması</label>
+    </div>
+  </header>
+
+  <main>
+    <!-- AÇILIR/KAPANIR ORTAK BAN HAVUZU -->
+    <details class="master-ban-banner">
+      <summary>
+        <span>🚫 13 Şampiyonluk Havuzun Ortak Ban Listesi</span>
+        <span style="font-size:0.7rem; color:#F0E6D2;">[Dokun Aç / Kapat ▾]</span>
+      </summary>
+      <div class="master-ban-grid">
+        <div class="ban-role-item"><strong>• Üst Koridordaysan:</strong> <strong>Vayne</strong> veya <strong>Gwen</strong> banla (Mundo, Morde ve Nasus'u yüzdelik gerçek hasarla eritirler; Nasus oynayacaksan <strong>Darius</strong> banla).</div>
+        <div class="ban-role-item"><strong>• Ormandaysan:</strong> <strong>Rammus</strong> veya <strong>Morgana</strong> banla (Vi, Viego ve Briar'ın düz vuruş ve içeri dalma planını kilitlerler).</div>
+        <div class="ban-role-item"><strong>• Orta Koridordaysan:</strong> <strong>Vex</strong> veya <strong>Galio</strong> banla (Diana, Sylas ve Talon içeri atladığı için Vex pasifi ve Galio kışkırtması üçünü de durdurur).</div>
+        <div class="ban-role-item"><strong>• Alt / Destekteysen:</strong> Samira/Jhin için <strong>Leona/Nautilus</strong>, Nilah/Morgana için <strong>Caitlyn/Karma</strong> banla.</div>
+      </div>
+    </details>
+
+    <!-- 1. DR. MUNDO (26.21 YAMASI TAM UYUMLU) -->
+    <article class="champ-card role-top c-1 p-blind">
+      <input type="radio" name="tc1" id="tc1-sel" class="ct-ctrl ct-sel" checked />
+      <input type="radio" name="tc1" id="tc1-run" class="ct-ctrl ct-run" />
+      <input type="radio" name="tc1" id="tc1-itm" class="ct-ctrl ct-itm" />
+      <input type="radio" name="tc1" id="tc1-vmp" class="ct-ctrl ct-vmp" />
+      <input type="radio" name="tc1" id="tc1-cmb" class="ct-ctrl ct-cmb" />
+      <input type="radio" name="tc1" id="tc1-ear" class="ct-ctrl ct-ear" />
+      <input type="radio" name="tc1" id="tc1-win" class="ct-ctrl ct-win" />
+      <input type="radio" name="tc1" id="tc1-all" class="ct-ctrl ct-all" />
+      <div class="card-header">
+        <div class="champ-title-group">
+          <span class="role-badge">Üst</span>
+          <h2 class="champ-name">1. Dr. Mundo</h2>
+        </div>
+        <div class="quick-meta">
+          <span class="meta-pill pick-blind">🟢 1-2. Sıra: Kör</span>
+          <span class="meta-pill ban-pill">🚫 Gwen / Vayne</span>
+          <span class="meta-pill skill-pill">🔼 Q &gt; E &gt; W</span>
+        </div>
+      </div>
+      <div class="card-mini-tabs">
+        <label for="tc1-sel" class="m-tab m-sel">🛡️ Seçim &amp; 6 Eşya</label>
+        <label for="tc1-run" class="m-tab m-run">🔮 Rün &amp; Büyü</label>
+        <label for="tc1-vmp" class="m-tab m-vmp">🩸 Vampir</label>
+        <label for="tc1-itm" class="m-tab m-itm">🎒 Eşya &amp; Delme</label>
+        <label for="tc1-cmb" class="m-tab m-cmb">⚡ Kombo &amp; Duvar</label>
+        <label for="tc1-ear" class="m-tab m-ear">⏱️ 15 Dk</label>
+        <label for="tc1-win" class="m-tab m-win">🏆 Win &amp; Ödül</label>
+        <label for="tc1-all" class="m-tab m-all">📋 Hepsi</label>
+      </div>
+      <div class="card-body">
+        <div class="section-block sec-select">
+          <div class="section-title title-gold">🛡️ Seçim Ekranı: Ortak/Senaryo Rün, Büyü &amp; 6 Eşya</div>
+          <div class="info-grid">
+            <div class="draft-rule-box"><strong>🎯 Seçim Sırası:</strong> <strong style="color:#58D68D;">Güvenli İlk Sıra Seçimi.</strong> Uzaktan Q ile her koridorda farm yapar; sadece karşıda aynı anda <strong>Gwen + Vayne</strong> varsa seçme. Başlangıç: Doran'ın Kalkanı.<br/><strong>🔄 Zorunlu Flex Rolü:</strong> <strong>Orman</strong> <em>(Yeşil Pet; 03:12'de 6 kamp)</em> veya <strong>Orta Koridor</strong> <em>(AP/AD suikastçılara karşı)</em>.</div>
+            <div class="rune-scen-group">
+              <div class="rune-scen-row r-common"><span class="common-badge">🔗 3 DURUMDA DA %100 ORTAK</span><strong>Ortak Çekirdek:</strong> Azim: <strong>İkinci Şans - Aşırı Büyüme</strong> | ✨ Sihirdar: <strong>Hayalet</strong> (Hiç değişmez!)</div>
+              <div class="rune-scen-row r-std-tank"><span class="scen-badge">⚖️ STANDART &amp; 🔨 TANK ORTAK</span><strong>Tam Rün &amp; Büyü:</strong> <strong>Hortlağın Pençesi</strong> - Tahrip - İkinci Şans - Aşırı Büyüme | İlham: Sihirli Pabuçlar - <strong>Hızını Al</strong> | ✨ <strong>Hayalet + Işınlan</strong></div>
+              <div class="rune-scen-row r-only-nuke"><span class="scen-badge" style="color:#FF9495;">💥 NÜKLEER (KIRILGAN EZME)</span><strong>Tam Rün &amp; Büyü:</strong> Yakın dövüşçüye <strong>Hortlağın Pençesi</strong> (Standart sayfa); Menzilliye <strong>Ayağı Çabuk</strong> - Yaşam Sömürüsü - Efsane: Hız - Son Direniş | Yan (Azim): <strong>İkinci Şans - Aşırı Büyüme</strong> | ✨ <strong>Hayalet + Tutuştur</strong></div>
+              <div class="rune-scen-row r-only-crisis"><span class="scen-badge" style="color:#F5B041;">🚨 KRİZ PLANI (VAYNE/TEEMO/QUINN)</span><strong>Menzilli Anti-Dürtme Sayfası:</strong> <strong>Ayağı Çabuk</strong> - Yaşam Sömürüsü - Efsane: Hız - Son Direniş | Yan (Azim): <strong>İkinci Şans - Aşırı Büyüme</strong> | ✨ <strong>Hayalet + Işınlan</strong></div>
+              <div class="rune-scen-row r-only-flex"><span class="flex-badge">🔄 ZORUNLU FLEX RÜN ŞEMASI (ORMAN)</span><strong>Ana Ağaç (İsabet):</strong> <strong>Ayağı Çabuk</strong> - Zafer - <strong>Efsane: Çeviklik</strong> - Son Direniş | <strong>Yan Ağaç (İlham):</strong> <strong>Sihirli Pabuçlar - Hızını Al</strong> | <strong>🔹3 Küçük Rün:</strong> <strong>%10 Saldırı Hızı - Büyüyen Can - Büyüyen Can</strong> | ✨ <strong>Çarp + Hayalet (Yeşil Pet)</strong> <em>(Not: Orta Flex oynarsan Kriz Planı sayfasını al!)</em></div>
+              <div class="rune-scen-row r-shards"><span class="shard-badge">🔹 3 KÜÇÜK RÜN PARÇASI</span><strong>1. Hücum:</strong> 8 Yetenek Hızı (veya %10 Saldırı Hızı) | <strong>2. Esnek:</strong> Büyüyen Can | <strong>3. Savunma:</strong> Büyüyen Can (Ağır CC/Yavaşlatmaya: %10 Sıvışma)</div>
+            </div>
+            <div class="info-row build-row b-std"><strong>⚖️ Standart (6 Eşya - 26.21):</strong> <span class="slot-num">1</span>Çelikyürek (veya Warmog'un Zırhı) &rarr; <span class="slot-num">2</span>Atiklik/Zırh/Merkür Çizmesi &rarr; <span class="slot-num">3</span>Sonsuz Çaresizlik (veya Günateşi / Donuk Işıltı) &rarr; <span class="slot-num">4</span>Ruh Gömleği &rarr; <span class="slot-num">5</span>Çivili Zırh (Kritiğe: Randuin / Hasara: Haşmetli Hydra) &rarr; <span class="slot-num">6</span>Şahbaz Jak'Sho</div>
+            <div class="info-row build-row b-nuke"><strong style="color:#FF7678;">💥 Nükleer Tek Atma (6 Eşya):</strong> <span class="slot-num">1</span>Çelikyürek &rarr; <span class="slot-num">2</span>Atiklik/Zırh Çizmesi &rarr; <span class="slot-num">3</span>Haşmetli Hydra &rarr; <span class="slot-num">4</span>Derebeyi'nin Kanlı Zırhı &rarr; <span class="slot-num">5</span>Ruh Gömleği &rarr; <span class="slot-num">6</span>Sterak'ın Güvencesi</div>
+            <div class="info-row build-row b-tank"><strong style="color:#0AC8B9;">🔨 Tank Eritme (6 Eşya):</strong> <span class="slot-num">1</span>Çelikyürek &rarr; <span class="slot-num">2</span>Merkür/Zırh Çizmesi &rarr; <span class="slot-num">3</span>Günateşi Kalkanı &rarr; <span class="slot-num">4</span>Haşmetli Hydra &rarr; <span class="slot-num">5</span>Sonsuz Çaresizlik &rarr; <span class="slot-num">6</span>Ruh Gömleği</div>
+            <div class="info-row build-row b-crisis"><strong style="color:#F39C12;">🚨 Kriz Planı:</strong> Menzilliye (Vayne/Teemo/Quinn) karşı Ayağı Çabuk sayfasını al; <span class="slot-num">1</span>Warmog'un Zırhı (veya Ölü Adamın Zırhı) &rarr; <span class="slot-num">2</span>Atiklik Çizmesi &rarr; <span class="slot-num">3</span>Donuk Işıltı/Ruh Gömleği &rarr; <span class="slot-num">4</span>Çelikyürek &rarr; <span class="slot-num">5</span>Randuin'in Alameti &rarr; <span class="slot-num">6</span>Şahbaz Jak'Sho diz.</div>
+            <div class="info-row build-row b-flex"><strong style="color:var(--flex-bright);">🔄 Zorunlu Flex (6 Eşya - Orman / Orta):</strong> <span class="slot-num">1</span>Çelikyürek (veya Günateşi Kalkanı / Donuk Işıltı) &rarr; <span class="slot-num">2</span>Atiklik/Zırh/Merkür Çizmesi &rarr; <span class="slot-num">3</span>Sonsuz Çaresizlik (veya Haşmetli Hydra) &rarr; <span class="slot-num">4</span>Ruh Gömleği &rarr; <span class="slot-num">5</span>Ölü Adamın Zırhı &rarr; <span class="slot-num">6</span>Şahbaz Jak'Sho</div>
+            <div class="info-row build-row b-vamp"><strong style="color:#FF7678;">🩸 Ağır Yara Değişimi:</strong> Erken oyunda <strong>800G Dikenli Yelek</strong> al (Vlad/Swain gibi düz vurmayan AP vampire Dikenli Yelek çalışmaz, <strong>Tutuştur</strong> al!). <strong>⚖️ Standart'ta</strong> <span class="slot-num">5</span>zaten Çivili Zırh | <strong>💥 Nükleer'de</strong> <span class="slot-num">6</span>Sterak yerine &rarr; <strong>Çivili Zırh</strong> | <strong>🔨 Tank'ta</strong> <span class="slot-num">5</span>Sonsuz Çaresizlik yerine &rarr; <strong>Çivili Zırh</strong> | <strong>🚨 Kriz'de</strong> <span class="slot-num">5</span>Randuin yerine &rarr; <strong>Çivili Zırh</strong> | <strong>🔄 Flex'te</strong> <span class="slot-num">5</span>Ölü Adam yerine &rarr; <strong>Çivili Zırh</strong>.</div>
+          </div>
+        </div>
+        <div class="section-block sec-runes">
+          <div class="section-title title-rune">🔮 Senaryoya Göre Rün, Büyü &amp; Küçük Parçalar Matrisi</div>
+          <div class="rune-why-list">
+            <div class="rune-why-box r-common"><strong>🔗 Tüm Senaryolarda Ortak Çekirdek:</strong> <span class="rune-tag">İkinci Şans + Aşırı Büyüme + Hayalet</span> Hangi anahtar rünü seçersen seç Azim ağacındaki <strong>İkinci Şans + Aşırı Büyüme</strong> ikilisi ve <strong>Hayalet</strong> büyüsü %100 ortaktır! Sadece Riven/Sett gibi ani kombo yapanlara İkinci Şans yerine <strong>Kemik Zırh</strong> alınır.</div>
+            <div class="rune-why-box r-std-tank"><strong>⚖️ Standart &amp; 🔨 Tanklara Karşı (Ortak Kurulum):</strong> <span class="rune-tag">Hortlağın Pençesi + Hızını Al</span> Yakın dövüşçü ve tanklarla uzun süren kavgalarda sürekli Pençe yüküyle sınırsız can kasmak ve hareketi kısıtlanmış/yavaşlatılmış rakibe doğru koşarken <strong>%7,5 (Q satırıyla bizzat sen yavaşlattıysan %15) Hareket Hızı</strong> kazanmak için <strong>Tahrip + Sihirli Pabuçlar + Hızını Al</strong> kullanılır.</div>
+            <div class="rune-why-box r-only-nuke"><strong>💥 Nükleer Senaryo Farkı (Ayağı Çabuk / Tutuştur Geçişi):</strong> <span class="rune-tag">Hortlağın Pençesi veya Ayağı Çabuk + Tutuştur</span> Yakın dövüşçü kırılgana karşı Pençe + Tutuştur ile ezersin; menzilli kırılgan varsa <strong>Ayağı Çabuk - Yaşam Sömürüsü - Efsane: Hız - Son Direniş</strong> sayfasına geçilir.</div>
+            <div class="rune-why-box r-only-crisis"><strong>🚨 Kriz Planı Farkı (Vayne/Teemo/Quinn Anti-Dürtme):</strong> <span class="rune-tag">Ayağı Çabuk + Yaşam Sömürüsü + Işınlan</span> Menzilli üst koridorlara karşı Pençe yükü kasamayacağın için ana ağaç İsabet olur: <strong>Ayağı Çabuk - Yaşam Sömürüsü - Efsane: Hız - Son Direniş</strong> alınır, yan ağaca <strong>İkinci Şans - Aşırı Büyüme</strong> çekilir.</div>
+            <div class="rune-why-box r-only-flex"><strong>🔄 Zorunlu Flex (Orman) Rün Mantığı:</strong> <span class="rune-tag">Ayağı Çabuk + Pabuçlar + %10 Saldırı Hızı</span> Ormanda <em>Pençe ve İkinci Şans</em> çalışmadığı için <strong>Ayağı Çabuk + Efsane: Çeviklik</strong>, yan ağaca 300G tasarruf sağlayan <strong>Sihirli Pabuçlar + Hızını Al</strong> ve ilk 6 kampı 03:12'de bitirmek için 1. küçük rüne <strong>%10 Saldırı Hızı</strong> alınır.</div>
+            <div class="rune-why-box r-shards"><strong>🔹 Sağ Alttaki 3 Küçük Rün Parçası Mantığı:</strong> <span class="rune-tag">Çifte Büyüyen Can</span> Mundo'nun tüm hasarı ve iyileşmesi <strong>Azami Can</strong> ile arttığı için 2. ve 3. satırda <strong>Çifte Büyüyen Can</strong> alınır; 1. satırda daha sık Q satırı atmak için <strong>8 Yetenek Hızı</strong> seçilir.</div>
+          </div>
+        </div>
+        <div class="section-block sec-vamp">
+          <div class="section-title title-vamp">🩸 3 Vampir Tipine Karşı Özel Plan (Vlad / WW / Aatrox)</div>
+          <div class="vamp-why-list">
+            <div class="vamp-box"><strong>1. Vladimir / Swain (AP Yetenek):</strong> <span class="vamp-tag">Dikenli Yelek Alma!</span> Vlad sana düz vurmadan Q ile iyileşir ve AP vurur (Dikenli Yelek çalışmaz!). İlk eşya <strong>Ruh Gömleği / Donuk Işıltı</strong> çek, büyüye <strong>Hayalet + Tutuştur</strong> al. Vlad'ın barı Kırmızı (3. Q) olunca 2.5 sn geri çekil; 6'da R+Tutuştur ile üstüne koş.</div>
+            <div class="vamp-box"><strong>2. Warwick / Irelia (AD Düz Vuruş):</strong> <span class="vamp-tag">Dikenli Yelek %100 Çalışır</span> İlk dönüşte <strong>Dikenli Yelek (800G) + Çelik Kaplamalı Çizme</strong> al. WW'nin canı %30'un altına indiğinde iyileşmesi 3 katına çıkar; uzaktan Q ile canını %30'a indirip <strong>DV &rarr; E &rarr; Hydra</strong> patlamasını en son vur!</div>
+            <div class="vamp-box"><strong>3. Aatrox / Illaoi (Ulti Sömürü):</strong> <span class="vamp-tag">Zırh + İçine Yürü</span> <strong>Dikenli Yelek + Günateşi / Sonsuz Çaresizlik</strong> al. Aatrox Q1/Q2 kaldırırken geriye kaçma, <strong>Hızını Al</strong> rünüyle doğrudan <strong>Aatrox'un içine gir</strong> (keskin ucu vuramaz). Pasif kapsülünü Aatrox'un W zinciri veya Q3 savurmasını yok saymak için tut.</div>
+          </div>
+        </div>
+        <div class="section-block sec-items">
+          <div class="section-title title-purple">🎒 1'den 6'ya Eşya İşlevleri, 🛡️ Anti-Kalkan &amp; 🧮 Delme Sınırı</div>
+          <div class="item-why-list">
+            <div class="item-why-box"><strong>[1] Çelikyürek &amp; [3] Sonsuz Çaresizlik / Günateşi / Donuk Işıltı:</strong> <span class="item-tag">26.21 Çekirdek</span> Çelikyürek sınırsız Can kasar (zorlu koridorda 1500 ilave can sınırını tamamlayıp <strong>Warmog'un Zırhı</strong> ile takas sonrası 8 saniyede full cana dönülebilir); <strong>Sonsuz Çaresizlik</strong> ise 4 saniyede bir etraftaki rakiplerden canına göre sömürü yapar.</div>
+            <div class="item-why-box"><strong>[4] Ruh Gömleği:</strong> <span class="item-tag">Ölümsüzlük</span> Pasif, Ulti, W2 ve Sonsuz Çaresizlik can yenilemesini %25 artırır.</div>
+            <div class="item-why-box"><strong>[3-4] Haşmetli Hydra + Derebeyi'nin Kanlı Zırhı:</strong> <span class="item-tag">Nükleer</span> İlave canını doğrudan 450+ Saldırı Gücüne (AD) çevirir; eksik canın azaldıkça daha da fazla AD verir.</div>
+            <div class="item-why-box"><strong>[5-6] Çivili / Randuin + Şahbaz Jak'Sho:</strong> <span class="item-tag">Geç Oyun</span> 5. slotta iyileşme kesmek için <strong>Çivili</strong>; 6. slotta tüm dirençlerini %30 artıran <strong>Şahbaz Jak'Sho</strong> alınır.</div>
+            <div class="shield-box"><strong>🛡️ Kalkan Kırma Planı (Sett W / Tahm Kench E / Shen R / Lulu):</strong> <span class="shield-tag">E+Hydra'yı 2.5 Sn Beklet!</span> Mundo tank olduğu için Yılan Dişi almaz. Ancak <strong>E (Eksik cana göre vuran çanta) + Haşmetli Hydra</strong> kombosunu rakibin dev kalkanı (Sett W / Tahm E / Sterak) açıldığı an vurursan tüm infaz hasarın kalkana çarpar! Kalkan açıldığında sadece <strong>Q satırı</strong> atıp yana yürü; kalkan 2.5 sn sonra söndüğü salisede <strong>DV &rarr; E &rarr; Hydra</strong> indir!</div>
+            <div class="pen-box"><strong>🧮 Mundo'nun Karma Hasar Matematiği (Neden Zırh Delme Almaz?):</strong> <span class="pen-tag">%20-%30 Mevcut Can Büyü Hasarı!</span> Mundo'nun <strong>Q (Satır)</strong> yeteneği hedefin <strong>mevcut canının %20-%30'u kadar Büyü Hasarı</strong> vururken, <strong>E + Haşmetli Hydra</strong> devasa Fiziksel Hasar vurur! Rakip sadece Zırh kasarsa Q satırlarınla erir, sadece Büyü Direnci kasarsa E+Hydra ile tek yer; bu yüzden delme eşyasına ihtiyaç duymaz!</div>
+          </div>
+        </div>
+        <div class="section-block sec-combos">
+          <div class="section-title title-cyan">⚡ Tuş Sırası (Kombolar), Duvar Atlama &amp; Sıçra İptali</div>
+          <div class="info-grid">
+            <div><strong>Koridor Takası:</strong><div class="combo-box">Q &rarr; DV &rarr; E (Satırla yavaşlat, düz vurup anında E ile sıfırla)</div></div>
+            <div><strong>Tek Atma (All-In):</strong><div class="combo-box">R + Hayalet &rarr; W1 &rarr; Q &rarr; DV &rarr; E &rarr; Haşmetli Hydra &rarr; W2</div></div>
+            <div class="info-row"><strong>💡 Hile:</strong> DV &rarr; E &rarr; Haşmetli Hydra Aktifi 0.5 saniyede 3 dev vuruş indirir.</div>
+            <div class="wall-box"><strong>🧱 Duvar Atlama &amp; Sıçra İptali:</strong> <span class="wall-tag">❌ Duvar Geçemez | Hayalet Taşıyıcı</span> Mundo'nun duvar atlama yeteneği yoktur; bu yüzden Sıçra yerine <strong>Hayalet</strong> alır! Ormanda yakalanırsan ince duvarın arkasındaki kampa/rakibe <strong>Q satırı</strong> atıp (%40 yavaşlatır + <strong>Hızını Al</strong> rününü tetikler) duvarın etrafından koşarak kaç.</div>
+          </div>
+        </div>
+        <div class="section-block sec-early">
+          <div class="section-title title-orange">⏱️ İlk 15 Dakika, Altın, Dalga &amp; Görüş Kuralları</div>
+          <div class="info-grid">
+            <div class="spike-box"><strong>🔥 Güç Patlaması:</strong> 6. Seviye ve Çelikyürek / Günateşi bittiği an (Dk. 9-11)</div>
+            <div class="gold-box"><strong>💰 İlk B (Üs) Altın Eşiği:</strong> <span class="gold-tag">800G</span> Dikenli Yelek (AD/Vampir) | <span class="gold-tag">900G</span> Dev Kemeri (Üst) veya <strong>Bami'nin Alevi (Orman/Orta Flex)</strong> | <span class="gold-tag">1000G</span> Atiklik Çizmeleri.</div>
+            <div class="wave-box"><strong>🌊 Dalga Planı:</strong> 1-5. seviyede rakibin 4 büyücü minyonunu hayatta bırakıp kendi kulenin önünde <strong>Dondur (Freeze)</strong>; Çelikyürek bitince E ile dalgayı <strong>Kuleye Çak (Crash)</strong> ve Tahrip patlat.</div>
+            <div class="vision-box"><strong>👁️ Görüş &amp; 75G Kontrol Totemi:</strong> <span class="vision-tag">Sarı Totem Kalır</span> İlk 5 seviye zayıf olduğun için <strong>Dk. 02:45'te</strong> nehir çalısını totemle; dalgayı kendi tarafında tutarken <strong>Üçlü Çalıya (Tri-Bush) 75G Kontrol Totemi</strong> koy, yan koridor (Splitpush) iterken rakip orman girişini totemle.</div>
+            <div class="early-grid">
+              <div class="do-box"><strong style="color:#2ECC71;">✅ YAP:</strong> İlk 5 seviye uzaktan Q ile minyon kes, E ile minyon fırlatıp dürt.</div>
+              <div class="dont-box"><strong style="color:#FF7678;">❌ YAPMA:</strong> 1-5. seviyede Darius/Sett/Gwen ile kafa kafaya uzun kavgaya girme.</div>
+            </div>
+          </div>
+        </div>
+        <div class="section-block sec-win">
+          <div class="section-title title-win">🏆 Kazanma Koşulu &amp; 💰 Kelle Ödülü (Shutdown) Sigortası</div>
+          <div class="win-box">
+            <span class="win-role-tag">🎯 Rol: Yan Koridor Baskısı (Splitpush) &amp; Arka Saf Ezici</span>
+            <div><strong>• Savaşta:</strong> Öndeki tanka vurma! Pasif kalkanınla <strong>R + Hayalet</strong> basıp doğrudan rakip Nişancının üstüne koş ve E+Hydra ile sil.</div>
+            <div><strong>• Bitiriş:</strong> Işınlan hazırken hedefin tersi koridoru ittirip Tahrip ile kuleleri 3 saniyede yık.</div>
+            <div class="bounty-box"><strong>💰 Kelle Ödülü (Shutdown) Sigortası:</strong> <span class="bounty-tag">%30 Canda Geç R Basma!</span> Kafanda ödül varken Ultini (R) son saniyeye (%15 cana) bırakırsan <strong>Tutuştur / Ağır Yara</strong> yediğin an R animasyonunda tek yersin! Canın <strong>%40-%45'e indiği an R bas</strong> ve <strong>Ruh Gömleği</strong> bitirmeden 1v4 kule altına dalma!</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 2. MORDEKAISER (26.21 YAMASI TAM UYUMLU - KAN DÖKÜCÜNÜN LANETİ GÜNCELLEMELİ) -->
+    <article class="champ-card role-top c-2 p-blind">
+      <input type="radio" name="tc2" id="tc2-sel" class="ct-ctrl ct-sel" checked />
+      <input type="radio" name="tc2" id="tc2-run" class="ct-ctrl ct-run" />
+      <input type="radio" name="tc2" id="tc2-itm" class="ct-ctrl ct-itm" />
+      <input type="radio" name="tc2" id="tc2-vmp" class="ct-ctrl ct-vmp" />
+      <input type="radio" name="tc2" id="tc2-cmb" class="ct-ctrl ct-cmb" />
+      <input type="radio" name="tc2" id="tc2-ear" class="ct-ctrl ct-ear" />
+      <input type="radio" name="tc2" id="tc2-win" class="ct-ctrl ct-win" />
+      <input type="radio" name="tc2" id="tc2-all" class="ct-ctrl ct-all" />
+      <div class="card-header">
+        <div class="champ-title-group">
+          <span class="role-badge">Üst</span>
+          <h2 class="champ-name">2. Mordekaiser</h2>
+        </div>
+        <div class="quick-meta">
+          <span class="meta-pill pick-blind">🟢 1-2. Sıra: Kör</span>
+          <span class="meta-pill ban-pill">🚫 Fiora / Olaf</span>
+          <span class="meta-pill skill-pill">🔼 Q &gt; E &gt; W</span>
+        </div>
+      </div>
+      <div class="card-mini-tabs">
+        <label for="tc2-sel" class="m-tab m-sel">🛡️ Seçim &amp; 6 Eşya</label>
+        <label for="tc2-run" class="m-tab m-run">🔮 Rün &amp; Büyü</label>
+        <label for="tc2-vmp" class="m-tab m-vmp">🩸 Vampir</label>
+        <label for="tc2-itm" class="m-tab m-itm">🎒 Eşya &amp; Delme</label>
+        <label for="tc2-cmb" class="m-tab m-cmb">⚡ Kombo &amp; Duvar</label>
+        <label for="tc2-ear" class="m-tab m-ear">⏱️ 15 Dk</label>
+        <label for="tc2-win" class="m-tab m-win">🏆 Win &amp; Ödül</label>
+        <label for="tc2-all" class="m-tab m-all">📋 Hepsi</label>
+      </div>
+      <div class="card-body">
+        <div class="section-block sec-select">
+          <div class="section-title title-gold">🛡️ Seçim Ekranı: Ortak/Senaryo Rün, Büyü &amp; 6 Eşya</div>
+          <div class="info-grid">
+            <div class="draft-rule-box"><strong>🎯 Seçim Sırası:</strong> <strong style="color:#58D68D;">Güvenli İlk Sıra Seçimi (26.20 Güçlendirmeli!).</strong> 26.20 yamasında Q'nun <strong>10-20. seviye</strong> büyüme hasarı (+5 &rarr; +7) arttı (<em>Not: Koridor görevleriyle gelen +2 seviye sınırından faydalanıp 19-20. seviyeye ulaşmak için <strong>Üst Koridora</strong> seçilmelidir!</em>) ve R bekleme süresi 140'tan 120 saniyeye düştü! Başlangıç: Doran'ın Kalkanı.<br/><strong>🔄 Zorunlu Flex Rolü:</strong> <strong>Orman</strong> <em>(Mavi/Yeşil Pet; 03:15'te 6 kamp, max 18. sv)</em> veya <strong>Orta Koridor</strong> <em>(Yakın dövüşçü suikastçılara karşı, max 18. sv)</em>.</div>
+            <div class="rune-scen-group">
+              <div class="rune-scen-row r-common"><span class="common-badge">🔗 3 DURUMDA DA %100 ORTAK RÜN</span><strong>Tüm Rün Sayfası:</strong> <strong>Yenilmez</strong> - Zafer - Efsane: Çeviklik - Son Direniş | Azim: İkinci Şans (Ani hasara: Kemik Zırh) - Canlandır (3 senaryoda da rünler birebir aynıdır!)</div>
+              <div class="rune-scen-row r-std-tank"><span class="scen-badge">⚖️ STANDART &amp; 🔨 TANK ORTAK</span><strong>Sihirdar Büyüsü:</strong> ✨ <strong>Sıçra + Işınlan</strong></div>
+              <div class="rune-scen-row r-only-nuke"><span class="scen-badge" style="color:#FF9495;">💥 NÜKLEER (KAÇANI YAKALAMA)</span><strong>Sihirdar Büyüsü:</strong> ✨ <strong>Hayalet + Işınlan</strong> veya <strong>Sıçra + Tutuştur</strong> (Ölüm Âlemi içinde kaçamasınlar diye)</div>
+              <div class="rune-scen-row r-only-flex"><span class="flex-badge">🔄 ZORUNLU FLEX RÜN ŞEMASI (ORMAN)</span><strong>Ana Ağaç (İsabet):</strong> <strong>Yenilmez</strong> - Zafer - Efsane: Çeviklik - Son Direniş | <strong>Yan Ağaç (İlham):</strong> <strong>Sihirli Pabuçlar - Hızını Al</strong> | <strong>🔹3 Küçük Rün:</strong> <strong>%10 Saldırı Hızı - 9 Değişken Kuvvet - Büyüyen Can</strong> | ✨ <strong>Çarp + Hayalet (Mavi/Yeşil Pet)</strong> <em>(Not: Orta Flex oynarsan Standart Rün sayfasını al!)</em></div>
+              <div class="rune-scen-row r-shards"><span class="shard-badge">🔹 3 KÜÇÜK RÜN PARÇASI</span><strong>1. Hücum:</strong> %10 Saldırı Hızı | <strong>2. Esnek:</strong> 9 Değişken Kuvvet | <strong>3. Savunma:</strong> Büyüyen Can (1-3. sv sert kavgaya: 65 Sabit Can)</div>
+            </div>
+            <div class="info-row build-row b-std"><strong>⚖️ Standart (6 Eşya):</strong> <span class="slot-num">1</span>Rylai'nin Kristal Asası &rarr; <span class="slot-num">2</span>Zırh/Merkür Çizmesi &rarr; <span class="slot-num">3</span>Vadiyaran &rarr; <span class="slot-num">4</span>Liandry'nin Eziyeti &rarr; <span class="slot-num">5</span>Zhonya'nın Kumsaati &rarr; <span class="slot-num">6</span>Ruh Gömleği (veya Şahbaz Jak'Sho)</div>
+            <div class="info-row build-row b-nuke"><strong style="color:#FF7678;">💥 Nükleer Tek Atma (6 Eşya):</strong> <span class="slot-num">1</span>Vadiyaran &rarr; <span class="slot-num">2</span>Sihirbaz Pabuçları &rarr; <span class="slot-num">3</span>Liandry'nin Eziyeti &rarr; <span class="slot-num">4</span>Gölgealev &rarr; <span class="slot-num">5</span>Rabadon'un Ölüm Şapkası &rarr; <span class="slot-num">6</span>Zhonya'nın Kumsaati</div>
+            <div class="info-row build-row b-tank"><strong style="color:#0AC8B9;">🔨 Tank Eritme (6 Eşya - 26.21 Metası):</strong> <span class="slot-num">1</span>Liandry'nin Eziyeti &rarr; <span class="slot-num">2</span>Merkür/Zırh Çizmesi &rarr; <span class="slot-num">3</span>Vadiyaran &rarr; <span class="slot-num">4</span>Kan Dökücünün Laneti (Bloodletter's Curse) &rarr; <span class="slot-num">5</span>Rylai'nin Kristal Asası &rarr; <span class="slot-num">6</span>Şahbaz Jak'Sho (veya Ruh Gömleği)</div>
+            <div class="info-row build-row b-crisis"><strong style="color:#F39C12;">🚨 Kriz Planı:</strong> Olaf veya kasılmış Vayne/Fiora varsa asla onlara Ulti atma (nişancıyı/büyücüyü çek; <em>Not: GP portakalı ve Cıva Kuşak artık Morde R'sinden çıkamaz!</em>). Uçurtan kadroya <span class="slot-num">1</span>Rylai &rarr; <span class="slot-num">2</span>Atiklik Çizmesi &rarr; <span class="slot-num">3</span>Hextech Roketkemer &rarr; <span class="slot-num">4</span>Vadiyaran &rarr; <span class="slot-num">5</span>Ölü Adamın Zırhı &rarr; <span class="slot-num">6</span>Ruh Gömleği diz.</div>
+            <div class="info-row build-row b-flex"><strong style="color:var(--flex-bright);">🔄 Zorunlu Flex (6 Eşya - Orman / Orta):</strong> <span class="slot-num">1</span>Liandry'nin Eziyeti (Orta Flex'te: Hextech Roketkemer) &rarr; <span class="slot-num">2</span>Zırh/Merkür/Atiklik Çizmesi &rarr; <span class="slot-num">3</span>Rylai'nin Kristal Asası &rarr; <span class="slot-num">4</span>Vadiyaran &rarr; <span class="slot-num">5</span>Zhonya'nın Kumsaati (Tanklara: Kan Dökücünün Laneti) &rarr; <span class="slot-num">6</span>Ruh Gömleği (veya Şahbaz Jak'Sho)</div>
+            <div class="info-row build-row b-vamp"><strong style="color:#FF7678;">🩸 Ağır Yara Değişimi:</strong> İlk dönüşte <strong>800G Bilinmezlik Küresi</strong> al ve son eşyaya kadar beklet! <strong>⚖️ Standart'ta</strong> <span class="slot-num">6</span>Ruh Gömleği/Jak'Sho yerine &rarr; <strong>Morellonomikon</strong> | <strong>💥 Nükleer'de</strong> <span class="slot-num">4</span>Gölgealev yerine &rarr; <strong>Morellonomikon</strong> | <strong>🔨 Tank'ta</strong> <span class="slot-num">5</span>Rylai yerine &rarr; <strong>Morellonomikon</strong> | <strong>🚨 Kriz'de</strong> <span class="slot-num">5</span>Ölü Adam yerine &rarr; <strong>Morellonomikon</strong> | <strong>🔄 Flex'te</strong> <span class="slot-num">6</span>Ruh Gömleği/Jak'Sho yerine &rarr; <strong>Morellonomikon</strong>.</div>
+          </div>
+        </div>
+        <div class="section-block sec-runes">
+          <div class="section-title title-rune">🔮 Senaryoya Göre Rün, Büyü &amp; Küçük Parçalar Matrisi</div>
+          <div class="rune-why-list">
+            <div class="rune-why-box r-common"><strong>🔗 3 Senaryoda %100 Ortak Rün Sayfası:</strong> <span class="rune-tag">Hiç Değişmez!</span> Mordekaiser'de <strong>Standart, Nükleer ve Tank Eritme</strong> senaryolarının 3'ünde de rün sayfası <strong>%100 ortaktır</strong>: <strong>Yenilmez - Zafer - Efsane: Çeviklik - Son Direniş + Canlandır</strong>. Sadece koridor rakibin Riven/Fiora/Sett ise <strong>Kemik Zırh</strong>, menzilli dürtücü ise <strong>İkinci Şans</strong> seçersin.</div>
+            <div class="rune-why-box r-std-tank"><strong>⚖️ Standart &amp; 🔨 Tank Sihirdar Büyüsü (Ortak):</strong> <span class="rune-tag">Sıçra + Işınlan</span> Q+Sıçra kombosu ve yan koridor baskısı için sabit kullanılır.</div>
+            <div class="rune-why-box r-only-nuke"><strong>💥 Nükleer Sihirdar Büyüsü Farkı:</strong> <span class="rune-tag">Hayalet veya Tutuştur</span> Karşıda çok hareketli kırılganlar varsa Ölüm Âlemi içinde yakalamak için <strong>Hayalet</strong>, koridorda ezmek için <strong>Tutuştur</strong> alınabilir.</div>
+            <div class="rune-why-box r-only-flex"><strong>🔄 Zorunlu Flex (Orman) Rün Mantığı:</strong> <span class="rune-tag">Yenilmez + Pabuçlar + Hızını Al</span> Ormanda <em>İkinci Şans/Kemik Zırh</em> çalışmadığı için yan ağaca <strong>Sihirli Pabuçlar + Hızını Al</strong> alınır; Rylai veya Mavi Çarp ile yavaşlattığın rakibe %15 hızla koşarsın.</div>
+            <div class="rune-why-box r-shards"><strong>🔹 Sağ Alttaki 3 Küçük Rün Parçası Mantığı:</strong> <span class="rune-tag">%10 Saldırı Hızı Şart!</span> E veya Q kaçırdığında pasif fırtınanı düz vuruşlarla hızlıca açabilmek ve minyon son vuruşu kaçırmamak için 1. satırda <strong>%10 Saldırı Hızı</strong> alınır.</div>
+          </div>
+        </div>
+        <div class="section-block sec-vamp">
+          <div class="section-title title-vamp">🩸 3 Vampir Tipine Karşı Özel Plan (Vlad / WW / Aatrox)</div>
+          <div class="vamp-why-list">
+            <div class="vamp-box"><strong>1. Vladimir / Swain (AP Yetenek):</strong> <span class="vamp-tag">800G Bilinmezlik Küresi Al</span> Dikenli Yelek alma; <strong>Bilinmezlik Küresi + Ruh Gömleği</strong> çek. <strong>Ölümcül Hata:</strong> Vlad'ın W (Havuz) yeteneği varken R basarsan içeride 2.5 sn süreni çalar; önce E ile havuzunu zorla, havuzdan çıktığı saniye <strong>R</strong> bas!</div>
+            <div class="vamp-box"><strong>2. Warwick / Irelia (AD Düz Vuruş):</strong> <span class="vamp-tag">Ulti İptali Tuzağı!</span> <strong>Dikenli Yelek (veya Bilinmezlik) + Çelik Kaplamalı Çizme</strong> al. <strong>Ölümcül Hata:</strong> Warwick Q basılı tutarken veya R ile uçarken durdurulamazdır; tam o salisede R (Ölüm Âlemi) basarsan Ultin iptal olur!</div>
+            <div class="vamp-box"><strong>3. Aatrox / Illaoi (Ulti Sömürü):</strong> <span class="vamp-tag">Ulti Bekletme Hilesi</span> <strong>800G Bilinmezlik Küresi + Zırh Çizmesi + Rylai</strong> al (Pasif fırtınan Aatrox sana düz vurmasa bile sürekli Ağır Yara tutar). Aatrox <strong>R</strong> açtığı saniye sen de <strong>R</strong> bas; onun artmış AD'sini %10 düşürüp Q hasarını/iyileşmesini kırar, Can ve Dirençlerini çalarsın!</div>
+          </div>
+        </div>
+        <div class="section-block sec-items">
+          <div class="section-title title-purple">🎒 1'den 6'ya Eşya İşlevleri, 🛡️ Anti-Kalkan &amp; 🧮 Delme Sınırı</div>
+          <div class="item-why-list">
+            <div class="item-why-box"><strong>[1] Rylai + [3] Vadiyaran + [4] Liandry'nin Eziyeti:</strong> <span class="item-tag">Çekirdek Üçlü</span> Rylai %30 yavaşlatır, Vadiyaran %10 fazla hasar ve mutlak sömürü verir, Liandry'nin Eziyeti yüzdelik yakar (Orman Flex'te kamp hızı için önce 900G Kader Külleri &rarr; Liandry bitirilir).</div>
+            <div class="item-why-box"><strong>[4] Kan Dökücünün Laneti (Bloodletter's Curse) &amp; [5] Zhonya:</strong> <span class="item-tag">26.21 AP Dövüşçü Delmesi</span> Kırılgan büyücüler için olan Makber/Hiçlik yerine <strong>Kan Dökücünün Laneti</strong> hem Can + Yetenek Hızı verir hem de pasif fırtınanla rakiplerin Büyü Direncini %30 siler! Zhonya ise fırtınan açıkken 2.5 sn dokunulmazlık sağlar.</div>
+            <div class="item-why-box"><strong>[6] Ruh Gömleği vs Şahbaz Jak'Sho:</strong> <span class="item-tag">6. Eşya</span> W kalkanını ve iyileşmeni %25 büyütmek için <strong>Ruh Gömleği</strong>; hem zırh hem MR için <strong>Şahbaz Jak'Sho</strong>.</div>
+            <div class="shield-box"><strong>🛡️ Kalkan Kırma Planı &amp; Gölgealev Yanılgısı:</strong> <span class="shield-tag">R İle Kalkan Desteğini Ayır!</span> <strong>Dikkat: Gölgealev kalkan kırmaz!</strong> Karşıda Lulu/Karma/Janna/Shen varsa taşıyıcıyı veya kalkan veren desteği <strong>R (Ölüm Âlemi)</strong> içine çekip birbirlerinden ayır (Shen R basarken hedefi R'ye çekersen Shen ışınlanamaz!). Sett W veya Tahm E kalkanı açıldığında Tekli Q'nu 2 sn beklet, pasif fırtınanla yakıp kalkan sönünce Q indir.</div>
+            <div class="pen-box"><strong>🧮 E Pasifi (%15 Nüfuz) + Kan Dökücünün Laneti (%30 MR Kırma) = %40,5 Matematiği:</strong> <span class="pen-tag">Max E'de %15 Büyü Nüfuzu!</span> Mordekaiser'in <strong>E (Ölümün Eli)</strong> yeteneği pasif olarak seviyesine göre <strong>%5 / %7,5 / %10 / %12,5 / %15 Büyü Nüfuzu</strong> verir! Karşıda <strong>120+ MR</strong> kasan tanklar varsa 4. slotta <strong>Kan Dökücünün Laneti (%30 Büyü Direnci Eksiltme + 350 Can)</strong> aldığında, 5. seviye E pasifinle birleşerek <strong>%40,5 Efektif Büyü Direnci Silme/Delmeye</strong> (Hiçlik Değneği %40 ile ise %49'a) ulaşırsın!</div>
+          </div>
+        </div>
+        <div class="section-block sec-combos">
+          <div class="section-title title-cyan">⚡ Tuş Sırası (Kombolar), Duvar Atlama &amp; Sıçra İptali</div>
+          <div class="info-grid">
+            <div><strong>Koridor Takası:</strong><div class="combo-box">E &rarr; Q &rarr; DV (E ile çekerken Q indir, 1 DV ile pasifi aç)</div></div>
+            <div><strong>Tek Atma (All-In):</strong><div class="combo-box">E &rarr; R (Ölüm Âlemi) &rarr; Q &rarr; DV &rarr; W1 (Kalkanı son anda bas)</div></div>
+            <div class="info-row"><strong>💡 Hile:</strong> Q &rarr; Sıçra ile gürzü rakibin kaçtığı yere anında indirirsin.</div>
+            <div class="wall-box"><strong>🧱 Duvar Atlama &amp; Sıçra İptali:</strong> <span class="wall-tag">❌ Duvar Geçemez | ✅ Q+Sıçra İptali</span> Morde hiçbir yeteneğiyle veya Hextech Roketkemer ile duvarlardan geçemez! Ancak <strong>Q basıp 0.2 sn sonra Sıçra (Q &rarr; Sıçra)</strong> atarsan gürz animasyonu yerde başlar ve Sıçra attığın noktaya tepki süresi vermeden iner! Ayrıca <strong>Ölüm Âlemi (R)</strong> sınırını duvarın tam ortasına denk getirirsen rakip duvardan Sıçra atıp kaçamaz!</div>
+          </div>
+        </div>
+        <div class="section-block sec-early">
+          <div class="section-title title-orange">⏱️ İlk 15 Dakika, Altın, Dalga &amp; Görüş Kuralları</div>
+          <div class="info-grid">
+            <div class="spike-box"><strong>🔥 Güç Patlaması:</strong> 6. Seviye (Ölüm Âlemi - 26.20'de 120 sn!) ve İnfilak Değneği / Kader Külleri</div>
+            <div class="gold-box"><strong>💰 İlk B (Üs) Altın Eşiği:</strong> <span class="gold-tag">850G</span> İnfilak Değneği (Rylai) | <span class="gold-tag">900G</span> <strong>Kader Külleri (Orman Flex)</strong> | <span class="gold-tag">800G</span> Bilinmezlik Küresi.</div>
+            <div class="wave-box"><strong>🌊 Dalga Planı:</strong> Q ve E alan vurduğu için dalgayı istemeden itersin; minyonların ortasına Q atma, dalgayı kendi kulenin önünde <strong>Dondur (Freeze)</strong> ki 6. seviyede rakibi Ölüm Âlemi içinde kuleye sıkıştırmadan kesebilesin.</div>
+            <div class="vision-box"><strong>👁️ Görüş &amp; 75G Kontrol Totemi:</strong> <span class="vision-tag">Sarı Totem Sakla!</span> <strong>Ölüm Âlemi (R) Çalı Hilesi:</strong> Önceden yere koyduğun totemler Ölüm Âlemi'nin içine geçmez! R içinde rakip çalıya girerse görüşü kaybetmemek için cebinde mutlaka <strong>1 adet Sarı Totem (veya 75G Kontrol Totemi)</strong> sakla ve totemi <strong>R bastıktan sonra içerideyken</strong> çalıya at!</div>
+            <div class="early-grid">
+              <div class="do-box"><strong style="color:#2ECC71;">✅ YAP:</strong> Rakibe minyonsuz Tekli Q indir (%40+ fazla vurur). 6'da baskın yersen ormancıyı R'ye çek!</div>
+              <div class="dont-box"><strong style="color:#FF7678;">❌ YAPMA:</strong> Beyaz W barın dolmadan kule altına girme; E kaçarsa 15 sn geri çekil.</div>
+            </div>
+          </div>
+        </div>
+        <div class="section-block sec-win">
+          <div class="section-title title-win">🏆 Kazanma Koşulu &amp; 💰 Kelle Ödülü (Shutdown) Sigortası</div>
+          <div class="win-box">
+            <span class="win-role-tag">🎯 Rol: Hedef İzolasyonu (Ölüm Âlemi) &amp; Ön Saf Yakıcı</span>
+            <div><strong>• Savaşta:</strong> Ejderha/Baron çıkarken <strong>rakip Ormancıyı R içine çekip</strong> Çarp atmasını engelle! Normal savaşta taşıyıcına atlayanı R ile hapset.</div>
+            <div><strong>• Bitiriş:</strong> R içinde rakibi kesip %10 nitelik çalarak dev boyutta kalan 4 kişinin arasına yürü.</div>
+            <div class="bounty-box"><strong>💰 Kelle Ödülü (Shutdown) Sigortası:</strong> <span class="bounty-tag">Zhonya + Doğru R Hedefi!</span> Kafanda <strong>400G+ ödül</strong> varken Ölüm Âlemi'nden (R) çıktığında 4 rakip başında bekliyor olur; <strong>Zhonya'nın Kumsaati</strong> bitirmeden 5 kişinin ortasında R basma ve asla kasılmış Vayne/Fiora/Master Yi'yi kendi ellerinle R içine çekip ödülü hediye etme!</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 3. NASUS (26.21 YAMASI TAM UYUMLU) -->
+    <article class="champ-card role-top c-3 p-counter">
+      <input type="radio" name="tc3" id="tc3-sel" class="ct-ctrl ct-sel" checked />
+      <input type="radio" name="tc3" id="tc3-run" class="ct-ctrl ct-run" />
+      <input type="radio" name="tc3" id="tc3-itm" class="ct-ctrl ct-itm" />
+      <input type="radio" name="tc3" id="tc3-vmp" class="ct-ctrl ct-vmp" />
+      <input type="radio" name="tc3" id="tc3-cmb" class="ct-ctrl ct-cmb" />
+      <input type="radio" name="tc3" id="tc3-ear" class="ct-ctrl ct-ear" />
+      <input type="radio" name="tc3" id="tc3-win" class="ct-ctrl ct-win" />
+      <input type="radio" name="tc3" id="tc3-all" class="ct-ctrl ct-all" />
+      <div class="card-header">
+        <div class="champ-title-group">
+          <span class="role-badge">Üst</span>
+          <h2 class="champ-name">3. Nasus</h2>
+        </div>
+        <div class="quick-meta">
+          <span class="meta-pill pick-counter">🔴 4-5. Sıra: Counter</span>
+          <span class="meta-pill ban-pill">🚫 Darius / Illaoi</span>
+          <span class="meta-pill skill-pill">🔼 Q &gt; W &gt; E</span>
+        </div>
+      </div>
+      <div class="card-mini-tabs">
+        <label for="tc3-sel" class="m-tab m-sel">🛡️ Seçim &amp; 6 Eşya</label>
+        <label for="tc3-run" class="m-tab m-run">🔮 Rün &amp; Büyü</label>
+        <label for="tc3-vmp" class="m-tab m-vmp">🩸 Vampir</label>
+        <label for="tc3-itm" class="m-tab m-itm">🎒 Eşya &amp; Delme</label>
+        <label for="tc3-cmb" class="m-tab m-cmb">⚡ Kombo &amp; Duvar</label>
+        <label for="tc3-ear" class="m-tab m-ear">⏱️ 15 Dk</label>
+        <label for="tc3-win" class="m-tab m-win">🏆 Win &amp; Ödül</label>
+        <label for="tc3-all" class="m-tab m-all">📋 Hepsi</label>
+      </div>
+      <div class="card-body">
+        <div class="section-block sec-select">
+          <div class="section-title title-gold">🛡️ Seçim Ekranı: Ortak/Senaryo Rün, Büyü &amp; 6 Eşya</div>
+          <div class="info-grid">
+            <div class="draft-rule-box"><strong>🎯 Seçim Sırası:</strong> <strong style="color:#FF7678;">Kesinlikle Son Sıra!</strong> Karşıda Tryndamere, Kayle, Irelia, Yasuo veya tank gördüğünde kilitle. Başlangıç: Doran'ın Kalkanı.<br/><strong>🔄 Zorunlu Flex Rolü:</strong> <strong>Destek</strong> <em>(W &gt; E &gt; Q; Kalista/Vayne/Draven'ı felç eder)</em>, <strong>Orman</strong> <em>(Büyük canavar +12 yük)</em> veya <strong>Orta Koridor</strong> <em>(Standart sayfa ile aynı)</em>.</div>
+            <div class="rune-scen-group">
+              <div class="rune-scen-row r-common"><span class="common-badge">🔗 3 DURUMDA DA %100 ORTAK</span><strong>Sihirdar &amp; Çekirdek:</strong> ✨ <strong>Hayalet + Işınlan</strong> | Ortak Alt Rünler: Azim: <strong>İkinci Şans - Aşırı Büyüme</strong> (veya Tahrip) + <em>(Standart/Nükleer/Tank'ta İsabet: <strong>Zafer - Efsane: Hız</strong>)</em></div>
+              <div class="rune-scen-row r-std-nuke"><span class="scen-badge">⚖️ STANDART &amp; 💥 NÜKLEER ORTAK</span><strong>Tam Rün Sayfası:</strong> <strong>Ayağı Çabuk</strong> - Zafer - Efsane: Hız - Son Direniş | Yan (Azim): <strong>İkinci Şans - Aşırı Büyüme</strong> (veya Tahrip)</div>
+              <div class="rune-scen-row r-only-tank"><span class="scen-badge" style="color:#72F7ED;">🔨 TANKLARA KARŞI</span><strong>Tam Rün Sayfası:</strong> <strong>Hortlağın Pençesi</strong> - Tahrip - İkinci Şans - Aşırı Büyüme | Yan (İsabet): <strong>Zafer - Efsane: Hız</strong></div>
+              <div class="rune-scen-row r-only-crisis"><span class="scen-badge" style="color:#F5B041;">🚨 KRİZ PLANI (DARIUS/TEEMO - 3 PUAN E)</span><strong>Uzaktan E Dürtme Sayfası:</strong> <strong>Sihirli Yıldız (veya Aery)</strong> - <strong>Mana Akışı Yüzüğü</strong> - Yücelik - Kızart | Yan (Azim): <strong>İkinci Şans - Aşırı Büyüme</strong></div>
+              <div class="rune-scen-row r-only-flex"><span class="flex-badge">🔄 ZORUNLU FLEX RÜN ŞEMASI (DESTEK / ORMAN)</span><strong>🛡️ Destek (W&gt;E&gt;Q):</strong> <strong>Sihirli Yıldız</strong> - Mana Akışı - Yücelik - Kızart | Yan (Azim): <strong>Yaşam Kaynağı - Canlandır</strong> | 🔹Küçük Rün: <strong>8 Yetenek Hızı - %2 Hız - 65 Sabit Can</strong> | ✨ <strong>Sıçra + Bitkinlik</strong>.<br/><strong>🌲 Orman (Q&gt;W&gt;E):</strong> <strong>Ayağı Çabuk</strong> - Zafer - Efsane: Hız - Son Direniş | Yan (İlham): <strong>Sihirli Pabuçlar - Hızını Al</strong> | 🔹Küçük Rün: <strong>%10 Saldırı Hızı - %2 Hız - Büyüyen Can</strong> | ✨ <strong>Çarp + Hayalet</strong>.</div>
+              <div class="rune-scen-row r-shards"><span class="shard-badge">🔹 3 KÜÇÜK RÜN PARÇASI</span><strong>1. Hücum:</strong> 8 Yetenek Hızı (Daha hızlı Q yükü) | <strong>2. Esnek:</strong> Büyüyen Can (veya %2 Hız) | <strong>3. Savunma:</strong> %10 Sıvışma ve Yavaşlatma Direnci (veya 65 Can)</div>
+            </div>
+            <div class="info-row build-row b-std"><strong>⚖️ Standart (6 Eşya):</strong> <span class="slot-num">1</span>Üçlü Kuvvet &rarr; <span class="slot-num">2</span>Ionia/Atiklik Çizmesi &rarr; <span class="slot-num">3</span>Donmuş Yürek &rarr; <span class="slot-num">4</span>Ruh Gömleği &rarr; <span class="slot-num">5</span>Sterak'ın Güvencesi &rarr; <span class="slot-num">6</span>Şahbaz Jak'Sho (veya Çivili Zırh)</div>
+            <div class="info-row build-row b-nuke"><strong style="color:#FF7678;">💥 Nükleer Tek Atma (6 Eşya):</strong> <span class="slot-num">1</span>Üçlü Kuvvet &rarr; <span class="slot-num">2</span>Atiklik/Ionia Çizmesi &rarr; <span class="slot-num">3</span>Yarık Gökyüzü &rarr; <span class="slot-num">4</span>Serylda'nın Garezi &rarr; <span class="slot-num">5</span>Sterak'ın Güvencesi &rarr; <span class="slot-num">6</span>Ölümün Dansı (veya Ruh Gömleği)</div>
+            <div class="info-row build-row b-tank"><strong style="color:#0AC8B9;">🔨 Tank Eritme (6 Eşya):</strong> <span class="slot-num">1</span>Üçlü Kuvvet &rarr; <span class="slot-num">2</span>Merkür/Zırh Çizmesi &rarr; <span class="slot-num">3</span>Serylda'nın Garezi (veya Kara Balta) &rarr; <span class="slot-num">4</span>Donmuş Yürek &rarr; <span class="slot-num">5</span>Ruh Gömleği &rarr; <span class="slot-num">6</span>Şahbaz Jak'Sho (veya Sterak'ın Güvencesi)</div>
+            <div class="info-row build-row b-crisis"><strong style="color:#F39C12;">🚨 Kriz Planı:</strong> Darius/Teemo yaklaştırmıyorsa Doran'ın Yüzüğü + Sihirli Yıldız / Mana Akışı sayfasını al, E'ye 3 puan verip uzaktan minyon kes; 6. seviyede Pırıltı + Üçlü Kuvvet'e dön.</div>
+            <div class="info-row build-row b-flex"><strong style="color:var(--flex-bright);">🔄 Zorunlu Flex (6 Eşya - Destek &amp; Orman):</strong><br/>• <strong>🛡️ Destek (6 Eşya):</strong> <span class="slot-num">1</span>Semavi Muhalefet (veya Gündönümü Kızağı) &rarr; <span class="slot-num">2</span>Ionia/Atiklik Çizmesi &rarr; <span class="slot-num">3</span>Donmuş Yürek &rarr; <span class="slot-num">4</span>Rylai'nin Kristal Asası (veya Zeke'nin Ahengi) &rarr; <span class="slot-num">5</span>Demir Solari (veya Ruh Gömleği) &rarr; <span class="slot-num">6</span>Şövalyenin Adağı.<br/>• <strong>🌲 Orman / ⚔️ Orta (6 Eşya):</strong> <span class="slot-num">1</span>Üçlü Kuvvet &rarr; <span class="slot-num">2</span>Atiklik/Ionia Çizmesi &rarr; <span class="slot-num">3</span>Ölü Adamın Zırhı (veya Donmuş Yürek) &rarr; <span class="slot-num">4</span>Ruh Gömleği &rarr; <span class="slot-num">5</span>Sterak'ın Güvencesi &rarr; <span class="slot-num">6</span>Şahbaz Jak'Sho</div>
+            <div class="info-row build-row b-vamp"><strong style="color:#FF7678;">🩸 Ağır Yara Değişimi:</strong> AD vampire <strong>800G Dikenli Yelek</strong>, düz vurmayan AP vampire (Vlad/Swain) <strong>800G Celladın Çağrısı</strong> (Destekte: <strong>800G Bilinmezlik Küresi</strong>) al. <strong>⚖️ Standart'ta</strong> <span class="slot-num">6</span>Jak'Sho yerine &rarr; <strong>Çivili Zırh (veya Zaun Zincirkılıcı)</strong> | <strong>💥 Nükleer'de</strong> <span class="slot-num">4</span>Serylda yerine &rarr; <strong>Fani Hatıratı</strong> | <strong>🔨 Tank'ta</strong> <span class="slot-num">3</span>Serylda yerine &rarr; <strong>Fani Hatıratı</strong> (veya <span class="slot-num">6</span>Jak'Sho yerine <strong>Çivili Zırh</strong>) | <strong>🔄 Flex'te</strong> (Destek) <span class="slot-num">5</span>Solari yerine &rarr; <strong>Morellonomikon / Çivili Zırh</strong>, (Orman) <span class="slot-num">6</span>Jak'Sho yerine &rarr; <strong>Çivili Zırh</strong>.</div>
+          </div>
+        </div>
+        <div class="section-block sec-runes">
+          <div class="section-title title-rune">🔮 Senaryoya Göre Rün, Büyü &amp; Küçük Parçalar Matrisi</div>
+          <div class="rune-why-list">
+            <div class="rune-why-box r-common"><strong>🔗 Tüm Senaryolarda Ortak Çekirdek:</strong> <span class="rune-tag">Hayalet + Işınlan + İkinci Şans + Aşırı Büyüme + Efsane: Hız</span> Nasus'ta Sihirdar Büyüsü olarak <strong>Hayalet + Işınlan</strong>, koridorda hayatta tutan <strong>İkinci Şans + Aşırı Büyüme</strong> ve 3 ana senaryoda Q süresini kısaltan <strong>Zafer + Efsane: Hız</strong> %100 ortaktır!</div>
+            <div class="rune-why-box r-std-nuke"><strong>⚖️ Standart &amp; 💥 Nükleer (Ortak Rün):</strong> <span class="rune-tag">Ayağı Çabuk + Efsane: Hız</span> İlk 6 seviyede dürtmelere dayanmak ve Q vurunca hızlanıp kırılganları yakalamak için <strong>Ayağı Çabuk - Zafer - Efsane: Hız - Son Direniş</strong> + yan ağaca <strong>İkinci Şans - Aşırı Büyüme</strong> alınır.</div>
+            <div class="rune-why-box r-only-tank"><strong>🔨 Tanklara Karşı Rün Farkı:</strong> <span class="rune-tag">Hortlağın Pençesi + Tahrip</span> Karşında Ornn, Sion, Mundo, Malphite gibi seni öldüremeyen hantal bir tank varsa <strong>Hortlağın Pençesi</strong> alıp yan ağaca <strong>Zafer + Efsane: Hız</strong> çekersin.</div>
+            <div class="rune-why-box r-only-crisis"><strong>🚨 Kriz Planı (Darius/Illaoi/Teemo Karşısı 3 Puan E):</strong> <span class="rune-tag">Sihirli Yıldız + Mana Akışı</span> Minyona dokundurtmayan zorlu koridorlarda Doran'ın Yüzüğü ile başlayıp ilk 5 seviyede E'ye 3 puan verirken mananın bitmemesi için <strong>Sihirli Yıldız - Mana Akışı Yüzüğü - Yücelik - Kızart</strong> kullanılır.</div>
+            <div class="rune-why-box r-only-flex"><strong>🔄 Zorunlu Flex (Destek / Orman) Rün Mantığı:</strong> <span class="rune-tag">Destek: Yıldız + Yaşam Kaynağı | Orman: Hızını Al</span> Destekte W attığın hedefe nişancın vurdukça onu iyileştirmek için <strong>Yaşam Kaynağı + Canlandır</strong>; Ormanda ise 300G çizme tasarrufu ve W ile yakalama için <strong>Sihirli Pabuçlar + Hızını Al</strong> seçilir.</div>
+            <div class="rune-why-box r-shards"><strong>🔹 Sağ Alttaki 3 Küçük Rün Parçası Mantığı:</strong> <span class="rune-tag">8 Yetenek Hızı + %10 Sıvışma</span> 1. satırda <strong>8 Yetenek Hızı</strong> 1. seviyeden itibaren daha çok Q istiflemeni sağlar; 3. satırda <strong>%10 Sıvışma</strong> CC'lerden hızlı çıkmanı sağlar.</div>
+          </div>
+        </div>
+        <div class="section-block sec-vamp">
+          <div class="section-title title-vamp">🩸 3 Vampir Tipine Karşı Özel Plan (Vlad / WW / Aatrox)</div>
+          <div class="vamp-why-list">
+            <div class="vamp-box"><strong>1. Vladimir / Swain (AP Yetenek):</strong> <span class="vamp-tag">Bedava Yük Koridoru</span> <strong>Ayağı Çabuk + İkinci Şans + Ruh Gömleği</strong> ile Vlad'ın dürtmelerini pasif can çalmanla tamamen yok sayarsın. Dikenli Yelek alma; 800G <strong>Celladın Çağrısı</strong> (veya Tutuştur) al, 6'da Hayalet+R+W ile 2 Q'da ez.</div>
+            <div class="vamp-box"><strong>2. Warwick / Irelia (AD Düz Vuruş):</strong> <span class="vamp-tag">W (Çürüme) Counter'ı!</span> <strong>Dikenli Yelek (800G) + W (Çürüme)</strong> Warwick ve Irelia'yı tamamen felç eder (saldırı hızları yarıya iner, can çalamazlar). İlk 5 seviye kavga etme, 6. seviye + Pırıltı bitince ez.</div>
+            <div class="vamp-box"><strong>3. Aatrox / Illaoi (Ulti Sömürü):</strong> <span class="vamp-tag">Zırh + E Zırh Kırma</span> <strong>Çelik Kaplamalı Çizme + Pırıltı + Dikenli Yelek + Donmuş Yürek</strong> al. Aatrox Q kaldırırken W basıp dibine gir; altına E (%30-%50 zırh silme) açıp R ile 3 Q'da erit.</div>
+          </div>
+        </div>
+        <div class="section-block sec-items">
+          <div class="section-title title-purple">🎒 1'den 6'ya Eşya İşlevleri, 🛡️ Anti-Kalkan &amp; 🧮 Delme Sınırı</div>
+          <div class="item-why-list">
+            <div class="item-why-box"><strong>[1] Pırıltı (900G) &rarr; Üçlü Kuvvet (Destekte: Semavi Muhalefet + Donmuş Yürek):</strong> <span class="item-tag">Zorunlu</span> Q vuruşuna taban AD'nin %200'ü kadar hasar ekler (Destek Flex'te Q yükü olmadığı için Üçlü Kuvvet alınmaz, doğrudan 2500G <strong>Donmuş Yürek</strong> çekilir).</div>
+            <div class="item-why-box"><strong>[3-4] Donmuş Yürek + Ruh Gömleği:</strong> <span class="item-tag">Savunma Çekirdeği</span> Donmuş Yürek bol zırh, mana ve yetenek hızı verir; Ruh Gömleği pasif can çalmanı %25 artırır.</div>
+            <div class="item-why-box"><strong>[5-6] Sterak + Şahbaz Jak'Sho (veya Serylda'nın Garezi):</strong> <span class="item-tag">Geç Oyun</span> 5v5 savaşta odaklanıldığında patlamamak için <strong>Sterak + Şahbaz Jak'Sho</strong>; tek vuruşta eritmek için <strong>Serylda'nın Garezi</strong>.</div>
+            <div class="shield-box"><strong>🛡️ Kalkan Kırma Planı (E Zırh Azaltması + Kaba Kuvvet):</strong> <span class="shield-tag">E (%30-%50 Zırh Kırma) + Q!</span> Nasus Yılan Dişi almaz; ancak <strong>E (Ruh Ateşi)</strong> alanının %30-%50 zırh azaltması, kalkanların efektif fiziksel direncini düşürerek kalkana vurulan Q hasarını doğrudan artırır (Malphite pasifi gibi %10 azami can kalkanlarının bile zırh desteğini eritir) ve 400+ yüklü Q vuruşun Lulu/Karma/Sterak kalkanını tek seferde parçalar.</div>
+            <div class="pen-box"><strong>🧮 E Alanı (Rank 1-5: %30-%50 Zırh Silme) + Serylda (%35) = %67,5 Delme Matematiği:</strong> <span class="pen-tag">Max E'de %50 Zırh Kırma!</span> Nasus'un <strong>E (Ruh Ateşi)</strong> alanı içindeki rakiplerin zırhını seviyesine göre <strong>%30 / %35 / %40 / %45 / %50 oranında doğrudan siler!</strong> E 5. seviyedeyken üzerine <strong>Serylda'nın Garezi (%35 Delme)</strong> aldığında <strong>%67,5</strong>, <strong>Kara Balta (5 yükte %30 Zırh Kırma)</strong> aldığında ise <strong>%65 Toplam Zırh Silme/Delmeye</strong> ulaşırsın (300 zırhlı tankın zırhı Serylda ile <strong>yaklaşık 98 Zırha</strong> düşer; iki eşya aynı anda alınamaz)!</div>
+          </div>
+        </div>
+        <div class="section-block sec-combos">
+          <div class="section-title title-cyan">⚡ Tuş Sırası (Kombolar), Duvar Atlama &amp; Sıçra İptali</div>
+          <div class="info-grid">
+            <div><strong>Koridor Takası:</strong><div class="combo-box">W &rarr; E &rarr; DV &rarr; Q (Önce düz vur, anında Q ile sıfırla)</div></div>
+            <div><strong>Tek Atma (All-In):</strong><div class="combo-box">R + Hayalet &rarr; W &rarr; E (Zırh Kır) &rarr; DV &rarr; Q &rarr; DV &rarr; Q</div></div>
+            <div class="info-row"><strong>💡 Hile:</strong> Q indirmeden önce rakibin altına E aç; E alanı zırhın %30-%50'sini siler!</div>
+            <div class="wall-box"><strong>🧱 Duvar Atlama &amp; Görüş Mekaniği:</strong> <span class="wall-tag">❌ Duvar Geçemez | E İle Duvar Arkası Görüş!</span> Nasus duvarlardan geçemez; ancak <strong>E (Ruh Ateşi) alanı karanlık çalıların ve duvarların arkasını anında aydınlatır!</strong> Rakip çalıya veya ince duvar arkasına kaçtığında E açıp görüş al ve <strong>W (Çürüme)</strong> basarak olduğu yere mıhla!</div>
+          </div>
+        </div>
+        <div class="section-block sec-early">
+          <div class="section-title title-orange">⏱️ İlk 15 Dakika, Altın, Dalga &amp; Görüş Kuralları</div>
+          <div class="info-grid">
+            <div class="spike-box"><strong>🔥 Güç Patlaması:</strong> 6. Seviye + Pırıltı (900G) + 80 Yük (Dk. 6-7)</div>
+            <div class="gold-box"><strong>💰 İlk B (Üs) Altın Eşiği:</strong> <span class="gold-tag">900G</span> <strong>Pırıltı (Kesin Kural: Cebinde 900G olmadan asla keyfi B atma!)</strong> | <span class="gold-tag">1000G</span> <strong>Buzul Örtü (Destek Flex)</strong>.</div>
+            <div class="wave-box"><strong>🌊 Dalga Planı (Nasus'un Hayatı):</strong> Rakibin <strong>4 büyücü minyonunu canlı bırakıp</strong> kendi kule menzilinin hemen önünde <strong>Dondur (Freeze)</strong>! Sadece son vuruşta Q bas; Orman Flex'te ise büyük canavarlara son vuruşu mutlaka Q ile yap (+12 yük).</div>
+            <div class="vision-box"><strong>👁️ Görüş &amp; 75G Kontrol Totemi:</strong> <span class="vision-tag">Sarı Totem &rarr; 9'da Mavi Küre</span> İlk 6 dakikada rakip ormancı seni kule altında Dive'lamak (kule altı baskın) isteyeceği için <strong>kendi kulenin arkasındaki Üçlü Çalıya (Tri-Bush) 75G Kontrol Totemi</strong> koy!</div>
+            <div class="early-grid">
+              <div class="do-box"><strong style="color:#2ECC71;">✅ YAP:</strong> Dalgayı kulenin önünde dondur; 6. seviye + Pırıltı bitince Hayalet+R ile üstüne yürü.</div>
+              <div class="dont-box"><strong style="color:#FF7678;">❌ YAPMA:</strong> 1-5. seviyede 1 minyon için yarı canını verme; E ile dalgayı karşı kuleye itme.</div>
+            </div>
+          </div>
+        </div>
+        <div class="section-block sec-win">
+          <div class="section-title title-win">🏆 Kazanma Koşulu &amp; 💰 Kelle Ödülü (Shutdown) Sigortası</div>
+          <div class="win-box">
+            <span class="win-role-tag">🎯 Rol: Kule Yıkıcı (Splitpush) &amp; Nişancı Felç Edici</span>
+            <div><strong>• Savaşta:</strong> W (Çürüme) yeteneğini her zaman rakip <strong>Nişancıya (ADC)</strong> atıp saldırı hızını <strong>%71,25'e kadar</strong> düşürerek felç et.</div>
+            <div><strong>• Bitiriş:</strong> Dakika 20'de 400+ yükle yan koridordan yürü; kuleleri 3 vuruşta yıkıp üssü aç.</div>
+            <div class="bounty-box"><strong>💰 Kelle Ödülü (Shutdown) Sigortası:</strong> <span class="bounty-tag">Görüşsüz 2. Kuleye Açılma!</span> Nasus yan koridorda 2-0 öne geçtiğinde rakip 3 kişi üstüne çullanıp <strong>700G ödülünü</strong> almak ister. Haritada rakip orta koridor ve ormancıyı görmüyorken ve <strong>Hayalet + Ulti (R)</strong> bekleme süresindeyken asla 2. kuleye kadar açılma; <strong>Sterak'ın Güvencesi</strong> bitir!</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- === 1. MODÜL BİTTİ (1-3. KARAKTERLER) | 2. MODÜLÜ (4-6. KARAKTERLER: VI, VIEGO, BRIAR) BU SATIRIN ALTINA YAPIŞTIR === -->
+     <!-- === 2. MODÜL BAŞLANGICI (4. VI, 5. VIEGO, 6. BRIAR | 26.21 YAMASI DOĞRULANMIŞ) === -->
+
+    <!-- 4. VI (26.21 UYUMLU - ORTA/ÜST KORİDOR FLEX ŞEMALI) -->
+    <article class="champ-card role-jg c-4 p-blind">
+      <input type="radio" name="tc4" id="tc4-sel" class="ct-ctrl ct-sel" checked />
+      <input type="radio" name="tc4" id="tc4-run" class="ct-ctrl ct-run" />
+      <input type="radio" name="tc4" id="tc4-itm" class="ct-ctrl ct-itm" />
+      <input type="radio" name="tc4" id="tc4-vmp" class="ct-ctrl ct-vmp" />
+      <input type="radio" name="tc4" id="tc4-cmb" class="ct-ctrl ct-cmb" />
+      <input type="radio" name="tc4" id="tc4-ear" class="ct-ctrl ct-ear" />
+      <input type="radio" name="tc4" id="tc4-win" class="ct-ctrl ct-win" />
+      <input type="radio" name="tc4" id="tc4-all" class="ct-ctrl ct-all" />
+      <div class="card-header">
+        <div class="champ-title-group">
+          <span class="role-badge">Orman</span>
+          <h2 class="champ-name">4. Vi</h2>
+        </div>
+        <div class="quick-meta">
+          <span class="meta-pill pick-blind">🟢 1-2. Sıra: Kör</span>
+          <span class="meta-pill ban-pill">🚫 Morgana / Poppy</span>
+          <span class="meta-pill skill-pill">🔼 Q &gt; E &gt; W</span>
+        </div>
+      </div>
+      <div class="card-mini-tabs">
+        <label for="tc4-sel" class="m-tab m-sel">🛡️ Seçim &amp; 6 Eşya</label>
+        <label for="tc4-run" class="m-tab m-run">🔮 Rün &amp; Büyü</label>
+        <label for="tc4-vmp" class="m-tab m-vmp">🩸 Vampir</label>
+        <label for="tc4-itm" class="m-tab m-itm">🎒 Eşya &amp; Delme</label>
+        <label for="tc4-cmb" class="m-tab m-cmb">⚡ Kombo &amp; Duvar</label>
+        <label for="tc4-ear" class="m-tab m-ear">⏱️ 15 Dk</label>
+        <label for="tc4-win" class="m-tab m-win">🏆 Win &amp; Ödül</label>
+        <label for="tc4-all" class="m-tab m-all">📋 Hepsi</label>
+      </div>
+      <div class="card-body">
+        <div class="section-block sec-select">
+          <div class="section-title title-gold">🛡️ Seçim Ekranı: Ortak/Senaryo Rün, Büyü &amp; 6 Eşya</div>
+          <div class="info-grid">
+            <div class="draft-rule-box"><strong>🎯 Seçim Sırası:</strong> <strong style="color:#58D68D;">En Güvenli İlk Sıra Ormancı.</strong> Karşıya tank gelirse Dövüşçü, kırılgan gelirse Suikastçı dizip geçersin. Başlangıç: Kızıl veya Yeşil Orman Yavrusu.<br/><strong>🔄 Zorunlu Flex Rolü:</strong> <strong>Orta Koridor</strong> <em>(Yasuo/Yone/Katarina/Kassadin'i Q+R ile yok eder)</em> veya <strong>Üst Koridor</strong> <em>(Doran'ın Kalkanı/Kılıcı; Pasif kalkanıyla kısa takas kazanır)</em>.</div>
+            <div class="rune-scen-group">
+              <div class="rune-scen-row r-common"><span class="common-badge">🔗 3 DURUMDA DA %100 ORTAK</span><strong>Sihirdar &amp; Çekirdek:</strong> ✨ <strong>Çarp + Sıçra</strong> | İsabet: <strong>Zafer - Son Darbe</strong> (Flash+Q mekaniği ve infaz için hiç değişmez!)</div>
+              <div class="rune-scen-row r-std-tank"><span class="scen-badge">⚖️ STANDART &amp; 🔨 TANK ORTAK</span><strong>Rün Sayfası:</strong> <strong>Yenilmez</strong> - Zafer - Efsane: Çeviklik - Son Darbe | İlham: Sihirli Pabuçlar - Kozmik Sezgi</div>
+              <div class="rune-scen-row r-only-nuke"><span class="scen-badge" style="color:#FF9495;">💥 NÜKLEER SUİKASTÇI</span><strong>Rün Sayfası:</strong> <strong>Keskin Sağanak</strong> (veya Elektrik Ver) - Ani Darbe - <strong>Altıncı His</strong> - Hazine Avcısı | İsabet: <strong>Zafer - Son Darbe</strong></div>
+              <div class="rune-scen-row r-only-flex"><span class="flex-badge">🔄 ZORUNLU FLEX RÜN ŞEMASI (ORTA / ÜST)</span><strong>⚔️ Orta (Suikast):</strong> <strong>Keskin Sağanak</strong> - Ani Darbe - Altıncı His - Hazine Avcısı | Yan (Azim): <strong>Kalkan Darbesi - İkinci Şans (veya Kemik Zırh)</strong> | 🔹Küçük Rün: <strong>9 Değişken - 9 Değişken - 65 Sabit Can</strong> | ✨ <strong>Sıçra + Tutuştur</strong>.<br/><strong>🛡️ Üst (Dövüşçü):</strong> <strong>Yenilmez</strong> - <strong>Pratik Zeka (Mana için!)</strong> - Efsane: Çeviklik - Son Darbe | Yan (Azim): <strong>Kalkan Darbesi - Kemik Zırh/İkinci Şans</strong> | 🔹Küçük Rün: <strong>%10 Saldırı Hızı - 9 Değişken - 65 Sabit Can</strong> | ✨ <strong>Sıçra + Işınlan</strong>.</div>
+              <div class="rune-scen-row r-shards"><span class="shard-badge">🔹 3 KÜÇÜK RÜN PARÇASI</span><strong>1. Hücum:</strong> %10 Saldırı Hızı | <strong>2. Esnek:</strong> 9 Değişken Kuvvet | <strong>3. Savunma:</strong> Büyüyen Can (Ağır CC varsa: %10 Sıvışma)</div>
+            </div>
+            <div class="info-row build-row b-std"><strong>⚖️ Standart Dövüşçü (6 Eşya):</strong> <span class="slot-num">1</span>Yarık Gökyüzü (veya Üçlü Kuvvet) &rarr; <span class="slot-num">2</span>Zırh/Merkür Çizmesi &rarr; <span class="slot-num">3</span>Kara Balta &rarr; <span class="slot-num">4</span>Sterak'ın Güvencesi &rarr; <span class="slot-num">5</span>Ölümün Dansı &rarr; <span class="slot-num">6</span>Koruyucu Melek (Vampire: Zaun Zincirkılıcı)</div>
+            <div class="info-row build-row b-nuke"><strong style="color:#FF7678;">💥 Nükleer Suikastçı (6 Eşya):</strong> <span class="slot-num">1</span>Youmuu'nun Hayaletkılıcı (veya Kibir) &rarr; <span class="slot-num">2</span>Ionia/Atiklik Çizmesi &rarr; <span class="slot-num">3</span>Tahsildar &rarr; <span class="slot-num">4</span>Gecenin Kıyısı (Kalkana: Yılan Dişi) &rarr; <span class="slot-num">5</span>Ebedi Kılıç &rarr; <span class="slot-num">6</span>Dominik Efendi'nin Hürmetleri (Vampire: Fani Hatıratı)</div>
+            <div class="info-row build-row b-tank"><strong style="color:#0AC8B9;">🔨 Tank Eritme (6 Eşya):</strong> <span class="slot-num">1</span>Üçlü Kuvvet &rarr; <span class="slot-num">2</span>Zırh/Merkür Çizmesi &rarr; <span class="slot-num">3</span>Kara Balta (veya Serylda'nın Garezi) &rarr; <span class="slot-num">4</span>Mahvolmuş Kralın Kılıcı &rarr; <span class="slot-num">5</span>Sterak'ın Güvencesi &rarr; <span class="slot-num">6</span>Ölümün Dansı (Vampire: Zaun Zincirkılıcı)</div>
+            <div class="info-row build-row b-crisis"><strong style="color:#F39C12;">🚨 Kriz Planı:</strong> Poppy W veya Morgana E varsa savaşı ilk başlatan olma! 3. veya 4. eşya olarak <strong>Gecenin Kıyısı</strong> (Büyü Kalkanı) al, kalkan harcanınca R bas.</div>
+            <div class="info-row build-row b-flex"><strong style="color:var(--flex-bright);">🔄 Zorunlu Flex (6 Eşya - Orta &amp; Üst Koridor):</strong> <span class="slot-num">1</span>Kararma (veya Üçlü Kuvvet) &rarr; <span class="slot-num">2</span>Zırh/Merkür/Ionia Çizmesi &rarr; <span class="slot-num">3</span>Yarık Gökyüzü (Orta Suikastta: İtikatsız Hydra) &rarr; <span class="slot-num">4</span>Kara Balta (Suikastta: Serylda'nın Garezi) &rarr; <span class="slot-num">5</span>Sterak'ın Güvencesi &rarr; <span class="slot-num">6</span>Ölümün Dansı</div>
+            <div class="info-row build-row b-vamp"><strong style="color:#FF7678;">🩸 Ağır Yara Değişimi:</strong> Erken oyunda <strong>800G Celladın Çağrısı</strong> al. <strong>⚖️ Standart'ta</strong> (<span class="slot-num">3</span>Kara Balta varken Fani Hatıratı alınamaz!) <span class="slot-num">6</span>Koruyucu Melek yerine &rarr; <strong>Zaun Zincirkılıcı</strong> | <strong>💥 Nükleer'de</strong> <span class="slot-num">6</span>Dominik yerine &rarr; <strong>Fani Hatıratı</strong> | <strong>🔨 Tank'ta</strong> <span class="slot-num">6</span>Ölümün Dansı yerine &rarr; <strong>Zaun Zincirkılıcı</strong> | <strong>🔄 Flex'te</strong> (<span class="slot-num">4</span>Kara Balta varsa) <span class="slot-num">6</span>Ölümün Dansı yerine &rarr; <strong>Zaun Zincirkılıcı</strong> (4'te Serylda aldıysan onun yerine <strong>Fani Hatıratı</strong>).</div>
+          </div>
+        </div>
+        <div class="section-block sec-runes">
+          <div class="section-title title-rune">🔮 Senaryoya Göre Rün, Büyü &amp; Küçük Parçalar Matrisi</div>
+          <div class="rune-why-list">
+            <div class="rune-why-box r-common"><strong>🔗 3 Senaryoda Ortak Çekirdek:</strong> <span class="rune-tag">Çarp + Sıçra + Zafer + Son Darbe</span> Vi'da Sihirdar Büyüsü (<strong>Çarp + Sıçra</strong>) ve sarı ağaçtaki <strong>Zafer + Son Darbe</strong> 3 senaryoda da %100 ortaktır!</div>
+            <div class="rune-why-box r-std-tank"><strong>⚖️ Standart &amp; 🔨 Tanklara Karşı (Ortak Rün):</strong> <span class="rune-tag">Yenilmez + Kozmik Sezgi</span> Hem Standart dövüşçü diziliminde hem Tank eritmede birebir aynı <strong>Yenilmez</strong> sayfası kullanılır; W zırh kırmasıyla uzun kavgada eritir.</div>
+            <div class="rune-why-box r-only-nuke"><strong>💥 Nükleer Suikastçı Farkı:</strong> <span class="rune-tag">Keskin Sağanak + Ani Darbe + Altıncı His</span> Karşıda 4-5 kırılgan varsa Q ile çarptığın an 0.8 saniyede 3 yumruk indirip W pasifini anında patlatmak için <strong>Keskin Sağanak - Ani Darbe - Altıncı His - Hazine Avcısı</strong> seçilir.</div>
+            <div class="rune-why-box r-only-flex"><strong>🔄 Zorunlu Flex (Orta / Üst) Rün Mantığı:</strong> <span class="rune-tag">Kalkan Darbesi + İkinci Şans + Pratik Zeka</span> Vi'ın pasifi her yetenek vuruşunda kalkan açtığı için koridorda <strong>Kalkan Darbesi + İkinci Şans (veya Kemik Zırh)</strong> takasları bedava kazandırır; Üst koridorda mavi güçlendirme (Blue Buff) olmadığı için Zafer yerine <strong>Pratik Zeka</strong> alınır.</div>
+            <div class="rune-why-box r-shards"><strong>🔹 Sağ Alttaki 3 Küçük Rün Parçası Mantığı:</strong> <span class="rune-tag">%10 Saldırı Hızı + Büyüyen Can</span> İlk 6 orman kampını 03:20'de bitirebilmek ve Q-DV-E animasyonunu hızlandırmak için 1. satırda <strong>%10 Saldırı Hızı</strong>, 3. satırda pasif kalkanını büyütmek için <strong>Büyüyen Can</strong> (Koridor Flex'te <strong>65 Sabit Can</strong>) alınır.</div>
+          </div>
+        </div>
+        <div class="section-block sec-vamp">
+          <div class="section-title title-vamp">🩸 3 Vampir Tipine Karşı Özel Plan (Vlad / WW / Aatrox)</div>
+          <div class="vamp-why-list">
+            <div class="vamp-box"><strong>1. Vladimir / Swain (AP Yetenek):</strong> <span class="vamp-tag">Havuzdan Sonra R!</span> Erken oyunda <strong>800G Celladın Çağrısı</strong> al. Q ile Vlad'a çarptığında hemen R basma (W havuzuyla R'ni boşa düşürür)! Q-DV-E ile havuza inmesini sağla, havuzdan çıktığı saniye <strong>R</strong> ile kilitle.</div>
+            <div class="vamp-box"><strong>2. Warwick / Irelia (AD Düz Vuruş):</strong> <span class="vamp-tag">WW E'sini Bekle!</span> <strong>800G Celladın + Çelik Kaplamalı Çizme</strong> al. Warwick <strong>E (Hasar azaltma ve Korkutma)</strong> açtığında tüm kombonu boşaltma; E'si patladıktan sonra Q + R ile kilitleyip canı %30'dayken tek seferde bitir.</div>
+            <div class="vamp-box"><strong>3. Aatrox / Illaoi (Ulti Sömürü):</strong> <span class="vamp-tag">Q3 Bozucu</span> <strong>800G Celladın + Yarık Gökyüzü + Kara Balta + Ölümün Dansı</strong> al. Aatrox en çok Q3 (üçüncü darbe) ile iyileşir; Q3 kaldırırken <strong>Q veya R</strong> ile üstüne uçup Q3'ünü iptal et ve W+Kara Balta ile zırhını sil.</div>
+          </div>
+        </div>
+        <div class="section-block sec-items">
+          <div class="section-title title-purple">🎒 1'den 6'ya Eşya İşlevleri, 🛡️ Anti-Kalkan &amp; 🧮 Delme Sınırı</div>
+          <div class="item-why-list">
+            <div class="item-why-box"><strong>[1] Yarık Gökyüzü / Üçlü Kuvvet / Kararma + [3] Kara Balta:</strong> <span class="item-tag">Çekirdek</span> Yarık Gökyüzü ilk vuruşta kesin kritik ve iyileşme verir; <strong>Üçlü Kuvvet</strong> aldığında Q yeteneğin <em>Büyülü Kılıç (Spellblade)</em> pasifini tetikler ve <strong>takip eden ilk normal saldırın (veya E vuruşun) +%200 Taban SG</strong> ek fiziksel hasar vurur (Q'nun kendisi bu hasarı vurmaz, tetikleyicidir). Kara Balta ise W pasifinle birleşip tank zırhını %44 eritir.</div>
+            <div class="item-why-box"><strong>[4] Sterak + [5] Ölümün Dansı + [6] Koruyucu Melek (Nükleer'de: Youmuu + Tahsildar + Kibir):</strong> <span class="item-tag">Ölümsüz Giriş &amp; Suikast</span> Dövüşçüde Sterak + Ölümün Dansı + Koruyucu Melek 5 kişinin ortasında yaşatır; Nükleer'de ise <strong>Kibir</strong> (26.21'de yakın dövüşçülerde 15 + yük başına 3 AD olarak güçlendirildi!) + <strong>Tahsildar + Ebedi Kılıç</strong> tek Q-DV-E kombosuyla kırılganları siler.</div>
+            <div class="shield-box"><strong>🛡️ Kalkan Kırma Planı (Yılan Dişi %50 Kalkan Silme!):</strong> <span class="shield-tag">3./4. Eşya Yılan Dişi!</span> Vi yakın dövüşçü AD olduğu için karşıda <strong>Lulu, Karma, Janna, Shen, Sett, Tahm Kench</strong> veya <strong>Sterak + Kalkanyay</strong> varsa 3. veya 4. slota <strong>Yılan Dişi (2500G)</strong> çek! E şok dalgan ve R geçişin değdiği herkesin kalkanını anında <strong>%50 siler</strong>!</div>
+            <div class="pen-box"><strong>🧮 W Pasifi (%20 Zırh Kırma) + Kara Balta (%30) / Dominik (%35) = %44-%48 Matematiği:</strong> <span class="pen-tag">%44-%48 Takım Zırh Kırma!</span> Vi'ın <strong>W (Ezici Darbeler)</strong> pasifi 3. vuruşta hedefin zırhını <strong>%20 kırar</strong>. Dövüşçüde <strong>Kara Balta (5 yükte %30 Zırh Kırma)</strong> ile çarpımsal birleştiğinde <strong>%44</strong>, Nükleer'de ise <strong>Fani Hatıratı (%30 Delme + Ağır Yara) ile %44</strong> ve <strong>Dominik Efendi'nin Hürmetleri (%35 Delme) ile %48</strong> zırh silersin (Kara Balta ile Serylda/Dominik/Fani Hatıratı aynı anda alınamaz; Kara Balta varken Ağır Yara gerekirse <strong>Zaun Zincirkılıcı</strong> al!).</div>
+          </div>
+        </div>
+        <div class="section-block sec-combos">
+          <div class="section-title title-cyan">⚡ Tuş Sırası (Kombolar), Duvar Atlama &amp; Sıçra İptali</div>
+          <div class="info-grid">
+            <div><strong>Baskın Kombosu:</strong><div class="combo-box">Q (Çarp) &rarr; DV &rarr; E (0.5 saniyede 3 vuruş + W zırh kırma)</div></div>
+            <div><strong>Tek Atma (All-In):</strong><div class="combo-box">Q &rarr; DV &rarr; E &rarr; R (Rakip Sıçra atınca) &rarr; DV &rarr; E</div></div>
+            <div class="info-row"><strong>💡 Hile:</strong> Q Tutarken &rarr; Sıçra &rarr; Q Bırak tepki süresi vermez; R ile uçarken durdurulamazsın.</div>
+            <div class="wall-box"><strong>🧱 Duvar Atlama &amp; Sıçra İptali:</strong> <span class="wall-tag">✅ Q Neredeyse Her Duvarı Geçer (+50 Menzil) | ✅ Q+Sıçra!</span> Vi'ın <strong>Q (Duvar Delen)</strong> yeteneği neredeyse her duvarın üstünden geçer (ancak duvarı geçerken menzil sadece <strong>+50 birim</strong> uzar). <strong>Q Basılı Tut &rarr; Sıçra &rarr; Q Bırak</strong> (veya Q ile uçarken havada Sıçra) rakibe 0.1 sn bile tepki süresi vermez. R bastığın hedef duvarın arkasına Sıçra atsa bile Vi duvarı yarıp peşinden uçar!</div>
+          </div>
+        </div>
+        <div class="section-block sec-early">
+          <div class="section-title title-orange">⏱️ İlk 15 Dakika, Altın, Dalga &amp; Görüş Kuralları</div>
+          <div class="info-grid">
+            <div class="spike-box"><strong>🔥 Güç Patlaması:</strong> 3. Seviye (Flash+Q) ve 6. Seviye (Kesin Skor)</div>
+            <div class="gold-box"><strong>💰 İlk B (Üs) Altın Eşiği (6 Kamp + Yampiri / Koridor):</strong> <span class="gold-tag">900G</span> Pırıltı | <span class="gold-tag">1000G</span> Dişli Kama | <span class="gold-tag">1100G</span> Ağırkan + <strong>75G Kontrol Totemi</strong>.</div>
+            <div class="wave-box"><strong>🌊 Orman &amp; Flex Koridor Dalga Kuralı:</strong> Ormanda baskın sonrası koridor oyuncun dalgayı <strong>Dondurmuşsa (Freeze)</strong> minyonlara dokunma; <strong>⚔️ Orta/Üst Flex'te</strong> ise öndeki minyona <strong>E</strong> vurup şok dalgasıyla hem arkadaki 3 büyücü minyonu hem rakibi aynı anda dürt!</div>
+            <div class="vision-box"><strong>👁️ Görüş &amp; 75G Kontrol Totemi:</strong> <span class="vision-tag">İlk Dönüşte Kırmızı Tarayıcı!</span> İlk üsse dönüşte Sarı Totemi bırakıp <strong>Kırmızı Tarayıcı (Kâhin Merceği) + 75G Kontrol Totemi</strong> al! Vi çalıda Q doldururken rakip seni görürse kaçacağı için baskın öncesi <strong>Kırmızı Tarayıcı</strong> aç ve Ejderha/Hiçlik Kurtçukları çukuruna 75G Kontrol Totemi atıp tek başına kes.</div>
+            <div class="early-grid">
+              <div class="do-box"><strong style="color:#2ECC71;">✅ YAP:</strong> 6 kamp dönüp 3:30'da Yampiri al; baskında yürüyerek yaklaş, Sıçra atınca Q/R bas.</div>
+              <div class="dont-box"><strong style="color:#FF7678;">❌ YAPMA:</strong> En uzak mesafeden ezbere Q atıp ıskalama; Q kaçarsa tüm hasarın biter.</div>
+            </div>
+          </div>
+        </div>
+        <div class="section-block sec-win">
+          <div class="section-title title-win">🏆 Kazanma Koşulu &amp; 💰 Kelle Ödülü (Shutdown) Sigortası</div>
+          <div class="win-box">
+            <span class="win-role-tag">🎯 Rol: Taşıyıcı Kilitleme (Anti-Carry) &amp; Çalı Pususu</span>
+            <div><strong>• Savaşta:</strong> R ile rakibin en kasılmış taşıyıcısını kilitle ya da kendi nişancına atlayan suikastçıyı Q+R ile durdur.</div>
+            <div><strong>• Bitiriş:</strong> Hedef öncesi Kırmızı Tarayıcı ile çalıda pusu kurup gelen ilk kişiyi Flash+Q+R ile sil.</div>
+            <div class="bounty-box"><strong>💰 Kelle Ödülü (Shutdown) Sigortası:</strong> <span class="bounty-tag">Q+R İle 2 Ekran Uzağa Uçma!</span> Vi'da en çok ödül yediren hata, <strong>Q ile yaklaşıp üstüne R basarak kendi takımından 2 ekran uzağa (rakip kule altına)</strong> tek başına uçmaktır! Kafanda ödül varken takımın yetişemeyeceği mesafedeki hedefe R basma ve <strong>Sterak + Ölümün Dansı</strong> bitirmeden savaşı başlatma!</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 5. VIEGO (26.21 UYUMLU - ORTA/ÜST KORİDOR FLEX ŞEMALI & CAN SİMİDİ DOĞRULAMALI) -->
+    <article class="champ-card role-jg c-5 p-blind">
+      <input type="radio" name="tc5" id="tc5-sel" class="ct-ctrl ct-sel" checked />
+      <input type="radio" name="tc5" id="tc5-run" class="ct-ctrl ct-run" />
+      <input type="radio" name="tc5" id="tc5-itm" class="ct-ctrl ct-itm" />
+      <input type="radio" name="tc5" id="tc5-vmp" class="ct-ctrl ct-vmp" />
+      <input type="radio" name="tc5" id="tc5-cmb" class="ct-ctrl ct-cmb" />
+      <input type="radio" name="tc5" id="tc5-ear" class="ct-ctrl ct-ear" />
+      <input type="radio" name="tc5" id="tc5-win" class="ct-ctrl ct-win" />
+      <input type="radio" name="tc5" id="tc5-all" class="ct-ctrl ct-all" />
+      <div class="card-header">
+        <div class="champ-title-group">
+          <span class="role-badge">Orman</span>
+          <h2 class="champ-name">5. Viego</h2>
+        </div>
+        <div class="quick-meta">
+          <span class="meta-pill pick-blind">🟢 1-2. Sıra: Kör</span>
+          <span class="meta-pill ban-pill">🚫 Rammus / Jax</span>
+          <span class="meta-pill skill-pill">🔼 Q &gt; E &gt; W</span>
+        </div>
+      </div>
+      <div class="card-mini-tabs">
+        <label for="tc5-sel" class="m-tab m-sel">🛡️ Seçim &amp; 6 Eşya</label>
+        <label for="tc5-run" class="m-tab m-run">🔮 Rün &amp; Büyü</label>
+        <label for="tc5-vmp" class="m-tab m-vmp">🩸 Vampir</label>
+        <label for="tc5-itm" class="m-tab m-itm">🎒 Eşya &amp; Delme</label>
+        <label for="tc5-cmb" class="m-tab m-cmb">⚡ Kombo &amp; Duvar</label>
+        <label for="tc5-ear" class="m-tab m-ear">⏱️ 15 Dk</label>
+        <label for="tc5-win" class="m-tab m-win">🏆 Win &amp; Ödül</label>
+        <label for="tc5-all" class="m-tab m-all">📋 Hepsi</label>
+      </div>
+      <div class="card-body">
+        <div class="section-block sec-select">
+          <div class="section-title title-gold">🛡️ Seçim Ekranı: Ortak/Senaryo Rün, Büyü &amp; 6 Eşya</div>
+          <div class="info-grid">
+            <div class="draft-rule-box"><strong>🎯 Seçim Sırası:</strong> <strong style="color:#58D68D;">Güvenli İlk Sıra Seçimi.</strong> Takımında savaşı başlatacak en az 1 tank/destek olmasına dikkat et. Başlangıç: Yeşil veya Mavi Orman Yavrusu.<br/><strong>🔄 Zorunlu Flex Rolü:</strong> <strong>Orta Koridor</strong> veya <strong>Üst Koridor</strong> <em>(Doran'ın Kalkanı; Q pasifi minyonlardan çift vuruşla sürekli can çalar, manası olmadığı için koridordan hiç çıkmaz!)</em>.</div>
+            <div class="rune-scen-group">
+              <div class="rune-scen-row r-common"><span class="common-badge">🔗 3 DURUMDA DA %100 ORTAK</span><strong>Sihirdar &amp; Alt Rünler:</strong> ✨ <strong>Çarp + Sıçra</strong> | Zafer - Efsane: Çeviklik - Son Darbe + İlham: Sihirli Pabuçlar - Kozmik Sezgi (Hiç değişmez!)</div>
+              <div class="rune-scen-row r-std-tank"><span class="scen-badge">⚖️ STANDART &amp; 🔨 TANK ORTAK</span><strong>Anahtar Rün:</strong> <strong>Yenilmez</strong> (W-DV-Q-DV çift vuruşuyla 1 saniyede 12 yük dolar)</div>
+              <div class="rune-scen-row r-only-nuke"><span class="scen-badge" style="color:#FF9495;">💥 NÜKLEER KRİTİK</span><strong>Anahtar Rün:</strong> <strong>Saldırıya Devam (PTA)</strong> (Kırılganı anında patlatıp ilk ruhu hızlı almak için)</div>
+              <div class="rune-scen-row r-only-flex"><span class="flex-badge">🔄 ZORUNLU FLEX RÜN ŞEMASI (ORTA / ÜST)</span><strong>Ana Ağaç (İsabet):</strong> <strong>Yenilmez</strong> - <strong>Yaşam Sömürüsü (veya Zafer)</strong> - Efsane: Çeviklik - Son Direniş | <strong>Yan Ağaç (Azim):</strong> <strong>İkinci Şans (Yakın dövüşçüye: Kemik Zırh) - Canlandır</strong> | <strong>🔹3 Küçük Rün:</strong> <strong>%10 Saldırı Hızı - 9 Değişken Kuvvet - 65 Sabit Can</strong> | ✨ <strong>Sıçra + Işınlan (veya Tutuştur)</strong>.</div>
+              <div class="rune-scen-row r-shards"><span class="shard-badge">🔹 3 KÜÇÜK RÜN PARÇASI</span><strong>1. Hücum:</strong> %10 Saldırı Hızı | <strong>2. Esnek:</strong> 9 Değişken Kuvvet | <strong>3. Savunma:</strong> Büyüyen Can (Erken nehir kavgasına: 65 Sabit Can)</div>
+            </div>
+            <div class="info-row build-row b-std"><strong>⚖️ Standart (6 Eşya):</strong> <span class="slot-num">1</span>Üçlü Kuvvet (veya Mahvolmuş Kral) &rarr; <span class="slot-num">2</span>Zırh/Merkür Çizmesi &rarr; <span class="slot-num">3</span>Yarık Gökyüzü (veya Tahsildar) &rarr; <span class="slot-num">4</span>Sterak'ın Güvencesi &rarr; <span class="slot-num">5</span>Ölümün Dansı &rarr; <span class="slot-num">6</span>Koruyucu Melek (Vampire: Fani Hatıratı)</div>
+            <div class="info-row build-row b-nuke"><strong style="color:#FF7678;">💥 Nükleer Kritik (6 Eşya):</strong> <span class="slot-num">1</span>Kraken Katili (veya Üçlü Kuvvet) &rarr; <span class="slot-num">2</span>Savaşçı/Merkür Çizmesi &rarr; <span class="slot-num">3</span>Tahsildar &rarr; <span class="slot-num">4</span>Ölümsüz Kalkanyay &rarr; <span class="slot-num">5</span>Ebedi Kılıç &rarr; <span class="slot-num">6</span>Dominik Efendi'nin Hürmetleri (Vampire: Fani Hatıratı)</div>
+            <div class="info-row build-row b-tank"><strong style="color:#0AC8B9;">🔨 Tank Eritme (6 Eşya):</strong> <span class="slot-num">1</span>Mahvolmuş Kralın Kılıcı &rarr; <span class="slot-num">2</span>Merkür/Zırh Çizmesi &rarr; <span class="slot-num">3</span>Üçlü Kuvvet (veya Yarık Gökyüzü) &rarr; <span class="slot-num">4</span>Dominik Efendi'nin Hürmetleri (Vampire: Fani Hatıratı / Dövüşçüde: Kara Balta) &rarr; <span class="slot-num">5</span>Ölümün Dansı &rarr; <span class="slot-num">6</span>Sterak'ın Güvencesi</div>
+            <div class="info-row build-row b-crisis"><strong style="color:#F39C12;">🚨 Kriz Planı:</strong> Rammus/Jax/Ağır AP varsa <span class="slot-num">1</span>Mahvolmuş Kral &rarr; <span class="slot-num">2</span>Merkür &rarr; <span class="slot-num">3</span>Aklın Sonu &rarr; <span class="slot-num">4</span>Sterak &rarr; <span class="slot-num">5</span>Ölümün Dansı &rarr; <span class="slot-num">6</span>Şahbaz Jak'Sho diz; ilk ruhu bekle.</div>
+            <div class="info-row build-row b-flex"><strong style="color:var(--flex-bright);">🔄 Zorunlu Flex (6 Eşya - Orta &amp; Üst Koridor):</strong> <span class="slot-num">1</span>Mahvolmuş Kralın Kılıcı &rarr; <span class="slot-num">2</span>Zırh/Merkür Çizmesi &rarr; <span class="slot-num">3</span>Üçlü Kuvvet (Kritikte: Tahsildar) &rarr; <span class="slot-num">4</span>Yarık Gökyüzü (Kritikte: Ölümsüz Kalkanyay) &rarr; <span class="slot-num">5</span>Sterak'ın Güvencesi <em>(4'te Kalkanyay aldıysan Can Simidi çakışmaması için: Dominik Efendi'nin Hürmetleri)</em> &rarr; <span class="slot-num">6</span>Ölümün Dansı</div>
+            <div class="info-row build-row b-vamp"><strong style="color:#FF7678;">🩸 Ağır Yara Değişimi:</strong> Erken oyunda <strong>800G Celladın Çağrısı</strong> al. <strong>⚖️ Standart'ta</strong> <span class="slot-num">6</span>Koruyucu Melek yerine &rarr; <strong>Fani Hatıratı (veya Zaun Zincirkılıcı)</strong> | <strong>💥 Nükleer'de</strong> <span class="slot-num">6</span>Dominik yerine &rarr; <strong>Fani Hatıratı</strong> | <strong>🔨 Tank'ta</strong> <span class="slot-num">4</span>Dominik yerine &rarr; <strong>Fani Hatıratı</strong> (Kara Balta aldıysan <span class="slot-num">6</span>Sterak yerine <strong>Zaun Zincirkılıcı</strong>) | <strong>🔄 Flex'te</strong> <span class="slot-num">6</span>Ölümün Dansı (veya <span class="slot-num">5</span>Dominik) yerine &rarr; <strong>Fani Hatıratı (veya Zaun Zincirkılıcı)</strong>.</div>
+          </div>
+        </div>
+        <div class="section-block sec-runes">
+          <div class="section-title title-rune">🔮 Senaryoya Göre Rün, Büyü &amp; Küçük Parçalar Matrisi</div>
+          <div class="rune-why-list">
+            <div class="rune-why-box r-common"><strong>🔗 3 Senaryoda %100 Ortak Çekirdek:</strong> <span class="rune-tag">Çarp + Sıçra + 5 Alt Rün</span> Viego'da Sihirdar Büyüsü (<strong>Çarp + Sıçra</strong>) ve 5 alt rünün tamamı (<strong>Zafer - Efsane: Çeviklik - Son Darbe + Pabuçlar - Kozmik Sezgi</strong>) 3 senaryoda da %100 ortaktır!</div>
+            <div class="rune-why-box r-std-tank"><strong>⚖️ Standart &amp; 🔨 Tanklara Karşı (Ortak Anahtar Rün):</strong> <span class="rune-tag">Yenilmez</span> Q pasifi çift vuruş yaptığı için W-DV-Q-DV 1 saniyede 12 <strong>Yenilmez</strong> doldurur; maçların %85'inde ortaktır.</div>
+            <div class="rune-why-box r-only-nuke"><strong>💥 Nükleer Kritik Farkı:</strong> <span class="rune-tag">Saldırıya Devam</span> Sadece karşıda hiç tank yoksa (5 kırılgan varsa) Kraken + Tahsildar ile ilk hedefi 1 saniyede patlatmak için Anahtar Rün <strong>Saldırıya Devam</strong> yapılır.</div>
+            <div class="rune-why-box r-only-flex"><strong>🔄 Zorunlu Flex (Orta / Üst) Rün Mantığı:</strong> <span class="rune-tag">İkinci Şans + Canlandır + Yaşam Sömürüsü</span> Koridorda Viego'nun Q pasifi işaretli minyona çift vurup can çaldığı için <strong>Yaşam Sömürüsü + İkinci Şans + Canlandır + Doran'ın Kalkanı</strong> birleştiğinde büyücülerin dürtmesini tamamen sıfırlar!</div>
+            <div class="rune-why-box r-shards"><strong>🔹 Sağ Alttaki 3 Küçük Rün Parçası Mantığı:</strong> <span class="rune-tag">%10 Saldırı Hızı Zorunlu</span> Viego'nun Q bekleme süresi ve çift vuruş animasyonu doğrudan Saldırı Hızı ile kısaldığı için 1. satırda her zaman <strong>%10 Saldırı Hızı</strong> alınır.</div>
+          </div>
+        </div>
+        <div class="section-block sec-vamp">
+          <div class="section-title title-vamp">🩸 3 Vampir Tipine Karşı Özel Plan (Vlad / WW / Aatrox)</div>
+          <div class="vamp-why-list">
+            <div class="vamp-box"><strong>1. Vladimir / Swain (AP Yetenek):</strong> <span class="vamp-tag">Havuzdan Önce R Basma!</span> <strong>800G Celladın Çağrısı + Aklın Sonu</strong> al. Vlad W (Havuz) ile senin R infazından kaçabilir; önce W+Q çift vuruşuyla havuzunu zorla, havuzdan çıktığı an <strong>R</strong> indir!</div>
+            <div class="vamp-box"><strong>2. Warwick / Irelia (AD Düz Vuruş):</strong> <span class="vamp-tag">1-5. Seviye Kavga Yok!</span> <strong>800G Celladın + Mahvolmuş Kral + Zırh Çizmesi</strong> al. İlk 5 seviyede nehirde WW ile 1v1 yumruklaşma; 6. seviyede W sersemletmesi ve R infazını WW %25 cana indiğinde tek seferde vur.</div>
+            <div class="vamp-box"><strong>3. Aatrox / Illaoi (Ulti Sömürü):</strong> <span class="vamp-tag">W ile İçine Kay</span> <strong>800G Celladın + Mahvolmuş Kral + Ölümün Dansı</strong> al. Aatrox Q1/Q2 kaldırırken E sisi hızıyla veya W atılmasıyla doğrudan Aatrox'un dibine girip çift vuruşlarla erit.</div>
+          </div>
+        </div>
+        <div class="section-block sec-items">
+          <div class="section-title title-purple">🎒 1'den 6'ya Eşya İşlevleri, 🛡️ Anti-Kalkan &amp; 🧮 Delme Sınırı</div>
+          <div class="item-why-list">
+            <div class="item-why-box"><strong>[1] Üçlü Kuvvet / Mahvolmuş Kral:</strong> <span class="item-tag">Çekirdek</span> Çift vuruş pasifin yüzdelik can hasarını ve Pırıltı vuruşunu anında tetikler (Koridor Flex'te 900G Vampirî Asa &rarr; <strong>Mahvolmuş Kral</strong> 1. eşya olarak koridoru garantiler)!</div>
+            <div class="item-why-box"><strong>[3-5] Yarık Gökyüzü + Sterak + Ölümün Dansı:</strong> <span class="item-tag">Ruh Sigortası</span> İlk ruhu alana kadar geçen 3 saniyede tek yemeni önler; ruhu aldığın an Ölümün Dansı kanamasını siler. <em>(Not: Sterak ve Ölümsüz Kalkanyay aynı <strong>Can Simidi</strong> pasifini paylaştığı için aynı anda alınamaz!).</em></div>
+            <div class="item-why-box"><strong>[6] Koruyucu Melek / Aklın Sonu (Nükleer'de: Kraken + Tahsildar + Ebedi Kılıç):</strong> <span class="item-tag">Son Eşya &amp; Kritik</span> Dövüşçüde dirilmek için <strong>Koruyucu Melek</strong>, AP/CC'ye <strong>Aklın Sonu</strong>; Nükleer'de ise Viego'nun Q ve R hasarı doğrudan <strong>Kritik İhtimali ile arttığı için</strong> Tahsildar + Kalkanyay + Ebedi + Dominik (%100 Kritik) ilk hedefi 1 saniyede siler.</div>
+            <div class="shield-box"><strong>🛡️ Kalkan Kırma Planı (R İnfaz Tuzağı + Yılan Dişi):</strong> <span class="shield-tag">Kalkan Varken R Basma!</span> Viego'nun <strong>R (Kalp Kıran)</strong> yeteneği hedefin eksik canına göre vurur; ancak rakip tam ölecekken <strong>Lulu E, Shen R, Bariyer veya Kalkanyay</strong> açılırsa R hasarın kalkana gömülür ve <strong>ilk ruhu alamazsın!</strong> Ağır kalkan kadrosuna karşı 4. slota <strong>Yılan Dişi (%50 Kalkan Silme)</strong> al veya W-DV-Q-DV ile kalkanı kırıp sonra R indir!</div>
+            <div class="pen-box"><strong>🧮 Çift Vuruş Yüzdelik Can Hasarı vs. 100 Zırh Eşiği:</strong> <span class="pen-tag">Yüzdelik Can Fizikseldir!</span> Viego'nun Q pasifi ve Mahvolmuş Kral <strong>mevcut cana göre fiziksel hasar</strong> vurur; yani rakip 120+ Zırh kastığında yüzdelik hasarın da yarıya düşer! Karşıda 2+ zırhlı hedef varsa 4. eşyada mutlaka <strong>Dominik Efendi'nin Hürmetleri (%35 Delme) / Fani Hatıratı (%30 Delme + Ağır Yara)</strong> ya da dövüşçü gidiyorsan <strong>Kara Balta (5 yükte %30 Zırh Kırma)</strong> (bu eşyalardan yalnızca biri alınabilir) al!</div>
+          </div>
+        </div>
+        <div class="section-block sec-combos">
+          <div class="section-title title-cyan">⚡ Tuş Sırası (Kombolar), Duvar Atlama &amp; Sıçra İptali</div>
+          <div class="info-grid">
+            <div><strong>Kısa Takas:</strong><div class="combo-box">Q &rarr; DV (Çift) &rarr; W &rarr; DV (Çift) (1 saniyede 12 Yenilmez yükü)</div></div>
+            <div><strong>Tek Atma (All-In):</strong><div class="combo-box">E &rarr; W+Sıçra &rarr; DV &rarr; Q &rarr; DV &rarr; R &rarr; (Ruh Al: Q-W-E) &rarr; Bedava R</div></div>
+            <div class="info-row"><strong>💡 Hile:</strong> Aldığın ruhta bekleme; Q-W-E basıp hemen bedava R ile sıradakine zıpla.</div>
+            <div class="wall-box"><strong>🧱 Duvar Atlama &amp; Sıçra İptali:</strong> <span class="wall-tag">❌ W Duvar Geçemez! | ✅ R Duvar Geçer &amp; W+Sıçra</span> <strong>Çok Yapılan Hata:</strong> Viego'nun <strong>W (Hortlağın Dişleri)</strong> atılması en ince duvardan bile <strong>GEÇEMEZ!</strong> Duvarlardan sadece <strong>R (Kalp Kıran)</strong> veya ele geçirdiğin ruhun yetenekleriyle geçebilirsin. Ancak <strong>W Basılı Tut &rarr; Sıçra &rarr; W Bırak</strong> çok hızlı bir animasyon iptalidir ve 1.25 sn sersemletmeyi garantiler!</div>
+          </div>
+        </div>
+        <div class="section-block sec-early">
+          <div class="section-title title-orange">⏱️ İlk 15 Dakika, Altın, Dalga &amp; Görüş Kuralları</div>
+          <div class="info-grid">
+            <div class="spike-box"><strong>🔥 Güç Patlaması:</strong> 6. Seviye ve Üçlü Kuvvet / Mahvolmuş Kral alt parçaları</div>
+            <div class="gold-box"><strong>💰 İlk B (Üs) Altın Eşiği:</strong> <span class="gold-tag">900G</span> <strong>Vampirî Asa (Orta/Üst Flex 1. dönüş!)</strong> veya Pırıltı | <span class="gold-tag">875G</span> Kazma + <strong>75G Kontrol Totemi</strong>.</div>
+            <div class="wave-box"><strong>🌊 Orman &amp; Flex Koridor Dalga Kuralı:</strong> Ormanda dalgası kendi kulesi önünde <strong>Donmuş (Freeze)</strong> koridorlara baskın at; <strong>⚔️ Orta/Üst Flex'te</strong> minyonlara Q vurup işaretli minyonlardan çift vuruşla canını %100 tut, <strong>E sisini</strong> koridor yan duvarına atma (baskın geldiğinde kaçmak için sakla!).</div>
+            <div class="vision-box"><strong>👁️ Görüş &amp; 75G Kontrol Totemi:</strong> <span class="vision-tag">Kırmızı Tarayıcı + 75G Kontrol Totemi!</span> Viego'nun E sisi kamuflajını <strong>75G Kontrol Totemi açığa çıkarır!</strong> Savaş öncesi Kırmızı Tarayıcı ile yan çalıdaki totemleri kır, Ejderha/Baron çukurunun içine 75G Kontrol Totemi koy (çift vuruş pasifinle Ejderhayı çok hızlı eritirsin).</div>
+            <div class="early-grid">
+              <div class="do-box"><strong style="color:#2ECC71;">✅ YAP:</strong> 6 kamp dön, sersemletmesi olan koridora baskın atıp ilk ruhu al.</div>
+              <div class="dont-box"><strong style="color:#FF7678;">❌ YAPMA:</strong> Baskına gelirken nehir duvarına erkenden E (Sis) atıp gelişini belli etme!</div>
+            </div>
+          </div>
+        </div>
+        <div class="section-block sec-win">
+          <div class="section-title title-win">🏆 Kazanma Koşulu &amp; 💰 Kelle Ödülü (Shutdown) Sigortası</div>
+          <div class="win-box">
+            <span class="win-role-tag">🎯 Rol: İkinci Giriş (Reset Avcısı) &amp; Zincirleme Temizlik</span>
+            <div><strong>• Savaşta:</strong> <strong>Asla ilk giren olma!</strong> E sisinde bekle, takımın birinin canını %30'a indirdiği an R ile infaz edip ilk ruhu al.</div>
+            <div><strong>• Bitiriş:</strong> Ruh ele geçirirken şampiyonlara karşı kısa süreli <strong>hedef alınamaz (Untargetable)</strong> olup bedava R ile 5 kişiyi zincirleme temizle <em>(Dikkat: Bu durum kulelere karşı geçerli değildir; kule agrosu sıfırlanmaz ve havadaki kule mermileri yok olmaz!)</em>.</div>
+            <div class="bounty-box"><strong>💰 Kelle Ödülü (Shutdown) Sigortası:</strong> <span class="bounty-tag">0-7 Kırılgan Ruha Girme Tuzağı!</span> Kafanda <strong>700G ödül</strong> varken kendi Viego bedenin çok güçlüdür; ancak savaşın ortasında <strong>0-7 giden kırılgan bir rakip desteğin/nişancının ruhuna</strong> girersen <strong>1.5 saniye boyunca R basıp çıkamazsın (zorunlu kilit)</strong> ve onun zayıf zırh/can değerleriyle anında tek yiyip 1000G verirsin! 5 kişinin ortasında odaklanılıyorken kırılgan ruha <strong>ASLA sağ tıklama</strong> (girdiysen de Q-W-E basıp 1.5 sn kilidi biter bitmez R ile çık)!</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 6. BRIAR (26.21 UYUMLU - ÜST/ORTA KORİDOR FLEX ŞEMALI) -->
+    <article class="champ-card role-jg c-6 p-flex">
+      <input type="radio" name="tc6" id="tc6-sel" class="ct-ctrl ct-sel" checked />
+      <input type="radio" name="tc6" id="tc6-run" class="ct-ctrl ct-run" />
+      <input type="radio" name="tc6" id="tc6-itm" class="ct-ctrl ct-itm" />
+      <input type="radio" name="tc6" id="tc6-vmp" class="ct-ctrl ct-vmp" />
+      <input type="radio" name="tc6" id="tc6-cmb" class="ct-ctrl ct-cmb" />
+      <input type="radio" name="tc6" id="tc6-ear" class="ct-ctrl ct-ear" />
+      <input type="radio" name="tc6" id="tc6-win" class="ct-ctrl ct-win" />
+      <input type="radio" name="tc6" id="tc6-all" class="ct-ctrl ct-all" />
+      <div class="card-header">
+        <div class="champ-title-group">
+          <span class="role-badge">Orman</span>
+          <h2 class="champ-name">6. Briar</h2>
+        </div>
+        <div class="quick-meta">
+          <span class="meta-pill pick-flex">🟡 3-4. Sıra: Esnek</span>
+          <span class="meta-pill ban-pill">🚫 Rammus / Nocturne</span>
+          <span class="meta-pill skill-pill">🔼 W &gt; Q &gt; E</span>
+        </div>
+      </div>
+      <div class="card-mini-tabs">
+        <label for="tc6-sel" class="m-tab m-sel">🛡️ Seçim &amp; 6 Eşya</label>
+        <label for="tc6-run" class="m-tab m-run">🔮 Rün &amp; Büyü</label>
+        <label for="tc6-vmp" class="m-tab m-vmp">🩸 Vampir</label>
+        <label for="tc6-itm" class="m-tab m-itm">🎒 Eşya &amp; Delme</label>
+        <label for="tc6-cmb" class="m-tab m-cmb">⚡ Kombo &amp; Duvar</label>
+        <label for="tc6-ear" class="m-tab m-ear">⏱️ 15 Dk</label>
+        <label for="tc6-win" class="m-tab m-win">🏆 Win &amp; Ödül</label>
+        <label for="tc6-all" class="m-tab m-all">📋 Hepsi</label>
+      </div>
+      <div class="card-body">
+        <div class="section-block sec-select">
+          <div class="section-title title-gold">🛡️ Seçim Ekranı: Ortak/Senaryo Rün, Büyü &amp; 6 Eşya</div>
+          <div class="info-grid">
+            <div class="draft-rule-box"><strong>🎯 Seçim Sırası:</strong> <strong style="color:#F5B041;">Orta Sıra (3-4. Seçim).</strong> Karşıda Rammus, Jax, Poppy, Anivia gibi üstüne koşarken seni felç edenler yoksa kilitle. Başlangıç: Yeşil veya Kızıl Orman Yavrusu.<br/><strong>🔄 Zorunlu Flex Rolü:</strong> <strong>Üst Koridor</strong> veya <strong>Orta Koridor</strong> <em>(Doran'ın Kalkanı; E hazır değilken ASLA W basma, kısa takasta Q &rarr; DV &rarr; E ile duvara çarp!)</em>.</div>
+            <div class="rune-scen-group">
+              <div class="rune-scen-row r-common"><span class="common-badge">🔗 3 DURUMDA DA %100 ORTAK</span><strong>Sihirdar &amp; Çekirdek:</strong> ✨ <strong>Çarp + Sıçra</strong> (Vampire: Çarp + Tutuştur) | İsabet Çekirdeği: <strong>Zafer - Son Direniş</strong> (3 senaryoda da zorunlu!)</div>
+              <div class="rune-scen-row r-only-std"><span class="scen-badge">⚖️ STANDART DÖVÜŞÇÜ</span><strong>Tam Rün Sayfası:</strong> <strong>Saldırıya Devam (PTA)</strong> - Zafer - Efsane: Çeviklik - Son Direniş | Yan (Azim): <strong>Kondisyon</strong> (veya İkinci Şans) - <strong>Canlandır</strong> (veya Aşırı Büyüme)</div>
+              <div class="rune-scen-row r-only-nuke"><span class="scen-badge" style="color:#FF9495;">💥 NÜKLEER TEK ATMA</span><strong>Tam Rün Sayfası:</strong> <strong>Keskin Sağanak</strong> - Ani Darbe - <strong>Altıncı His</strong> - Hazine Avcısı | Yan (İsabet): <strong>Zafer - Son Direniş</strong> <em>(Alternatif PTA Nükleer: Saldırıya Devam - Zafer - Efsane: Çeviklik - Son Direniş | Yan: Ani Darbe - Hazine Avcısı)</em></div>
+              <div class="rune-scen-row r-only-tank"><span class="scen-badge" style="color:#72F7ED;">🔨 TANK ERİTME</span><strong>Tam Rün Sayfası:</strong> <strong>Yenilmez</strong> - Zafer - Efsane: Çeviklik - Son Direniş | Yan (Azim): <strong>Kondisyon</strong> (veya İkinci Şans) - <strong>Canlandır</strong> (veya Aşırı Büyüme)</div>
+              <div class="rune-scen-row r-only-flex"><span class="flex-badge">🔄 ZORUNLU FLEX RÜN ŞEMASI (ÜST / ORTA)</span><strong>Ana Ağaç (İsabet):</strong> <strong>Saldırıya Devam (PTA)</strong> (Tanklara: <strong>Yenilmez</strong>) - Zafer - Efsane: Çeviklik - <strong>Son Direniş</strong> | <strong>Yan Ağaç (Azim):</strong> <strong>İkinci Şans (Yakın komboya: Kemik Zırh) - Canlandır</strong> | <strong>🔹3 Küçük Rün:</strong> <strong>9 Değişken Kuvvet - 9 Değişken Kuvvet - 65 Sabit Can</strong> | ✨ <strong>Tutuştur + Sıçra (veya Işınlan)</strong>.</div>
+              <div class="rune-scen-row r-shards"><span class="shard-badge">🔹 3 KÜÇÜK RÜN PARÇASI</span><strong>1. Hücum:</strong> 9 Değişken Kuvvet (Tank'ta: %10 Saldırı Hızı) | <strong>2. Esnek:</strong> 9 Değişken Kuvvet | <strong>3. Savunma:</strong> Büyüyen Can (Ağır CC varsa: %10 Sıvışma)</div>
+            </div>
+            <div class="info-row build-row b-std"><strong>⚖️ Standart Dövüşçü (6 Eşya):</strong> <span class="slot-num">1</span>Mahvolmuş Kralın Kılıcı (veya Haşmetli Hydra) &rarr; <span class="slot-num">2</span>Merkür/Zırh Çizmesi &rarr; <span class="slot-num">3</span>Kara Balta &rarr; <span class="slot-num">4</span>Sterak'ın Güvencesi &rarr; <span class="slot-num">5</span>Ölümün Dansı &rarr; <span class="slot-num">6</span>Ruh Gömleği (Vampire: Zaun Zincirkılıcı)</div>
+            <div class="info-row build-row b-nuke"><strong style="color:#FF7678;">💥 Nükleer Tek Atma (6 Eşya):</strong> <span class="slot-num">1</span>Tahsildar &rarr; <span class="slot-num">2</span>Zırh/Ionia Çizmesi &rarr; <span class="slot-num">3</span>İtikatsız Hydra (veya Haşmetli Hydra) &rarr; <span class="slot-num">4</span>Youmuu'nun Hayaletkılıcı (veya Kibir / Kalkana: Yılan Dişi) &rarr; <span class="slot-num">5</span>Ebedi Kılıç (veya Ölümün Dansı) &rarr; <span class="slot-num">6</span>Dominik Efendi'nin Hürmetleri (Vampire: Fani Hatıratı)</div>
+            <div class="info-row build-row b-tank"><strong style="color:#0AC8B9;">🔨 Tank Eritme (6 Eşya):</strong> <span class="slot-num">1</span>Mahvolmuş Kralın Kılıcı &rarr; <span class="slot-num">2</span>Merkür'ün Adımları &rarr; <span class="slot-num">3</span>Kara Balta &rarr; <span class="slot-num">4</span>Yarık Gökyüzü &rarr; <span class="slot-num">5</span>Sterak'ın Güvencesi &rarr; <span class="slot-num">6</span>Ruh Gömleği (Vampire: Zaun Zincirkılıcı)</div>
+            <div class="info-row build-row b-crisis"><strong style="color:#F39C12;">🚨 Kriz Planı:</strong> Shaco/Kha'Zix/LeBlanc/Vlad gibi hedef kaybettirenlere karşı E (Çığlık) yeteneğini cinneti bozmak için sakla!</div>
+            <div class="info-row build-row b-flex"><strong style="color:var(--flex-bright);">🔄 Zorunlu Flex (6 Eşya - Üst &amp; Orta Koridor):</strong> <span class="slot-num">1</span>Kararma (veya Mahvolmuş Kralın Kılıcı / Haşmetli Hydra) &rarr; <span class="slot-num">2</span>Zırh/Merkür Çizmesi &rarr; <span class="slot-num">3</span>Kara Balta &rarr; <span class="slot-num">4</span>Yarık Gökyüzü &rarr; <span class="slot-num">5</span>Sterak'ın Güvencesi &rarr; <span class="slot-num">6</span>Ölümün Dansı (veya Ruh Gömleği)</div>
+            <div class="info-row build-row b-vamp"><strong style="color:#FF7678;">🩸 Ağır Yara Değişimi:</strong> Erken oyunda <strong>800G Celladın Çağrısı</strong> al. <strong>⚖️ Standart'ta</strong> (<span class="slot-num">3</span>Kara Balta yüzünden Fani Hatıratı alınamaz!) <span class="slot-num">6</span>Ruh Gömleği (veya <span class="slot-num">5</span>Ölümün Dansı) yerine &rarr; <strong>Zaun Zincirkılıcı</strong> | <strong>💥 Nükleer'de</strong> <span class="slot-num">6</span>Dominik yerine &rarr; <strong>Fani Hatıratı</strong> | <strong>🔨 Tank'ta</strong> <span class="slot-num">6</span>Ruh Gömleği yerine &rarr; <strong>Zaun Zincirkılıcı</strong> | <strong>🔄 Flex'te</strong> <span class="slot-num">6</span>Ölümün Dansı/Ruh Gömleği yerine &rarr; <strong>Zaun Zincirkılıcı</strong>.</div>
+          </div>
+        </div>
+        <div class="section-block sec-runes">
+          <div class="section-title title-rune">🔮 Senaryoya Göre Rün, Büyü &amp; Küçük Parçalar Matrisi</div>
+          <div class="rune-why-list">
+            <div class="rune-why-box r-common"><strong>🔗 3 Senaryoda Ortak Çekirdek:</strong> <span class="rune-tag">Çarp + Sıçra + Zafer + Son Direniş</span> Briar'ın W2 ısırığı ve kanaması eksik cana göre güçlendiği için <strong>Zafer + Son Direniş</strong> ikilisi Standart, Nükleer ve Tank senaryolarının 3'ünde de %100 ortaktır! Sihirdar Büyüsü her zaman <strong>Çarp + Sıçra</strong>'dır (sadece karşı ormancı WW/Briar ise <strong>Çarp + Tutuştur</strong>).</div>
+            <div class="rune-why-box r-only-std"><strong>⚖️ Standart Dövüşçü Kurulumu:</strong> <span class="rune-tag">Saldırıya Devam + Kondisyon/İkinci Şans + Canlandır</span> Q yeteneği vuruş etkisi tetiklediği için W1-Q-DV ile <strong>Saldırıya Devam</strong> 0.5 saniyede patlar; yan ağaçta <strong>Kondisyon (veya İkinci Şans) + Canlandır</strong> W2 ısırığını ve hayatta kalmayı %15 büyütür.</div>
+            <div class="rune-why-box r-only-nuke"><strong>💥 Nükleer Tek Atma Farkı (Rün Değişimi):</strong> <span class="rune-tag">Keskin Sağanak + Ani Darbe + Altıncı His + Hazine Avcısı</span> Nükleer (Tahsildar + İtikatsız Hydra) geçildiğinde ana ağaç Hakimiyet olur: <strong>Keskin Sağanak</strong> ile Q vurduğun an 0.6 saniyede 3 kanama yükü bırakıp W2 ile tek atarsın; yan ağaca <strong>Zafer + Son Direniş</strong> alınır.</div>
+            <div class="rune-why-box r-only-tank"><strong>🔨 Tanklara Karşı Rün Farkı:</strong> <span class="rune-tag">Yenilmez + Kondisyon/İkinci Şans + Canlandır</span> Karşıda 2-3 ağır tank varsa savaş 10+ saniye süreceği için Anahtar Rün <strong>Yenilmez</strong> yapılır, alt rünler Standart ile birebir aynı kalır.</div>
+            <div class="rune-why-box r-only-flex"><strong>🔄 Zorunlu Flex (Üst / Orta) Rün Mantığı:</strong> <span class="rune-tag">PTA + İkinci Şans + Canlandır + 65 Can</span> Briar'ın taban can yenilemesi 0 olduğu için koridorda <strong>Doran'ın Kalkanı + İkinci Şans + Canlandır</strong> üçlüsü hayati önem taşır; E kanalında ve W2 ısırığında devasa can doldurur.</div>
+            <div class="rune-why-box r-shards"><strong>🔹 Sağ Alttaki 3 Küçük Rün Parçası Mantığı (26.21 Metası):</strong> <span class="rune-tag">Çifte Değişken + Büyüyen Can</span> Briar W açtığında zaten devasa saldırı hızı kazandığı için güncel metada 1. ve 2. satırda <strong>Çifte Değişken Kuvvet (18 Değişken)</strong>, 3. satırda pasif iyileşmesini artıran <strong>Büyüyen Can</strong> (Koridor Flex'te <strong>65 Sabit Can</strong>) en yüksek kazanma oranına sahiptir.</div>
+          </div>
+        </div>
+        <div class="section-block sec-vamp">
+          <div class="section-title title-vamp">🩸 3 Vampir Tipine Karşı Özel Plan (Vlad / WW / Aatrox)</div>
+          <div class="vamp-why-list">
+            <div class="vamp-box"><strong>1. Vladimir / Swain (AP Yetenek):</strong> <span class="vamp-tag">Havuz Cinnet Tuzağı!</span> <strong>800G Celladın Çağrısı + Ruh Gömleği</strong> al. Sen W (Cinnet) bastığında Vlad W (Kan Havuzu) basarsa hedefin kaybolur ve minyona dönersin! Havuzdan çıktığı saniye <strong>Q</strong> ile tekrar Vlad'ın üstüne atlayıp hedefi kilitle.</div>
+            <div class="vamp-box"><strong>2. Warwick / Irelia (AD Düz Vuruş):</strong> <span class="vamp-tag">Çarp + Tutuştur Al!</span> İki vampirin düellosunda Ağır Yara alan kazanır! WW E (Korkutma) açtığında sen de <strong>E (Çığlık)</strong> basılı tut; <strong>W2 (Isırık)</strong> infazını WW %30 cana inene kadar bekletip tek ısırıkta bitir!</div>
+            <div class="vamp-box"><strong>3. Aatrox / Illaoi (Ulti Sömürü):</strong> <span class="vamp-tag">W Hızıyla İçine Gir</span> <strong>800G Celladın + Kara Balta + Ölümün Dansı</strong> al. W koşu hızın sayesinde Aatrox'un Q1 ve Q2 dış çemberinin içine otomatik girersin; Q3 kaldırırken <strong>Q ile sersemlet</strong> veya <strong>E</strong> basılı tut.</div>
+          </div>
+        </div>
+        <div class="section-block sec-items">
+          <div class="section-title title-purple">🎒 1'den 6'ya Eşya İşlevleri, 🛡️ Anti-Kalkan &amp; 🧮 Delme Sınırı</div>
+          <div class="item-why-list">
+            <div class="item-why-box"><strong>[1] Mahvolmuş Kralın Kılıcı vs Haşmetli Hydra vs Kararma (Flex):</strong> <span class="item-tag">1.-3. Eşya</span> Tank/dövüşçüye <strong>Mahvolmuş Kralın Kılıcı</strong>; anlık kombo için <strong>Haşmetli Hydra</strong>; Üst/Orta Flex'te kısa Q-W1-W2-E takaslarında kalkan açmak için 2900G ucuz <strong>Kararma</strong>; Nükleer suikast için <strong>Tahsildar + İtikatsız Hydra</strong> al.</div>
+            <div class="item-why-box"><strong>[3-4] Kara Balta + Sterak:</strong> <span class="item-tag">Can</span> Briar'ın iyileşmesi İlave Can ile artar; bu ikili hem can hem kalkan verir.</div>
+            <div class="item-why-box"><strong>[5-6] Ölümün Dansı + Ruh Gömleği:</strong> <span class="item-tag">Vampir Finali</span> Cinnetteyken aldığın anlık hasarı kanamaya çevirir, Ruh Gömleği ise W2 ısırığını %25 büyütür.</div>
+            <div class="shield-box"><strong>🛡️ Kalkan Kırma Planı (Pasif Kanama + Yılan Dişi Sinerjisi!):</strong> <span class="shield-tag">Pasif Kanama %50 Kalkan Siler!</span> Briar'ın pasif kanaması 5 saniye sürdüğü için <strong>Yılan Dişi</strong> aldığında vurduğun hedefin kalkanları <strong>8 saniye boyunca %50 silinir!</strong> Önemli: <strong>W2 (Isırık)</strong> kalkan varken basılırsa iyileşmen düşebilir; kalkanı düz vuruşlarla eritip son anda W2 ısır!</div>
+            <div class="pen-box"><strong>🧮 Q (Rank 5: %20 Zırh/MR Kırma) + Kara Balta / Dominik (%44 - %48) Matematiği:</strong> <span class="pen-tag">Q = %20 Çifte Direnç Kırma!</span> Briar'ın <strong>Q (Kafa At)</strong> yeteneği son seviyede vurduğu hedefin hem Zırhını hem Büyü Direncini 5 saniyeliğine <strong>%20 kırar!</strong> Çarpımsal olarak Dövüşçüde <strong>Kara Balta (5 yükte %30)</strong> ile <strong>%44</strong>, Nükleer'de ise <strong>Fani Hatıratı (%30)</strong> ile <strong>%44</strong> ve <strong>Dominik Efendi'nin Hürmetleri (%35)</strong> ile <strong>tam %48 Toplam Zırh Kırma/Delmeye</strong> ulaşırsın (bu eşyalardan yalnızca biri alınabilir)!</div>
+          </div>
+        </div>
+        <div class="section-block sec-combos">
+          <div class="section-title title-cyan">⚡ Tuş Sırası (Kombolar), Duvar Atlama &amp; Sıçra İptali</div>
+          <div class="info-grid">
+            <div><strong>Baskın &amp; Takas:</strong><div class="combo-box">W1 &rarr; Q &rarr; DV &rarr; W2 (Isırık) &rarr; E (Cinneti İptal Et)</div></div>
+            <div><strong>Tek Atma (All-In):</strong><div class="combo-box">R &rarr; Q &rarr; DV &rarr; (Can azalınca W2) &rarr; E (Duvara Çarp)</div></div>
+            <div class="info-row"><strong>💡 Hile:</strong> W2 eksik cana göre vurur; hemen basma, rakip yarı cana inince ısır!</div>
+            <div class="wall-box"><strong>🧱 Duvar Atlama &amp; W+Q Hedef Önceliği Mekaniği:</strong> <span class="wall-tag">✅ W1 İnce Duvar | ✅ W Açıkken Q İle Öncelik Değişimi!</span> Briar'ın <strong>W1 atılması</strong> ince/orta duvarlardan doğrudan geçer; <strong>Q yeteneği</strong> dost/rakip minyonlara, canavarlara ve totemlere atlayabilir! <strong>Kritik Mekanik:</strong> W (Cinnet) normalde yalnızca şampiyonlara öncelik verir; ancak <strong>W sırasındayken Q'yu minyon veya canavar gibi şampiyon dışı bir hedefe atarsan "sadece şampiyon" zorunluluğu kalkar ve öncelik sırası (büyük canavarlar / minyonlar / şampiyonlar dahil) en yakındaki hedef grubuna döner</strong> (yalnızca minyona kilitlenmez ama uzaktaki şampiyona kule altına doğru koşmayı bırakıp yakındaki birime vurmasını sağlar).</div>
+          </div>
+        </div>
+        <div class="section-block sec-early">
+          <div class="section-title title-orange">⏱️ İlk 15 Dakika, Altın, Dalga &amp; Görüş Kuralları</div>
+          <div class="info-grid">
+            <div class="spike-box"><strong>🔥 Güç Patlaması:</strong> 3. Seviye (1v1 Nehir / Koridor Takası) ve İlk Eşya bitişi</div>
+            <div class="gold-box"><strong>💰 İlk B (Üs) Altın Eşiği:</strong> <span class="gold-tag">875G</span> Kazma veya <span class="gold-tag">900G</span> Vampirî Asa | <span class="gold-tag">1000G</span> Dişli Kama | <span class="gold-tag">1200G</span> Tiamat.</div>
+            <div class="wave-box"><strong>🌊 Orman &amp; Flex Koridor Dalga Kuralı:</strong> Dalga rakip kuleye yakınken W basarsan kule altına sürüklenirsin! <strong>⚔️ Üst/Orta Flex'te</strong> dalgayı kendi kulenin önünde <strong>Dondur (Freeze)</strong>; rakip yaklaşınca <strong>W1 &rarr; Q &rarr; DV &rarr; W2 &rarr; E</strong> ile duvara çarpıp cinneti kapat!</div>
+            <div class="vision-box"><strong>👁️ Görüş &amp; 75G Kontrol Totemi (W+Q İle Bağlantılı Hayati Kural!):</strong> <span class="vision-tag">Sarı Totem / 75G Kontrol Totemi Taşı!</span> Briar W (Cinnet) açtığında rakip <strong>karanlık çalıya girerse görüş kaybolduğu için en yakın birime dönersin; o sırada minyona Q basarsan W'nun "sadece şampiyona koşma" önceliği bozulup yakınlık önceliğine (minyon/canavar/şampiyon) geçer!</strong> Doğrudan şampiyona kilitli kalmak ve Q'yu rakibe vurabilmek için çalının içine anında <strong>Sarı Totem veya 75G Kontrol Totemi</strong> at!</div>
+            <div class="early-grid">
+              <div class="do-box"><strong style="color:#2ECC71;">✅ YAP:</strong> 3. seviyede Yampiri'de 1v1 ara; kamplarda W2'yi son anda basıp canı %100 tut.</div>
+              <div class="dont-box"><strong style="color:#FF7678;">❌ YAPMA:</strong> E (Çığlık) bekleme süresindeyken ASLA W basma; kule altına girip ölürsün!</div>
+            </div>
+          </div>
+        </div>
+        <div class="section-block sec-win">
+          <div class="section-title title-win">🏆 Kazanma Koşulu &amp; 💰 Kelle Ödülü (Shutdown) Sigortası</div>
+          <div class="win-box">
+            <span class="win-role-tag">🎯 Rol: Uzaktan Kaos Başlatıcı (R) &amp; Yan Koridor Avcısı</span>
+            <div><strong>• Savaşta:</strong> Önden W basıp tanka kilitlenme! Arka saftaki taşıyıcılara <strong>uzaktan R</strong> atıp korkut, sana döndüklerinde E basılı tut.</div>
+            <div><strong>• Bitiriş:</strong> Yan koridorda yalnız gördüğün taşıyıcının kafasına R ile uçup 1v1'de avla.</div>
+            <div class="bounty-box"><strong>💰 Kelle Ödülü (Shutdown) Sigortası:</strong> <span class="bounty-tag">Kör R Uçuşu ve E'siz Cinnet Yasak!</span> Kafanda <strong>500G+ ödül</strong> varken uzaktan attığın R (Kesin Ölüm) rakip tanka veya kule altına çarparsa <strong>iptal edemezsin ve 1000G ödülü kendi ayağınla teslim edersin!</strong> Ödülün varken kör noktaya R atma ve <strong>E (Çığlık)</strong> hazır değilken asla W basma!</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- === 2. MODÜL BİTTİ (4-6. KARAKTERLER) | 3. MODÜLÜ (7-9. KARAKTERLER: DIANA, SYLAS, TALON) BU SATIRIN ALTINA YAPIŞTIR === -->
+     <!-- === 3. MODÜL BAŞLANGICI (7. DIANA, 8. SYLAS, 9. TALON | 26.21 YAMASI DOĞRULANMIŞ) === -->
+
+    <!-- 7. DIANA -->
+    <article class="champ-card role-mid c-7 p-flex">
+      <input type="radio" name="tc7" id="tc7-sel" class="ct-ctrl ct-sel" checked />
+      <input type="radio" name="tc7" id="tc7-run" class="ct-ctrl ct-run" />
+      <input type="radio" name="tc7" id="tc7-itm" class="ct-ctrl ct-itm" />
+      <input type="radio" name="tc7" id="tc7-vmp" class="ct-ctrl ct-vmp" />
+      <input type="radio" name="tc7" id="tc7-cmb" class="ct-ctrl ct-cmb" />
+      <input type="radio" name="tc7" id="tc7-ear" class="ct-ctrl ct-ear" />
+      <input type="radio" name="tc7" id="tc7-win" class="ct-ctrl ct-win" />
+      <input type="radio" name="tc7" id="tc7-all" class="ct-ctrl ct-all" />
+      <div class="card-header">
+        <div class="champ-title-group">
+          <span class="role-badge">Orta</span>
+          <h2 class="champ-name">7. Diana</h2>
+        </div>
+        <div class="quick-meta">
+          <span class="meta-pill pick-flex">🟡 3-4. Sıra: Esnek</span>
+          <span class="meta-pill ban-pill">🚫 Galio / Yasuo</span>
+          <span class="meta-pill skill-pill">🔼 Q &gt; W &gt; E</span>
+        </div>
+      </div>
+      <div class="card-mini-tabs">
+        <label for="tc7-sel" class="m-tab m-sel">🛡️ Seçim &amp; 6 Eşya</label>
+        <label for="tc7-run" class="m-tab m-run">🔮 Rün &amp; Büyü</label>
+        <label for="tc7-vmp" class="m-tab m-vmp">🩸 Vampir</label>
+        <label for="tc7-itm" class="m-tab m-itm">🎒 Eşya &amp; Delme</label>
+        <label for="tc7-cmb" class="m-tab m-cmb">⚡ Kombo &amp; Duvar</label>
+        <label for="tc7-ear" class="m-tab m-ear">⏱️ 15 Dk</label>
+        <label for="tc7-win" class="m-tab m-win">🏆 Win &amp; Ödül</label>
+        <label for="tc7-all" class="m-tab m-all">📋 Hepsi</label>
+      </div>
+      <div class="card-body">
+        <div class="section-block sec-select">
+          <div class="section-title title-gold">🛡️ Seçim Ekranı: Ortak/Senaryo Rün, Büyü &amp; 6 Eşya</div>
+          <div class="info-grid">
+            <div class="draft-rule-box"><strong>🎯 Seçim Sırası:</strong> <strong style="color:#F5B041;">Orta Sıra / Esnek Seçim (26.20 W Kalkan Güçlendirmeli!).</strong> Galio banlıysa ilk sıradan bile alınır; kırılgana Elektrik Ver, tanka Yenilmez dizilir. Başlangıç: Doran'ın Yüzüğü.<br/><strong>🔄 Zorunlu Flex Rolü:</strong> <strong>Orman (1. Sınıf Ana Rol)</strong> <em>(Pasifi canavarlara %300 vurur; Mavi/Yeşil Pet)</em> veya <strong>Üst Koridor</strong> <em>(Doran'ın Yüzüğü + Işınlan; AP Dövüşçü)</em>.</div>
+            <div class="rune-scen-group">
+              <div class="rune-scen-row r-common"><span class="common-badge">🔗 3 DURUMDA DA %100 ORTAK</span><strong>Yan Ağaç (Azim):</strong> <strong>Kalkan Darbesi + Kemik Zırh</strong> (Uzaktan dürten büyücüye: <strong>İkinci Şans</strong>) — 3 senaryoda da ortaktır!</div>
+              <div class="rune-scen-row r-std-nuke"><span class="scen-badge">⚖️ STANDART &amp; 💥 NÜKLEER ORTAK</span><strong>Rün &amp; Büyü:</strong> <strong>Elektrik Ver</strong> - Ani Darbe - <strong>Altıncı His</strong> - Hazine Avcısı | ✨ <strong>Sıçra + Tutuştur</strong> (veya Işınlan)</div>
+              <div class="rune-scen-row r-only-tank"><span class="scen-badge" style="color:#72F7ED;">🔨 TANK ERİTME</span><strong>Rün &amp; Büyü:</strong> <strong>Yenilmez</strong> - Pratik Zeka - Efsane: Çeviklik - Son Direniş | ✨ <strong>Sıçra + Işınlan</strong></div>
+              <div class="rune-scen-row r-only-crisis"><span class="scen-badge" style="color:#F5B041;">🚨 KRİZ PLANI (SYNDRA/VIKTOR AĞIR DÜRTME)</span><strong>Rün &amp; Büyü:</strong> <strong>Elektrik Ver</strong> - Ani Darbe - Altıncı His - Hazine Avcısı | Yan (Azim): <strong>Kalkan Darbesi - İkinci Şans</strong> | ✨ <strong>Sıçra + Işınlan</strong></div>
+              <div class="rune-scen-row r-only-flex"><span class="flex-badge">🔄 ZORUNLU FLEX RÜN ŞEMASI (ORMAN / ÜST)</span><strong>🌲 Orman (1. Sınıf):</strong> <strong>Yenilmez</strong> - <strong>Zafer</strong> - Efsane: Çeviklik - Son Darbe | Yan (İlham): <strong>Sihirli Pabuçlar (300G tasarruf!) - Kozmik Sezgi</strong> | 🔹Küçük Rün: <strong>%10 Saldırı Hızı - 9 Değişken - Büyüyen Can</strong> | ✨ <strong>Çarp + Sıçra (Mavi/Yeşil Pet)</strong>.<br/><strong>🛡️ Üst Koridor:</strong> <strong>Yenilmez (veya Hortlağın Pençesi)</strong> + Yan (Azim): <strong>Kalkan Darbesi - İkinci Şans/Kemik Zırh</strong> | 🔹Küçük Rün: <strong>%10 Saldırı Hızı - 9 Değişken - Büyüyen Can</strong> | ✨ <strong>Sıçra + Işınlan</strong>.</div>
+              <div class="rune-scen-row r-shards"><span class="shard-badge">🔹 3 KÜÇÜK RÜN PARÇASI</span><strong>1. Hücum:</strong> 9 Değişken Kuvvet (Tank/Orman: %10 Saldırı Hızı) | <strong>2. Esnek:</strong> 9 Değişken Kuvvet | <strong>3. Savunma:</strong> 65 Sabit Can (veya Büyüyen Can)</div>
+            </div>
+            <div class="info-row build-row b-std"><strong>⚖️ Standart (6 Eşya):</strong> <span class="slot-num">1</span>Lich Boğan (veya Yıldırım Asası) &rarr; <span class="slot-num">2</span>Sihirbaz Pabuçları &rarr; <span class="slot-num">3</span>Gölgealev &rarr; <span class="slot-num">4</span>Zhonya'nın Kumsaati &rarr; <span class="slot-num">5</span>Rabadon'un Ölüm Şapkası &rarr; <span class="slot-num">6</span>Hiçlik Değneği (Vampire: Morellonomikon)</div>
+            <div class="info-row build-row b-nuke"><strong style="color:#FF7678;">💥 Nükleer Tek Atma (6 Eşya):</strong> <span class="slot-num">1</span>Yıldırım Asası &rarr; <span class="slot-num">2</span>Sihirbaz Pabuçları &rarr; <span class="slot-num">3</span>Lich Boğan &rarr; <span class="slot-num">4</span>Gölgealev &rarr; <span class="slot-num">5</span>Rabadon'un Ölüm Şapkası &rarr; <span class="slot-num">6</span>Hiçlik Değneği</div>
+            <div class="info-row build-row b-tank"><strong style="color:#0AC8B9;">🔨 Tank Eritme (6 Eşya - 26.21 Metası):</strong> <span class="slot-num">1</span>Nashor'un Dişi (veya Liandry'nin Eziyeti) &rarr; <span class="slot-num">2</span>Sihirbaz/Merkür Çizmesi &rarr; <span class="slot-num">3</span>Vadiyaran &rarr; <span class="slot-num">4</span>Liandry'nin Eziyeti (1'de aldıysan: Kan Dökücünün Laneti) &rarr; <span class="slot-num">5</span>Zhonya'nın Kumsaati &rarr; <span class="slot-num">6</span>Kan Dökücünün Laneti (veya Şahbaz Jak'Sho / Makber Çiçeği)</div>
+            <div class="info-row build-row b-crisis"><strong style="color:#F39C12;">🚨 Kriz Planı:</strong> Syndra/Viktor dürtüyorsa İkinci Şans + Kalkan Darbesi ve Işınlan al; <span class="slot-num">1</span>Hextech Roketkemer &rarr; <span class="slot-num">2</span>Merkür/Sihirbaz &rarr; <span class="slot-num">3</span>Zhonya &rarr; <span class="slot-num">4</span>Banshee &rarr; <span class="slot-num">5</span>Rabadon &rarr; <span class="slot-num">6</span>Makber Çiçeği diz.</div>
+            <div class="info-row build-row b-flex"><strong style="color:var(--flex-bright);">🔄 Zorunlu Flex (6 Eşya - Orman &amp; Üst Koridor):</strong> <span class="slot-num">1</span>Nashor'un Dişi (Üst Flex'te: Liandry'nin Eziyeti) &rarr; <span class="slot-num">2</span>Sihirbaz/Merkür/Zırh Çizmesi &rarr; <span class="slot-num">3</span>Liandry'nin Eziyeti (Orman Nükleer'de: Gölgealev) &rarr; <span class="slot-num">4</span>Zhonya'nın Kumsaati (Üstte: Vadiyaran) &rarr; <span class="slot-num">5</span>Vadiyaran (veya Rabadon'un Ölüm Şapkası) &rarr; <span class="slot-num">6</span>Şahbaz Jak'Sho (veya Kan Dökücünün Laneti)</div>
+            <div class="info-row build-row b-vamp"><strong style="color:#FF7678;">🩸 Ağır Yara Değişimi:</strong> İlk dönüşte <strong>800G Bilinmezlik Küresi</strong> al, 5./6. eşyaya kadar yükseltme! <strong>⚖️ Standart'ta</strong> <span class="slot-num">3</span>Gölgealev (veya MR yoksa <span class="slot-num">6</span>Hiçlik) yerine &rarr; <strong>Morellonomikon</strong> | <strong>💥 Nükleer'de</strong> <span class="slot-num">4</span>Gölgealev yerine &rarr; <strong>Morellonomikon</strong> | <strong>🔨 Tank'ta</strong> <span class="slot-num">6</span>Kan Dökücü/Jak'Sho yerine &rarr; <strong>Morellonomikon</strong> | <strong>🔄 Flex'te</strong> <span class="slot-num">6</span>Jak'Sho (veya <span class="slot-num">5</span>Rabadon) yerine &rarr; <strong>Morellonomikon</strong>.</div>
+          </div>
+        </div>
+        <div class="section-block sec-runes">
+          <div class="section-title title-rune">🔮 Senaryoya Göre Rün, Büyü &amp; Küçük Parçalar Matrisi</div>
+          <div class="rune-why-list">
+            <div class="rune-why-box r-common"><strong>🔗 3 Senaryoda Ortak Yan Ağaç:</strong> <span class="rune-tag">Kalkan Darbesi + Kemik Zırh / İkinci Şans</span> Diana W bastığında kalkan kazandığı ve 3 küre patlayınca kalkanı yenilendiği için Azim ağacındaki <strong>Kalkan Darbesi</strong> koridordaki 3 senaryoda da %100 ortaktır.</div>
+            <div class="rune-why-box r-std-nuke"><strong>⚖️ Standart &amp; 💥 Nükleer (Ortak Rün &amp; Büyü):</strong> <span class="rune-tag">Elektrik Ver + Altıncı His + Sıçra/Tutuştur</span> Standart ve Nükleer dizilimlerin ikisinde de rün sayfası <strong>%100 aynıdır</strong> (Q-E-W ile 0.5 saniyede Elektrik Ver patlar; Altıncı His pusu kuracağın çalıdaki totemi sezer).</div>
+            <div class="rune-why-box r-only-tank"><strong>🔨 Tanklara Karşı Rün &amp; Büyü Farkı:</strong> <span class="rune-tag">Yenilmez + Pratik Zeka + Sıçra/Işınlan</span> Karşıda Galio/Sylas/Yasuo veya 3+ Tank varsa tek atamayacağın için <strong>Yenilmez</strong> ve <strong>Işınlan</strong> alıp Nashor'un Dişi + Vadiyaran + Liandry'nin Eziyeti ile sürekli pasif vuruşuyla eritirsin.</div>
+            <div class="rune-why-box r-only-crisis"><strong>🚨 Kriz Planı Farkı (Syndra/Viktor Ağır Dürtme):</strong> <span class="rune-tag">Elektrik Ver + Kalkan Darbesi + İkinci Şans + Işınlan</span> Uzaktan dürten büyücülere karşı Kemik Zırh tek vuruşta düşeceği için yan ağaçta <strong>İkinci Şans + Kalkan Darbesi</strong> ve <strong>Işınlan</strong> alınır; 6. seviyeye kadar can koruyup Hextech Roketkemer ile mesafe kapatılır.</div>
+            <div class="rune-why-box r-only-flex"><strong>🔄 Zorunlu Flex (Orman / Üst) Rün Mantığı:</strong> <span class="rune-tag">Orman: Pabuçlar + Kozmik Sezgi + %10 Saldırı Hızı</span> Ormanda <em>Kemik Zırh / İkinci Şans</em> canavarlara karşı çalışmaz ve orman peti zaten mana verir! Bu yüzden Orman Diana'da <strong>Pratik Zeka yerine Zafer</strong>, yan ağaca 300G çizme tasarrufu ve hızlı Çarp/Sıçra için <strong>Sihirli Pabuçlar + Kozmik Sezgi</strong> ve 1. küçük rüne <strong>%10 Saldırı Hızı</strong> alınır.</div>
+            <div class="rune-why-box r-shards"><strong>🔹 Sağ Alttaki 3 Küçük Rün Parçası Mantığı:</strong> <span class="rune-tag">Çifte Değişken Kuvvet vs %10 Saldırı Hızı</span> Orta koridorda Elektrik Ver ile tek atarken <strong>Çifte Değişken Kuvvet (18 Değişken)</strong>; Yenilmez/Tank eritme ve Orman Flex oynarken pasif 3. vuruşu hızlandırmak için 1. satırda <strong>%10 Saldırı Hızı</strong> seçilir.</div>
+          </div>
+        </div>
+        <div class="section-block sec-vamp">
+          <div class="section-title title-vamp">🩸 3 Vampir Tipine Karşı Özel Plan (Vlad / WW / Aatrox)</div>
+          <div class="vamp-why-list">
+            <div class="vamp-box"><strong>1. Vladimir / Swain (AP Yetenek):</strong> <span class="vamp-tag">Havuzdan Önce R Basma!</span> <strong>800G Bilinmezlik Küresi + Tutuştur</strong> al. Q &rarr; E yapıp hemen R basarsan Vlad W (Havuz) ile R hasarından kaçar! Önce <strong>Q &rarr; E &rarr; W</strong> ile havuzunu zorla; havuzdan çıktığı saniye <strong>R + Tutuştur + E2</strong> ile sil.</div>
+            <div class="vamp-box"><strong>2. Warwick / Irelia (AD Düz Vuruş):</strong> <span class="vamp-tag">%35 Canda Gölgealev İnfazı</span> <strong>800G Bilinmezlik + Zhonya</strong> al. WW üstüne R ile uçtuğunda veya E açtığında <strong>Zhonya</strong> bas; canı %35'e indiğinde Q-E-R-Gölgealev patlamasıyla düz vuruş fırsatı vermeden tek at.</div>
+            <div class="vamp-box"><strong>3. Aatrox / Illaoi (Ulti Sömürü):</strong> <span class="vamp-tag">E İle İçine Kay</span> <strong>800G Bilinmezlik + Zhonya + Nashor/Vadiyaran</strong> al. Aatrox Q1 veya Q2 kaldırdığı saniye <strong>E (Ay Koşusu)</strong> ile doğrudan Aatrox'un arkasına/içine kay; keskin uçları asla tutmaz!</div>
+          </div>
+        </div>
+        <div class="section-block sec-items">
+          <div class="section-title title-purple">🎒 1'den 6'ya Eşya İşlevleri, 🛡️ Anti-Kalkan &amp; 🧮 Delme Sınırı</div>
+          <div class="item-why-list">
+            <div class="item-why-box"><strong>[1] Lich Boğan / Yıldırım Asası + [3] Gölgealev (Orman Flex'te: Nashor + Liandry):</strong> <span class="item-tag">İnfaz &amp; Kamp Hızı</span> Koridorda Lich Boğan (yetenek sonrası düz vuruşa Büyülü Kılıç hasarı ekler) ve Yıldırım Asası anlık tekletir; <strong>Orman Flex'te</strong> ise pasifin canavarlara %300 vurduğu için 1. eşya <strong>Nashor'un Dişi (veya 900G Kader Külleri &rarr; Liandry)</strong> kampları ve Ejderhayı saniyeler içinde eritir.</div>
+            <div class="item-why-box"><strong>[4] Zhonya + [5] Rabadon + [6] Hiçlik (Tank/Flex'te: Vadiyaran + Kan Dökücü + Jak'Sho):</strong> <span class="item-tag">Tam Güç &amp; Dövüşçü</span> Zhonya 5 kişinin ortasında yaşatır, Rabadon AP'ni %30 katlar; Tank ve Üst/Orman Flex'te ise <strong>Vadiyaran + Liandry + Kan Dökücünün Laneti / Şahbaz Jak'Sho</strong> W kalkanının ilave can oranını büyütüp seni ölümsüz bir AP dövüşçü yapar.</div>
+            <div class="shield-box"><strong>🛡️ Kalkan Kırma Planı &amp; Gölgealev Yanılgısı:</strong> <span class="shield-tag">Gölgealev Kalkan Kırmaz!</span> <strong>Kritik Gerçek:</strong> Gölgealev artık kalkanlara ekstra hasar vermez, sadece canı %40 altındakilere kritik vurur! Rakibin <strong>Banshee / Gecenin Kıyısı</strong> büyü kalkanı varsa içeri E ile atlamadan önce uzaktan tek bir <strong>Q</strong> atıp kalkanı patlat.</div>
+            <div class="pen-box"><strong>🧮 Düz Büyü Nüfuzu vs. %40 Hiçlik Değneği / %30 Kan Dökücünün Laneti Sınırı:</strong> <span class="pen-tag">80 Büyü Direnci Eşiği!</span> Sihirbaz Pabuçları (12) + Yıldırım Asası (15) / Gölgealev (15) (<strong>27 - 42 Düz Nüfuz</strong>) MR almayan kırılganlara gerçek hasar vurur. Ancak rakipte 2 kişi bile <strong>Merkür Çizmesi / Sihiriçen / Aklın Sonu (80+ MR)</strong> aldığı an Nükleer'de <strong>Hiçlik Değneği (%40 Delme)</strong>, Dövüşçü/Tank diziliminde ise Can + Yetenek Hızı veren <strong>Kan Dökücünün Laneti (%30 MR Eksiltme)</strong> çek!</div>
+          </div>
+        </div>
+        <div class="section-block sec-combos">
+          <div class="section-title title-cyan">⚡ Tuş Sırası (Kombolar), Duvar Atlama &amp; Sıçra İptali</div>
+          <div class="info-grid">
+            <div><strong>Koridor Takası:</strong><div class="combo-box">Q &rarr; E &rarr; W + DV (Elektrik Ver patlar, kalkanla hasarsız çık)</div></div>
+            <div><strong>Tek Atma (All-In):</strong><div class="combo-box">Q &rarr; E &rarr; R (Vakumla) + W &rarr; Zhonya &rarr; E2 (Kaçana Takip)</div></div>
+            <div class="info-row"><strong>💡 Hile:</strong> Minyona 2 vurup pasifi hazırla; Q &rarr; E ile E sıfırlanır, ikinci E cebinde kalır.</div>
+            <div class="wall-box"><strong>🧱 Duvar Atlama &amp; Sıçra İptali:</strong> <span class="wall-tag">✅ Q+E İle Kampa Duvar Geçer | ✅ R+Sıçra!</span> Diana'nın E yeteneği hedef seçimlidir; kaçarken veya kovalarken duvarın arkasındaki orman kampına (Keskingagalar, Gromp, Kayacıllar) <strong>Q atıp kampı aydınlat ve E ile duvarın içinden uç!</strong> <strong>Ölümcül İptal:</strong> <strong>R basıp 0.2 sn sonra Sıçra (R &rarr; Sıçra)</strong> atarsan vakum çemberi Sıçra attığın yerdeki 5 kişiyi anında merkeze çeker!</div>
+          </div>
+        </div>
+        <div class="section-block sec-early">
+          <div class="section-title title-orange">⏱️ İlk 15 Dakika, Altın, Dalga &amp; Görüş Kuralları</div>
+          <div class="info-grid">
+            <div class="spike-box"><strong>🔥 Güç Patlaması:</strong> 3. Seviye (Q-E-W Takası) ve 6. Seviye + Alternatör / Nashor</div>
+            <div class="gold-box"><strong>💰 İlk B (Üs) Altın Eşiği:</strong> <span class="gold-tag">1100G</span> <strong>Hextech Alternatör</strong> | <span class="gold-tag">900G</span> Pırıltı veya <strong>Kader Külleri / Nişancı Yayı (Orman Flex 1. dönüş!)</strong>.</div>
+            <div class="wave-box"><strong>🌊 Dalga &amp; Flex Orman Kuralı:</strong> Ortada 1-2. sv dalganın sana itmesine izin ver, 6'dan sonra Q+Pasif ile <strong>Kuleye Çak (Crash)</strong>; <strong>🌲 Orman Flex'te</strong> yetenekleri aynı anda basma, 3.5 sn saldırı hızı pasifini sürekli aktif tutmak için yetenekleri 3 saniye arayla basarak <strong>03:10'da 6 kampı bitir!</strong></div>
+            <div class="vision-box"><strong>👁️ Görüş &amp; 75G Kontrol Totemi:</strong> <span class="vision-tag">6. Seviyede Kırmızı Tarayıcı!</span> İlk dönüşte orta koridorun <strong>alt nehir piksel çalısına 75G Kontrol Totemi</strong> koy ve o tarafa yaslanarak oyna! 6. seviyeden sonra <strong>Kırmızı Tarayıcı</strong> al ki karanlık çalıdan 3-4 kişilik R vakumu kurabilesin.</div>
+            <div class="early-grid">
+              <div class="do-box"><strong style="color:#2ECC71;">✅ YAP:</strong> 3. seviyede Q tuttuğu saniye E &rarr; W &rarr; DV ile Elektrik Ver patlat.</div>
+              <div class="dont-box"><strong style="color:#FF7678;">❌ YAPMA:</strong> Q (Hilal) tutmadan ASLA E basma; E 20 sn bekleme süresine girer!</div>
+            </div>
+          </div>
+        </div>
+        <div class="section-block sec-win">
+          <div class="section-title title-win">🏆 Kazanma Koşulu &amp; 💰 Kelle Ödülü (Shutdown) Sigortası</div>
+          <div class="win-box">
+            <span class="win-role-tag">🎯 Rol: Yandan Giriş (Flank) &amp; 5 Kişilik Vakum (R+Zhonya)</span>
+            <div><strong>• Savaşta:</strong> Karanlık çalıdan <strong>Q &rarr; E &rarr; R</strong> ile arka saftaki 3-4 kişiyi vakumlayıp Zhonya bas.</div>
+            <div><strong>• Bitiriş:</strong> Pasifin ve Lich Boğan / Nashor ile yan koridor kulelerini saniyeler içinde erit.</div>
+            <div class="bounty-box"><strong>💰 Kelle Ödülü (Shutdown) Sigortası:</strong> <span class="bounty-tag">Zhonya Olmadan Dalma!</span> Diana içeri girip çıkamayan bir şampiyondur; kafanda <strong>300G+ ödül</strong> çıktığı an Gölgealev'i ertele ve <strong>doğrudan Zhonya'nın Kumsaati (veya 1600G Arayıcı'nın Kolluğu)</strong> bitir! Zhonya bekleme süresindeyken 1 kişiyi kesip ölmek için 5 kişinin arasına dalma.</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 8. SYLAS -->
+    <article class="champ-card role-mid c-8 p-flex">
+      <input type="radio" name="tc8" id="tc8-sel" class="ct-ctrl ct-sel" checked />
+      <input type="radio" name="tc8" id="tc8-run" class="ct-ctrl ct-run" />
+      <input type="radio" name="tc8" id="tc8-itm" class="ct-ctrl ct-itm" />
+      <input type="radio" name="tc8" id="tc8-vmp" class="ct-ctrl ct-vmp" />
+      <input type="radio" name="tc8" id="tc8-cmb" class="ct-ctrl ct-cmb" />
+      <input type="radio" name="tc8" id="tc8-ear" class="ct-ctrl ct-ear" />
+      <input type="radio" name="tc8" id="tc8-win" class="ct-ctrl ct-win" />
+      <input type="radio" name="tc8" id="tc8-all" class="ct-ctrl ct-all" />
+      <div class="card-header">
+        <div class="champ-title-group">
+          <span class="role-badge">Orta</span>
+          <h2 class="champ-name">8. Sylas</h2>
+        </div>
+        <div class="quick-meta">
+          <span class="meta-pill pick-flex">🟡 3-4. Sıra: Ulti Avcısı</span>
+          <span class="meta-pill ban-pill">🚫 Cassiopeia / Vex</span>
+          <span class="meta-pill skill-pill">🔼 W &gt; E &gt; Q</span>
+        </div>
+      </div>
+      <div class="card-mini-tabs">
+        <label for="tc8-sel" class="m-tab m-sel">🛡️ Seçim &amp; 6 Eşya</label>
+        <label for="tc8-run" class="m-tab m-run">🔮 Rün &amp; Büyü</label>
+        <label for="tc8-vmp" class="m-tab m-vmp">🩸 Vampir</label>
+        <label for="tc8-itm" class="m-tab m-itm">🎒 Eşya &amp; Delme</label>
+        <label for="tc8-cmb" class="m-tab m-cmb">⚡ Kombo &amp; Duvar</label>
+        <label for="tc8-ear" class="m-tab m-ear">⏱️ 15 Dk</label>
+        <label for="tc8-win" class="m-tab m-win">🏆 Win &amp; Ödül</label>
+        <label for="tc8-all" class="m-tab m-all">📋 Hepsi</label>
+      </div>
+      <div class="card-body">
+        <div class="section-block sec-select">
+          <div class="section-title title-gold">🛡️ Seçim Ekranı: Ortak/Senaryo Rün, Büyü &amp; 6 Eşya</div>
+          <div class="info-grid">
+            <div class="draft-rule-box"><strong>🎯 Seçim Sırası:</strong> <strong style="color:#F5B041;">3-4. Sıra (Rakip Ultileri Görünce).</strong> Karşıda Malphite, Amumu, Alistar, Swain, Aatrox, Ashe, Pyke gibi güçlü Ultiler gördüğün an kilitle! Başlangıç: Doran'ın Yüzüğü.<br/><strong>🔄 Zorunlu Flex Rolü:</strong> <strong>Destek</strong> <em>(Dünya Atlası; 1-3. sv agresif E1-E2 baskısı)</em>, <strong>Orman</strong> <em>(Kızıl Pet; 3. sv sonrası sürekli baskın)</em> veya <strong>Üst Koridor</strong> <em>(Tanklara karşı Standart/Tank sayfasıyla aynı)</em>.</div>
+            <div class="rune-scen-group">
+              <div class="rune-scen-row r-common"><span class="common-badge">🔗 3 DURUMDA DA %100 ORTAK</span><strong>Yan Ağaç (Azim - Yeşil):</strong> <strong>İkinci Şans</strong> (2. satır orta) + <strong>Canlandır</strong> (3. satır orta) — W Kralkatili iyileşmesini %15 büyütür, hiç değişmez!</div>
+              <div class="rune-scen-row r-std-tank"><span class="scen-badge">⚖️ STANDART &amp; 🔨 TANK ORTAK</span><strong>İsabet (Sarı Ağaç) &amp; Büyü:</strong> <strong>Yenilmez</strong> - <strong>Pratik Zeka</strong> (1. satır sağ) - <strong>Efsane: Hız</strong> (2. satır orta) - <strong>Son Direniş</strong> (3. satır sağ) | ✨ <strong>Sıçra + Işınlan</strong></div>
+              <div class="rune-scen-row r-only-nuke"><span class="scen-badge" style="color:#FF9495;">💥 NÜKLEER TEK ATMA</span><strong>Hakimiyet (Kırmızı Ağaç) &amp; Büyü:</strong> <strong>Elektrik Ver</strong> - <strong>Ani Darbe</strong> - <strong>Acı Hatıra</strong> (2. satır orta) - <strong>Hazine Avcısı</strong> | Yan: <strong>İkinci Şans - Canlandır</strong> | ✨ <strong>Sıçra + Tutuştur</strong></div>
+              <div class="rune-scen-row r-only-flex"><span class="flex-badge">🔄 ZORUNLU FLEX RÜN ŞEMASI (DESTEK / ORMAN)</span><strong>🛡️ Destek (Agresif):</strong> <strong>Elektrik Ver</strong> - Ani Darbe - <strong>Altıncı His</strong> - Hazine Avcısı | Yan (Azim): <strong>İkinci Şans (veya Kemik Zırh) - Canlandır</strong> | 🔹Küçük Rün: <strong>9 Değişken - 9 Değişken - 65 Sabit Can</strong> | ✨ <strong>Sıçra + Tutuştur</strong>.<br/><strong>🌲 Orman:</strong> <strong>Elektrik Ver (veya Yenilmez)</strong> - Ani Darbe - Altıncı His - Hazine Avcısı | Yan (İlham): <strong>Sihirli Pabuçlar (300G tasarruf!) - Kozmik Sezgi</strong> | 🔹Küçük Rün: <strong>8 Yetenek Hızı - 9 Değişken - Büyüyen Can</strong> | ✨ <strong>Çarp + Sıçra (Kızıl Pet)</strong>.</div>
+              <div class="rune-scen-row r-shards"><span class="shard-badge">🔹 3 KÜÇÜK RÜN PARÇASI</span><strong>1. Hücum:</strong> 8 Yetenek Hızı (Nükleer'de: 9 Değişken Kuvvet) | <strong>2. Esnek:</strong> 9 Değişken Kuvvet | <strong>3. Savunma:</strong> 65 Sabit Can (3. sv takası için)</div>
+            </div>
+            <div class="info-row build-row b-std"><strong>⚖️ Standart (6 Eşya):</strong> <span class="slot-num">1</span>Hextech Roketkemer (veya Lich Boğan) &rarr; <span class="slot-num">2</span>Ionia/Sihirbaz Çizmesi &rarr; <span class="slot-num">3</span>Zhonya'nın Kumsaati &rarr; <span class="slot-num">4</span>Kozmik Hızlandırıcı (veya Gölgealev) &rarr; <span class="slot-num">5</span>Rabadon'un Ölüm Şapkası &rarr; <span class="slot-num">6</span>Makber Çiçeği (veya Kan Dökücünün Laneti / Vampire: Morellonomikon)</div>
+            <div class="info-row build-row b-nuke"><strong style="color:#FF7678;">💥 Nükleer Tek Atma (6 Eşya):</strong> <span class="slot-num">1</span>Lich Boğan (veya Hextech Roketkemer) &rarr; <span class="slot-num">2</span>Sihirbaz Pabuçları &rarr; <span class="slot-num">3</span>Gölgealev &rarr; <span class="slot-num">4</span>Rabadon'un Ölüm Şapkası &rarr; <span class="slot-num">5</span>Zhonya'nın Kumsaati &rarr; <span class="slot-num">6</span>Hiçlik Değneği</div>
+            <div class="info-row build-row b-tank"><strong style="color:#0AC8B9;">🔨 Tank Eritme (6 Eşya - 26.21 Metası):</strong> <span class="slot-num">1</span>Hextech Roketkemer (veya Kozmik Hızlandırıcı) &rarr; <span class="slot-num">2</span>Ionia Çizmeleri &rarr; <span class="slot-num">3</span>Vadiyaran &rarr; <span class="slot-num">4</span>Liandry'nin Eziyeti &rarr; <span class="slot-num">5</span>Kan Dökücünün Laneti (veya Makber Çiçeği) &rarr; <span class="slot-num">6</span>Ruh Gömleği (veya Morellonomikon)</div>
+            <div class="info-row build-row b-crisis"><strong style="color:#F39C12;">🚨 Kriz Planı:</strong> Malzahar/Heimer/Anivia kule altına hapsediyorsa Q'ya 3 puan ver; ağır AP varsa 5. veya 6. eşya olarak <strong>Ruh Gömleği / Banshee</strong> çek.</div>
+            <div class="info-row build-row b-flex"><strong style="color:var(--flex-bright);">🔄 Zorunlu Flex (6 Eşya - Destek &amp; Orman/Üst):</strong><br/>• <strong>🛡️ Destek (1. Slot Kilitli - 6 Eşya):</strong> <span class="slot-num">1</span>Kana Susamış Şarkı (veya Zak'Zak'ın Taşkını) &rarr; <span class="slot-num">2</span>Ionia/Sihirbaz Çizmesi &rarr; <span class="slot-num">3</span>Hextech Roketkemer &rarr; <span class="slot-num">4</span>Zhonya'nın Kumsaati &rarr; <span class="slot-num">5</span>Morellonomikon (veya Kozmik Hızlandırıcı) &rarr; <span class="slot-num">6</span>Rabadon'un Ölüm Şapkası (veya Ruh Gömleği).<br/>• <strong>🌲 Orman / 🛡️ Üst (6 Eşya):</strong> <span class="slot-num">1</span>Hextech Roketkemer &rarr; <span class="slot-num">2</span>Ionia/Sihirbaz Çizmesi &rarr; <span class="slot-num">3</span>Lich Boğan (Üst Tankta: Vadiyaran) &rarr; <span class="slot-num">4</span>Zhonya'nın Kumsaati &rarr; <span class="slot-num">5</span>Rabadon'un Ölüm Şapkası (Üstte: Ruh Gömleği) &rarr; <span class="slot-num">6</span>Kan Dökücünün Laneti (veya Makber Çiçeği)</div>
+            <div class="info-row build-row b-vamp"><strong style="color:#FF7678;">🩸 Ağır Yara Değişimi:</strong> İlk dönüşte <strong>800G Bilinmezlik Küresi</strong> al! <strong>⚖️ Standart'ta</strong> <span class="slot-num">4</span>Kozmik/Gölgealev (veya MR yoksa <span class="slot-num">6</span>Makber Çiçeği) yerine &rarr; <strong>Morellonomikon</strong> | <strong>💥 Nükleer'de</strong> <span class="slot-num">3</span>Gölgealev yerine &rarr; <strong>Morellonomikon</strong> | <strong>🔨 Tank'ta</strong> <span class="slot-num">6</span>Ruh Gömleği yerine &rarr; <strong>Morellonomikon</strong> | <strong>🔄 Flex'te</strong> (Destek) <span class="slot-num">5</span>zaten Morellonomikon, (Orman/Üst) <span class="slot-num">5</span>Rabadon/Ruh Gömleği (veya <span class="slot-num">6</span>Kan Dökücü/Makber) yerine &rarr; <strong>Morellonomikon</strong>.</div>
+          </div>
+        </div>
+        <div class="section-block sec-runes">
+          <div class="section-title title-rune">🔮 Senaryoya Göre Rün, Büyü &amp; Küçük Parçalar Matrisi</div>
+          <div class="rune-why-list">
+            <div class="rune-why-box r-common"><strong>🔗 3 Senaryoda Ortak Yan Ağaç:</strong> <span class="rune-tag">İkinci Şans + Canlandır</span> Sylas'ın hayatta kalma sırrı canı %40 altındayken W basmaktır; Azim ağacındaki <strong>İkinci Şans + Canlandır</strong> koridordaki 3 senaryoda da %100 ortaktır!</div>
+            <div class="rune-why-box r-std-tank"><strong>⚖️ Standart &amp; 🔨 Tanklara Karşı (Ortak Rün &amp; Büyü):</strong> <span class="rune-tag">Yenilmez + Pratik Zeka + Efsane: Hız</span> Standart ve Tank dizilimlerinin ikisinde de <strong>Yenilmez - Pratik Zeka - Efsane: Hız - Son Direniş</strong> ve <strong>Sıçra + Işınlan</strong> birebir ortaktır.</div>
+            <div class="rune-why-box r-only-nuke"><strong>💥 Nükleer Senaryo Farkı:</strong> <span class="rune-tag">Elektrik Ver + Acı Hatıra + Sıçra/Tutuştur</span> Karşıda 4-5 kırılgan varsa Lich Boğan + Gölgealev ile E1-W-E2 yaptığın saniye tek atmak için <strong>Elektrik Ver</strong> ve <strong>Tutuştur</strong> alınır.</div>
+            <div class="rune-why-box r-only-flex"><strong>🔄 Zorunlu Flex (Destek / Orman) Rün Mantığı:</strong> <span class="rune-tag">Destek: Altıncı His | Orman: Pabuçlar + Kozmik</span> Destekte çalı kontrolü için <strong>Altıncı His + Hazine Avcısı</strong>; Ormanda ise ilk 3 seviye kamp dönüşü zor olduğu için 300G çizme tasarrufu ve hızlı Çarp sağlayan <strong>Sihirli Pabuçlar + Kozmik Sezgi</strong> alınır.</div>
+            <div class="rune-why-box r-shards"><strong>🔹 Sağ Alttaki 3 Küçük Rün Parçası Mantığı (26.20 Notu):</strong> <span class="rune-tag">8 Yetenek Hızı + 65 Sabit Can</span> 26.20 yamasında Hextech Roketkemer'in Yetenek Hızı 20'den 10'a düştüğü için 1. satırda <strong>8 Yetenek Hızı</strong> almak W bekleme süresini kurtarır; Nükleer ve Destek Flex'te ise <strong>Çifte Değişken Kuvvet</strong> seçilir.</div>
+          </div>
+        </div>
+        <div class="section-block sec-vamp">
+          <div class="section-title title-vamp">🩸 3 Vampir Tipine Karşı Özel Plan (Vlad / WW / Aatrox)</div>
+          <div class="vamp-why-list">
+            <div class="vamp-box"><strong>1. Vladimir / Swain (AP Yetenek):</strong> <span class="vamp-tag">Ultilerini Çal!</span> İlk dönüşte <strong>800G Bilinmezlik Küresi</strong> al ve <strong>Vlad veya Swain'in Ultisini ÇAL!</strong> İkisinin Ultisi de Sylas'ta devasa vurur ve seni aşırı iyileştirir. Vlad havuzdayken W basma; havuzdan çıktığı salise <strong>W &rarr; E2</strong> yap.</div>
+            <div class="vamp-box"><strong>2. Warwick / Irelia (AD Düz Vuruş):</strong> <span class="vamp-tag">Zhonya İle Vuruş Kes</span> <strong>800G Bilinmezlik + Zhonya</strong> al. WW %30 cana indiğinde kendi W'nu basıp <strong>Zhonya</strong> aç (2.5 sn sana vurup iyileşemez); çıkınca ikinci W + Q ile infaz et.</div>
+            <div class="vamp-box"><strong>3. Aatrox / Illaoi (Ulti Sömürü):</strong> <span class="vamp-tag">Aatrox R'si = Ölümsüz Sylas!</span> <strong>800G Bilinmezlik Küresi</strong> al ve <strong>Aatrox'un Ultisini (R) ÇAL!</strong> Aatrox R'si senin kendi <strong>W (Kralkatili)</strong> iyileşmeni %50+ artırır; tek W basışta yarı candan full cana çıkarsın!</div>
+          </div>
+        </div>
+        <div class="section-block sec-items">
+          <div class="section-title title-purple">🎒 1'den 6'ya Eşya İşlevleri, 🛡️ Anti-Kalkan &amp; 🧮 Delme Sınırı</div>
+          <div class="item-why-list">
+            <div class="item-why-box"><strong>[1] Hextech Roketkemer (26.20 Hasar Buff!) vs Lich Boğan (Destekte: Kana Susamış Şarkı):</strong> <span class="item-tag">1. Eşya</span> 26.20 yamasında Hextech Roketkemer'in aktif hasarı <strong>135 (+%15 YG)</strong> olarak güçlendirildi! Destek Flex'te ise 1. slot <strong>Dünya Atlası &rarr; Kana Susamış Şarkı</strong> (yetenek sonrası düz vuruşla Büyülü Kılıç tetikler ve hedefe %8 savunmasızlık uygular!) ile kilitlidir, üzerine 2650G ucuz Roketkemer çıkılır.</div>
+            <div class="item-why-box"><strong>[3-4] Zhonya + Kozmik Hızlandırıcı:</strong> <span class="item-tag">Çifte W</span> W basıp Zhonya açarsın; Kozmik Hızlandırıcı'nın verdiği yüksek Yetenek Hızı sayesinde heykelden çıktığın an ikinci W döner!</div>
+            <div class="item-why-box"><strong>[5-6] Rabadon + Kan Dökücünün Laneti / Makber Çiçeği (Tank Eritmede: Vadiyaran + Liandry + Ruh Gömleği):</strong> <span class="item-tag">Geç Oyun &amp; Dövüşçü</span> Rabadon hem hasarı hem W iyileşmesini katlar; <strong>Kan Dökücünün Laneti</strong> (350 Can, Yetenek Hızı, %30 MR Eksiltme) veya <strong>Makber Çiçeği</strong> (75 YG, %30 Büyü Nüfuzu, 20 Yetenek Hızı) yüksek dirençleri eritir; Tank Eritmede ise <strong>Vadiyaran + Liandry + Ruh Gömleği</strong> uzun savaşta %10 fazla hasar ve %25 ekstra W iyileşmesi sağlar.</div>
+            <div class="shield-box"><strong>🛡️ Kalkan Kırma Planı (Zhonya İle Kalkan Süresi Çalma + Ulti Çalma):</strong> <span class="shield-tag">Gölgealev Kalkan Kırmaz!</span> Rakip <strong>Sett W, Tahm Kench E veya Bariyer</strong> açtığında E2+Q kombonu kalkana harcama; sadece <strong>W</strong> basıp kendi canını doldur ve <strong>Zhonya</strong> açarak rakibin 2.5 saniyelik kalkan süresini çöpe at!</div>
+            <div class="pen-box"><strong>🧮 Kan Dökücünün Laneti (%30) / Makber Çiçeği (%30) vs. Hiçlik Değneği (%40) Sınırı:</strong> <span class="pen-tag">Yetenek Hızı vs Saf Delme!</span> Sylas'ta Standart ve Tank diziliminde <strong>Kan Dökücünün Laneti (Can + Yetenek Hızı + %30 MR Silme)</strong> veya <strong>Makber Çiçeği (75 YG + %30 Büyü Nüfuzu + 20 Yetenek Hızı + İyileştirme Halkası)</strong> çok daha üstündür çünkü W süreni kısaltır. Sadece karşıda 150+ MR kasan ağır tanklar varsa Nükleer dizilimde <strong>Hiçlik Değneği (%40 Delme)</strong> al.</div>
+          </div>
+        </div>
+        <div class="section-block sec-combos">
+          <div class="section-title title-cyan">⚡ Tuş Sırası (Kombolar), Duvar Atlama &amp; Sıçra İptali</div>
+          <div class="info-grid">
+            <div><strong>Koridor Takası:</strong><div class="combo-box">E1 &rarr; W &rarr; DV &rarr; E2 &rarr; DV &rarr; Q &rarr; DV (Her tuş arasına 1 DV sıkıştır)</div></div>
+            <div><strong>Tek Atma (All-In):</strong><div class="combo-box">E1 &rarr; R (Çal) &rarr; E2 &rarr; DV &rarr; W &rarr; DV &rarr; Q &rarr; Zhonya &rarr; W</div></div>
+            <div class="info-row"><strong>💡 Hile:</strong> Garantili Zincir için önce W ile rakibin üstüne uç, dibindeyken E2 bas (ıskalamaz).</div>
+            <div class="wall-box"><strong>🧱 Duvar Atlama &amp; Sıçra İptali:</strong> <span class="wall-tag">✅ E1+E2 Çifte Duvar Geçer | ✅ E2+Sıçra!</span> Sylas'ın <strong>E1 (Kaçış)</strong> atılması ince/orta duvarları, <strong>E2 (Zincir)</strong> ise duvar arkasındaki orman kampına/rakibe çarparak en kalın duvarları bile geçer! <strong>Gizli Mekanik:</strong> <strong>E2 basıp zincirler fırlarken Sıçra (E2 &rarr; Sıçra)</strong> atarsan minyonların arkasında saklanan rakibi açıyı değiştirerek anında yakalarsın!</div>
+          </div>
+        </div>
+        <div class="section-block sec-early">
+          <div class="section-title title-orange">⏱️ İlk 15 Dakika, Altın, Dalga &amp; Görüş Kuralları</div>
+          <div class="info-grid">
+            <div class="spike-box"><strong>🔥 Güç Patlaması:</strong> 3. Seviye (Tam Kombo) ve 6. Seviye (Ulti Çalma)</div>
+            <div class="gold-box"><strong>💰 İlk B (Üs) Altın Eşiği:</strong> <span class="gold-tag">900G</span> Pırıltı veya Ionia Çizmeleri | <span class="gold-tag">1100G</span> <strong>Hextech Alternatör (Orman/Destek/Orta 1. dönüş!)</strong> | <span class="gold-tag">800G</span> Bilinmezlik Küresi.</div>
+            <div class="wave-box"><strong>🌊 Dalga &amp; Flex Orman Kuralı:</strong> Koridorda dalgayı kulenin önünde <strong>Dondur (Freeze)</strong>; <strong>🌲 Orman Flex'te</strong> ilk 3 seviye kamplar çok vurduğu için <strong>Kırmızı &rarr; Kayacıllar &rarr; Keskingagalar (3 Kamp = 3. Seviye)</strong> yapıp hemen orta/alt koridora baskın at!</div>
+            <div class="vision-box"><strong>👁️ Görüş &amp; 75G Kontrol Totemi:</strong> <span class="vision-tag">Keskingaga Totemi + Kırmızı Tarayıcı</span> Dk. 01:20'de rakip <strong>Keskingaga (Raptors) kampına Sarı Totem</strong> atıp ormancının nerede başladığını gör. Orta oyunda yan koridor çalılarında <strong>Kırmızı Tarayıcı + 75G Kontrol Totemi</strong> ile pusu kur.</div>
+            <div class="early-grid">
+              <div class="do-box"><strong style="color:#2ECC71;">✅ YAP:</strong> 3. seviyede E1-W-E2 ile takasa gir; canın azken W iki kat iyileştirir.</div>
+              <div class="dont-box"><strong style="color:#FF7678;">❌ YAPMA:</strong> Minyonlara sürekli W basıp 3. dakikada mananı sıfırlama!</div>
+            </div>
+          </div>
+        </div>
+        <div class="section-block sec-win">
+          <div class="section-title title-win">🏆 Kazanma Koşulu &amp; 💰 Kelle Ödülü (Shutdown) Sigortası</div>
+          <div class="win-box">
+            <span class="win-role-tag">🎯 Rol: En Güçlü Ultiyi Çalma &amp; Yan Koridor Düellocusu</span>
+            <div><strong>• Savaşta:</strong> Savaş öncesi en değerli Ultiyi (Malphite/Amumu/Swain/Aatrox/Ashe) çalıp arka safa dal.</div>
+            <div><strong>• Bitiriş:</strong> Işınlan ile yan koridorda 1v1 baskı kur.</div>
+            <div class="bounty-box"><strong>💰 Kelle Ödülü (Shutdown) Sigortası:</strong> <span class="bounty-tag">Ağır Yaraya ve CC'ye Ölme!</span> Sylas öndeyken kendini ölümsüz sanıp 1v3 atlamak en çok ödül (1000G) yediren hatadır! Rakip <strong>Ağır Yara + Tutuştur</strong> bastığında W iyileşmen yarıya iner; kafanda ödül varken <strong>Zhonya</strong> bitirmeden kalabalığa E2 ile uçma!</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 9. TALON (26.21 YAMASI TAM UYUMLU - 26.9 FIRSAT KALINTISI TEMİZLENMİŞ, KİBİR GÜÇLENDİRMELİ) -->
+    <article class="champ-card role-mid c-9 p-counter">
+      <input type="radio" name="tc9" id="tc9-sel" class="ct-ctrl ct-sel" checked />
+      <input type="radio" name="tc9" id="tc9-run" class="ct-ctrl ct-run" />
+      <input type="radio" name="tc9" id="tc9-itm" class="ct-ctrl ct-itm" />
+      <input type="radio" name="tc9" id="tc9-vmp" class="ct-ctrl ct-vmp" />
+      <input type="radio" name="tc9" id="tc9-cmb" class="ct-ctrl ct-cmb" />
+      <input type="radio" name="tc9" id="tc9-ear" class="ct-ctrl ct-ear" />
+      <input type="radio" name="tc9" id="tc9-win" class="ct-ctrl ct-win" />
+      <input type="radio" name="tc9" id="tc9-all" class="ct-ctrl ct-all" />
+      <div class="card-header">
+        <div class="champ-title-group">
+          <span class="role-badge">Orta</span>
+          <h2 class="champ-name">9. Talon</h2>
+        </div>
+        <div class="quick-meta">
+          <span class="meta-pill pick-counter">🔴 4-5. Sıra: Counter</span>
+          <span class="meta-pill ban-pill">🚫 Vex / Pantheon</span>
+          <span class="meta-pill skill-pill">🔼 W &gt; Q &gt; E</span>
+        </div>
+      </div>
+      <div class="card-mini-tabs">
+        <label for="tc9-sel" class="m-tab m-sel">🛡️ Seçim &amp; 6 Eşya</label>
+        <label for="tc9-run" class="m-tab m-run">🔮 Rün &amp; Büyü</label>
+        <label for="tc9-vmp" class="m-tab m-vmp">🩸 Vampir</label>
+        <label for="tc9-itm" class="m-tab m-itm">🎒 Eşya &amp; Delme</label>
+        <label for="tc9-cmb" class="m-tab m-cmb">⚡ Kombo &amp; Duvar</label>
+        <label for="tc9-ear" class="m-tab m-ear">⏱️ 15 Dk</label>
+        <label for="tc9-win" class="m-tab m-win">🏆 Win &amp; Ödül</label>
+        <label for="tc9-all" class="m-tab m-all">📋 Hepsi</label>
+      </div>
+      <div class="card-body">
+        <div class="section-block sec-select">
+          <div class="section-title title-gold">🛡️ Seçim Ekranı: Ortak/Senaryo Rün, Büyü &amp; 6 Eşya</div>
+          <div class="info-grid">
+            <div class="draft-rule-box"><strong>🎯 Seçim Sırası:</strong> <strong style="color:#FF7678;">Son Sıra (Counter) Seçimi!</strong> Hareketsiz büyücü (Lux/Veigar/Xerath) ve kırılgan ADC görünce al. Başlangıç: Uzun Kılıç + Doldurulabilir İksir.<br/><strong>🔄 Zorunlu Flex Rolü:</strong> <strong>Orman (1. Sınıf Ana Rol)</strong> <em>(Mavi/Kızıl Pet; E ile duvarlar arası 2 sn genel bekleme süresiyle uçar)</em> veya <strong>Üst Koridor</strong> <em>(Yenilmez + Tutuştur/Işınlan)</em>.</div>
+            <div class="rune-scen-group">
+              <div class="rune-scen-row r-common"><span class="common-badge">🔗 3 DURUMDA DA %100 ORTAK</span><strong>Sihirdar &amp; Çekirdek:</strong> ✨ <strong>Sıçra + Tutuştur</strong> | Hakimiyet: <strong>Ani Darbe - İnsafsız Avcı</strong> (3 senaryoda da asla değişmez!)</div>
+              <div class="rune-scen-row r-std-nuke"><span class="scen-badge">⚖️ STANDART &amp; 💥 NÜKLEER ORTAK</span><strong>Rün Sayfası:</strong> <strong>Elektrik Ver</strong> - Ani Darbe - <strong>Altıncı His</strong> - İnsafsız Avcı | Büyücülük: Bulut Pelerini (veya <strong>Aksiyom Üstadı</strong>) - Mutlak Odak</div>
+              <div class="rune-scen-row r-only-tank"><span class="scen-badge" style="color:#72F7ED;">🔨 TANK ERİTME (DÖVÜŞÇÜ)</span><strong>Rün Sayfası:</strong> <strong>Yenilmez</strong> - Zafer - Efsane: Hız - Son Direniş | Hakimiyet: <strong>Ani Darbe - İnsafsız Avcı</strong></div>
+              <div class="rune-scen-row r-only-flex"><span class="flex-badge">🔄 ZORUNLU FLEX RÜN ŞEMASI (ORMAN / ÜST)</span><strong>🌲 Orman (1. Sınıf):</strong> <strong>Elektrik Ver (veya Ayağı Çabuk / Yenilmez)</strong> - Ani Darbe - <strong>Altıncı His</strong> - <strong>Hazine Avcısı (veya İnsafsız Avcı)</strong> | Yan (İlham): <strong>Sihirli Pabuçlar (300G tasarruf!) - Kozmik Sezgi</strong> | 🔹Küçük Rün: <strong>9 Değişken - 9 Değişken - Büyüyen Can</strong> | ✨ <strong>Çarp + Tutuştur (veya Çarp + Sıçra | Mavi/Kızıl Pet)</strong>.<br/><strong>🛡️ Üst (Dövüşçü):</strong> <strong>Yenilmez</strong> - Pratik Zeka - Efsane: Hız - Son Direniş | Yan (Azim): <strong>Kemik Zırh - Aşırı Büyüme</strong> | 🔹Küçük Rün: <strong>9 Değişken - 9 Değişken - 65 Sabit Can</strong> | ✨ <strong>Tutuştur + Işınlan</strong>.</div>
+              <div class="rune-scen-row r-shards"><span class="shard-badge">🔹 3 KÜÇÜK RÜN PARÇASI</span><strong>1. Hücum:</strong> 9 Değişken Kuvvet | <strong>2. Esnek:</strong> 9 Değişken Kuvvet (veya %2 Hareket Hızı) | <strong>3. Savunma:</strong> 65 Sabit Can (2. sv İlk Kan için!)</div>
+            </div>
+            <div class="info-row build-row b-std"><strong>⚖️ Standart (6 Eşya):</strong> <span class="slot-num">1</span>Youmuu'nun Hayaletkılıcı &rarr; <span class="slot-num">2</span>Ionia/Atiklik Çizmesi &rarr; <span class="slot-num">3</span>İtikatsız Hydra &rarr; <span class="slot-num">4</span>Gecenin Kıyısı (Kalkana: Yılan Dişi) &rarr; <span class="slot-num">5</span>Serylda'nın Garezi &rarr; <span class="slot-num">6</span>Aksiyom Akımı</div>
+            <div class="info-row build-row b-nuke"><strong style="color:#FF7678;">💥 Nükleer Tek Atma (6 Eşya - 26.21 Kibir Güçlendirmeli):</strong> <span class="slot-num">1</span>Youmuu'nun Hayaletkılıcı &rarr; <span class="slot-num">2</span>Ionia/Atiklik Çizmesi &rarr; <span class="slot-num">3</span>İtikatsız Hydra &rarr; <span class="slot-num">4</span>Kibir (Hubris - 26.21'de 15 + yük başına 3 AD!) &rarr; <span class="slot-num">5</span>Serylda'nın Garezi &rarr; <span class="slot-num">6</span>Aksiyom Akımı (veya Gecenin Kıyısı)</div>
+            <div class="info-row build-row b-tank"><strong style="color:#0AC8B9;">🔨 Tank Eritme (6 Eşya):</strong> <span class="slot-num">1</span>Kararma (Eclipse) &rarr; <span class="slot-num">2</span>Ionia/Merkür Çizmesi &rarr; <span class="slot-num">3</span>Kara Balta (veya Serylda'nın Garezi) &rarr; <span class="slot-num">4</span>Yarık Gökyüzü (Vampire: Zaun Zincirkılıcı) &rarr; <span class="slot-num">5</span>Ölümün Dansı &rarr; <span class="slot-num">6</span>Sterak'ın Güvencesi (AP'ye: Malmortius'un Ağzı)</div>
+            <div class="info-row build-row b-crisis"><strong style="color:#F39C12;">🚨 Kriz Planı:</strong> Malphite/Pantheon varsa koridorda savaşma; Tiamat ile dalgayı 1 saniyede silip E ile alt koridora uç. Kalkanlı destek varsa 3. veya 4. eşya <strong>Yılan Dişi</strong> al.</div>
+            <div class="info-row build-row b-flex"><strong style="color:var(--flex-bright);">🔄 Zorunlu Flex (6 Eşya - Orman &amp; Üst Koridor):</strong><br/>• <strong>🌲 Orman (6 Eşya - 26.21):</strong> <span class="slot-num">1</span>Youmuu'nun Hayaletkılıcı &rarr; <span class="slot-num">2</span>Ionia/Atiklik Çizmesi &rarr; <span class="slot-num">3</span>Kibir (veya İtikatsız Hydra) &rarr; <span class="slot-num">4</span>Gecenin Kıyısı (Kalkana: Yılan Dişi) &rarr; <span class="slot-num">5</span>Serylda'nın Garezi &rarr; <span class="slot-num">6</span>Aksiyom Akımı (veya Ölümün Dansı).<br/>• <strong>🛡️ Üst Koridor (6 Eşya):</strong> <span class="slot-num">1</span>Kararma &rarr; <span class="slot-num">2</span>Ionia/Zırh Çizmesi &rarr; <span class="slot-num">3</span>Kara Balta &rarr; <span class="slot-num">4</span>Yarık Gökyüzü &rarr; <span class="slot-num">5</span>Ölümün Dansı &rarr; <span class="slot-num">6</span>Sterak'ın Güvencesi</div>
+            <div class="info-row build-row b-vamp"><strong style="color:#FF7678;">🩸 Ağır Yara Değişimi:</strong> Erken oyunda <strong>800G Celladın Çağrısı</strong> al. <strong>⚖️ Standart &amp; 💥 Nükleer'de</strong> <span class="slot-num">5</span>Serylda'nın Garezi yerine &rarr; <strong>Fani Hatıratı</strong> (Serylda yavaşlatması kalsın dersen <span class="slot-num">4</span>Gecenin Kıyısı/Kibir yerine <strong>Zaun Zincirkılıcı</strong>) | <strong>🔨 Tank'ta</strong> (<span class="slot-num">3</span>Kara Balta varken) <span class="slot-num">4</span>Yarık Gökyüzü yerine &rarr; <strong>Zaun Zincirkılıcı</strong> | <strong>🔄 Flex'te</strong> (Orman) <span class="slot-num">5</span>Serylda yerine &rarr; <strong>Fani Hatıratı</strong>, (Üst Kara Balta varken) <span class="slot-num">4</span>Yarık Gökyüzü yerine &rarr; <strong>Zaun Zincirkılıcı</strong>.</div>
+          </div>
+        </div>
+        <div class="section-block sec-runes">
+          <div class="section-title title-rune">🔮 Senaryoya Göre Rün, Büyü &amp; Küçük Parçalar Matrisi</div>
+          <div class="rune-why-list">
+            <div class="rune-why-box r-common"><strong>🔗 3 Senaryoda %100 Ortak Çekirdek:</strong> <span class="rune-tag">Sıçra + Tutuştur + Ani Darbe + İnsafsız Avcı</span> Talon'da Sihirdar Büyüsü (<strong>Sıçra + Tutuştur</strong>) ve haritada uçuran <strong>Ani Darbe + İnsafsız Avcı</strong> 3 senaryoda da %100 ortaktır!</div>
+            <div class="rune-why-box r-std-nuke"><strong>⚖️ Standart &amp; 💥 Nükleer (Ortak Rün Sayfası):</strong> <span class="rune-tag">Elektrik Ver + Altıncı His + Bulut Pelerini / Aksiyom Üstadı</span> Standart ve Nükleer suikastçı dizilimlerinin ikisinde de rün sayfası birebir aynıdır; Altıncı His duvar arkasındaki totemleri sezer, Bulut Pelerini (veya Ulti hasarını ve süresini güçlendiren <strong>Aksiyom Üstadı</strong>) ile Çiçek Kombosu 0.3 saniyede tek atar.</div>
+            <div class="rune-why-box r-only-tank"><strong>🔨 Tanklara Karşı Rün Farkı:</strong> <span class="rune-tag">Yenilmez + Efsane: Hız</span> Karşıda 3+ Tank/Dövüşçü varsa Kararma + Kara Balta + Yarık Gökyüzü + Ölümün Dansı dizilimiyle uzun kavgada kanama ve iyileşme döndürmek için <strong>Yenilmez</strong> seçilir.</div>
+            <div class="rune-why-box r-only-flex"><strong>🔄 Zorunlu Flex (Orman / Üst) Rün Mantığı:</strong> <span class="rune-tag">Orman: Çarp+Tutuştur + Pabuçlar | Üst: Kemik Zırh</span> Orman Talon'da E yeteneği <strong>çoğu duvarı geçebildiği için (aynı duvarda bekleme süresi vardır, duvarlar arası 2 sn'dir)</strong> Sıçra yerine <strong>Çarp + Tutuştur</strong> alınabilir; yan ağaca 300G çizme parası kurtaran <strong>Sihirli Pabuçlar + Kozmik Sezgi</strong> çekilir. Üst koridorda ise yakın dövüşçülerle uzun takas için <strong>Yenilmez + Kemik Zırh</strong> kullanılır.</div>
+            <div class="rune-why-box r-shards"><strong>🔹 Sağ Alttaki 3 Küçük Rün Parçası Mantığı:</strong> <span class="rune-tag">Çifte Değişken + 65 Sabit Can</span> Talon'un W büyüsü arka minyonları ve Keskingaga kampını tek seferde silmek için saf AD ister; bu yüzden 1. ve 2. satırda <strong>Çifte Değişken Kuvvet</strong>, 2. seviye İlk Kan takası için 3. satırda <strong>65 Sabit Can</strong> (Ormanda <strong>Büyüyen Can</strong>) alınır.</div>
+          </div>
+        </div>
+        <div class="section-block sec-vamp">
+          <div class="section-title title-vamp">🩸 3 Vampir Tipine Karşı Özel Plan (Vlad / WW / Aatrox)</div>
+          <div class="vamp-why-list">
+            <div class="vamp-box"><strong>1. Vladimir / Swain (AP Yetenek):</strong> <span class="vamp-tag">Havuzdan Sonra R + Tutuştur!</span> <strong>Tutuştur + 800G Celladın Çağrısı</strong> al. Vlad'a direkt R basarsan W havuzuyla bıçakların kapanmasını boşa çıkarır! Önce <strong>W &rarr; Q &rarr; DV</strong> ile havuzunu zorla; havuzdan çıktığı an <strong>R + Tutuştur + İtikatsız Hydra</strong> indir.</div>
+            <div class="vamp-box"><strong>2. Warwick / Irelia (AD Düz Vuruş):</strong> <span class="vamp-tag">%35 Canda 0.3 Sn İnfaz</span> <strong>800G Celladın Çağrısı</strong> al. Yarı canlı WW ile asla düello atma; takım savaşında canı %35'e indiğinde <strong>Çiçek Kombosu + Tutuştur</strong> ile 0.3 saniyede tek at.</div>
+            <div class="vamp-box"><strong>3. Aatrox / Illaoi (Ulti Sömürü):</strong> <span class="vamp-tag">R Görünmezliğiyle Q3 Kaçışı</span> <strong>800G Celladın Çağrısı &rarr; (Suikastçıda 5. slottaki Serylda yerine: Fani Hatıratı / Serylda veya Kara Balta varsa: Zaun Zincirkılıcı)</strong> al. Aatrox'a W-Q-DV kanaması + Ağır Yara bırakıp <strong>R görünmezlik hızıyla</strong> Q3 darbesinden kaç; takımının eritmesini sağla.</div>
+          </div>
+        </div>
+        <div class="section-block sec-items">
+          <div class="section-title title-purple">🎒 1'den 6'ya Eşya İşlevleri, 🛡️ Anti-Kalkan &amp; 🧮 Delme Sınırı</div>
+          <div class="item-why-list">
+            <div class="item-why-box"><strong>[1] Youmuu + [3] İtikatsız Hydra / Kibir (Hubris):</strong> <span class="item-tag">Roam &amp; 26.21 Suikast</span> Youmuu haritada uçurur; <strong>İtikatsız Hydra</strong> 6 minyonu 1 saniyede siler; Orman Flex ve Nükleer'de ise 26.21 yamasında yakın dövüşçülerde <strong>15 + yük başına 3 AD</strong> olarak güçlendirilen <strong>Kibir (Hubris)</strong> her skorda pasif kanamanı devasa boyuta taşır.</div>
+            <div class="item-why-box"><strong>[4] Gecenin Kıyısı + [5] Serylda + [6] Aksiyom (Tank/Üst Flex'te: Kararma + Kara Balta + Yarık Gökyüzü):</strong> <span class="item-tag">Suikast &amp; Dövüşçü</span> Gecenin Kıyısı CC engeller, Serylda yavaşlatır, Aksiyom Ulti sıfırlar; Tank Eritme ve Üst Flex'te ise <strong>Kararma + Kara Balta + Yarık Gökyüzü + Ölümün Dansı</strong> yakın mesafe Q kritiğiyle birleşip seni ölümsüz bir dövüşçü yapar.</div>
+            <div class="shield-box"><strong>🛡️ Kalkan Kırma Planı (Oyunun En İyi Yılan Dişi Kullanıcısı!):</strong> <span class="shield-tag">%50 Alan Kalkan Silme!</span> Karşıda <strong>Lulu, Karma, Janna, Shen, Sett, Tahm Kench</strong> varsa 3. veya 4. eşya olarak düşünmeden <strong>Yılan Dişi (2500G)</strong> al! W ve R bıçakların değdiği tüm takımın kalkanlarını anında yarıya indirir.</div>
+            <div class="pen-box"><strong>🧮 Serylda'nın Garezi (%35) vs. Kara Balta (%30) Seçimi (Aynı Anda Alınamaz!):</strong> <span class="pen-tag">100 Zırh Eşiği!</span> Oyunda <strong>Serylda'nın Garezi</strong> ve <strong>Kara Balta</strong> aynı özel eşya grubundadır; <strong>ikisi aynı anda alınamaz!</strong> Zırh Deşme (Suikastçı / Orman) diziliminde <strong>%35 zırh delme, 45 SG, 15 yetenek hızı (3000G) ve yavaşlatma veren Serylda'nın Garezi</strong>; Yenilmez (Tank Eritme / Üst) diziliminde ise hem Can hem de <strong>yük başına %6 (5 yükte toplam %30) zırh kırma veren Kara Balta</strong> seçilir.</div>
+          </div>
+        </div>
+        <div class="section-block sec-combos">
+          <div class="section-title title-cyan">⚡ Tuş Sırası (Kombolar), Duvar Atlama &amp; Sıçra İptali</div>
+          <div class="info-grid">
+            <div><strong>Koridor Takası:</strong><div class="combo-box">W &rarr; Q &rarr; DV (W dönerken Q ile atla, 1 DV ile kanamayı patlat)</div></div>
+            <div><strong>Çiçek Kombosu (All-In):</strong><div class="combo-box">W &rarr; Q &rarr; (Havada R + DV + Tutuştur + İtikatsız Hydra)</div></div>
+            <div class="info-row"><strong>💡 Hile:</strong> R'yi yerde basma; Q ile havada uçarken R+DV basarsan 0.3 saniyede siler.</div>
+            <div class="wall-box"><strong>🧱 Duvar Atlama &amp; Sıçra İptali:</strong> <span class="wall-tag">✅ E Çoğu Duvarı Geçer (2 Sn Genel / 160-60 Sn Aynı Duvar BS) | ✅ W+Sıçra!</span> Talon'un <strong>E (Katilin Yolu)</strong> yeteneği vadideki çoğu duvarı aşar; ancak duvarlar arasında <strong>2 sn genel bekleme süresi</strong>, atladığın aynı duvar için ise <strong>160/135/110/85/60 sn bekleme süresi</strong> vardır (uygun duvarlarda bekleme boyunca sönen bir çerçeve gösterilir; aynı duvardan süre bitene kadar geri dönemezsin)! <strong>İptal:</strong> <strong>W &rarr; Sıçra &rarr; Q &rarr; R</strong> animasyonu gizler!</div>
+          </div>
+        </div>
+        <div class="section-block sec-early">
+          <div class="section-title title-orange">⏱️ İlk 15 Dakika, Altın, Dalga &amp; Görüş Kuralları</div>
+          <div class="info-grid">
+            <div class="spike-box"><strong>🔥 Güç Patlaması:</strong> 2. Seviye (İlk Kan) ve Tiamat / Dişli Kama bitişi</div>
+            <div class="gold-box"><strong>💰 İlk B (Üs) Altın Eşiği:</strong> <span class="gold-tag">850G</span> <strong>Tiamat</strong> (Uzun Kılıç başladığın için 850G biriktiği an Tiamat tamamlanır!) | <span class="gold-tag">1000G</span> <strong>Dişli Kama (Orman Flex 1. dönüş!)</strong>.</div>
+            <div class="wave-box"><strong>🌊 Dalga &amp; Flex Orman İstilası:</strong> Ortada <strong>W + Tiamat</strong> ile 6 minyonu 1 saniyede silip <strong>Kuleye Çak (Crash)</strong> ve yan koridora uç; <strong>🌲 Orman Flex'te</strong> Keskingagalar'dan (Raptors) başla, 3. seviyede E ile duvarlardan atlayıp rakip ormancıyı kendi Kırmızı/Mavi güçlendirmesinde Tutuştur ile avla!</div>
+            <div class="vision-box"><strong>👁️ Görüş &amp; 75G Kontrol Totemi (Suikastçı Yasası):</strong> <span class="vision-tag">%100 Kırmızı Tarayıcı Zorunlu!</span> İlk dönüşte Tiamat/Dişli Kama ile birlikte <strong>kesinlikle Kırmızı Tarayıcı + 75G Kontrol Totemi</strong> al! E ile duvardan atlarken veya rakip ormanda pusu kurarken üstünde totem varsa tüm planın bozulur.</div>
+            <div class="early-grid">
+              <div class="do-box"><strong style="color:#2ECC71;">✅ YAP:</strong> İlk 7 minyonla 2. seviye olup W+Q+DV+Tutuştur bas; Tiamat bitince bota uç.</div>
+              <div class="dont-box"><strong style="color:#FF7678;">❌ YAPMA:</strong> Kule altı bekleyen rakiple orta koridorda bakışma; kaçış duvarını (E) harcama.</div>
+            </div>
+          </div>
+        </div>
+        <div class="section-block sec-win">
+          <div class="section-title title-win">🏆 Kazanma Koşulu &amp; 💰 Kelle Ödülü (Shutdown) Sigortası</div>
+          <div class="win-box">
+            <span class="win-role-tag">🎯 Rol: Orman Pususu &amp; Savaş Öncesi 4v5 Bırakma</span>
+            <div><strong>• Savaşta:</strong> Asla önden girme; duvar arkasından en arkadaki Nişancıyı Çiçek Kombosuyla silip çık.</div>
+            <div><strong>• Bitiriş:</strong> Yan dalgayı itip rakip orman çalısında pusu kur; dalgayı toplamaya gelen ADC'yi yolda tekle.</div>
+            <div class="bounty-box"><strong>💰 Kelle Ödülü (Shutdown) Sigortası:</strong> <span class="bounty-tag">1'e 1 Takas Yasak + Gecenin Kıyısı!</span> Talon erken oyunda çok kolay 5-0 olup <strong>700G ödül</strong> biriktirir. Kafanda ödül varken 5 kişinin ortasındaki ADC'yi kesip ölmek (1'e 1 takas) <strong>oyunu kaybettirir!</strong> Mutlaka <strong>Gecenin Kıyısı</strong> al ve sadece <strong>E ile çıkabileceğin çerçevesiz (hazır) duvar</strong> varken suikast yap!</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- === 3. MODÜL BİTTİ (7-9. KARAKTERLER) | 4. MODÜLÜ (10-13. KARAKTERLER: JHIN, SAMIRA, NILAH, MORGANA) BU SATIRIN ALTINA YAPIŞTIR === -->
+     </main>
+</body>
+</html>
